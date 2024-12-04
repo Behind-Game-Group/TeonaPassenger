@@ -7,7 +7,7 @@ import { metadata } from "./metadata"; // Importation du fichier metadata
 import "./globals.css"; // importation du style
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  // Gestion de l'état de la barre latérale
+  // Gestion de l'état barre latérale
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
