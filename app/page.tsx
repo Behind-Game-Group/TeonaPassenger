@@ -74,25 +74,25 @@ const HomePage = () => {
           Ce que Teona vous propose
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {/* Proposition 1 */}
+          {/* Vols */}
           <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaPlane size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Réservez vos vols</p>
           </div>
 
-          {/* Proposition 2 */}
+          {/* Jebergements */}
           <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaHotel size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Trouvez des hébergements</p>
           </div>
 
-          {/* Proposition 3 */}
+          {/* Véhicules */}
           <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaCar size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Louez une voiture</p>
           </div>
 
-          {/* Proposition 4 */}
+          {/* Ferry */}
           <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaShip size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Voyagez en ferry</p>

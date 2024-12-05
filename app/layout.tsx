@@ -5,13 +5,12 @@ import Image from "next/image"; // Importation du composant Image de Next.js
 import {
   FiMenu,
   FiUser,
-  FiAirplay,
   FiHome,
   FiSun,
   FiTruck,
   FiTag,
 } from "react-icons/fi"; // Importation des icônes
-import { FaShip } from 'react-icons/fa';
+import { FaShip, FaPlane } from 'react-icons/fa';
 import { AiOutlineCar } from 'react-icons/ai';
 import { metadata } from "./metadata"; // Importation du fichier metadata
 import "./globals.css"; // importation du style
@@ -44,7 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             href="#"
             className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
           >
-            <FiAirplay size={20} className="mr-2" />
+            <FaPlane size={20} className="mr-2" />
             Vols
           </a>
         </li>
