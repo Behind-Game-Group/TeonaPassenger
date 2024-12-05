@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="description" content={metadata.description} />
       </head>
       <body className="flex -min-h-screen bg-orange-400 m-0">
-        {/* Barre latérale */}
+        {/* Barre latéral */}
         {isSidebarVisible && (
   <aside className="w-1/5 bg-orange-400 text-white p-4 mr-4 border border-white h-full">
     <h1 className="font-bold text-xl mb-6"></h1>
