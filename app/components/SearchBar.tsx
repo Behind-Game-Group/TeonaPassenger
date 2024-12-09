@@ -27,14 +27,14 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Aéroport départ"
-          className="px-4 py-2 border rounded-md max-w-[170px] sm:w-1/2 md:w-1/4"
+          className="px-4 py-2 border rounded-md max-w-[200px] sm:w-1/2 md:w-1/4"
         />
 
         {/* Aéroport arrivée */}
         <input
           type="text"
           placeholder="Aéroport arrivée"
-          className="px-4 py-2 border rounded-md max-w-[170px] sm:w-1/2 md:w-1/4"
+          className="px-4 py-2 border rounded-md max-w-[200px] sm:w-1/2 md:w-1/4"
         />
 
         {/* Date aller */}
@@ -42,7 +42,7 @@ const SearchBar = () => {
           selected={departureDate}
           onChange={handleDepartureDateChange}
           dateFormat="yyyy/MM/dd"
-          className="px-4 py-2 border rounded-md min-w-[200px] sm:w-1/2 md:w-1/4"
+          className="px-4 py-2 border rounded-md min-w-[170px] sm:w-1/2 md:w-1/4"
           placeholderText="Date d'aller"
           locale="fr"
         />
@@ -52,7 +52,7 @@ const SearchBar = () => {
           selected={returnDate}
           onChange={handleReturnDateChange}
           dateFormat="yyyy/MM/dd"
-          className="flex-1 min-w-[200px] px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md min-w-[200px] sm:w-1/2 md:w-1/4"
           placeholderText="Date de retour"
           locale="fr"
         />

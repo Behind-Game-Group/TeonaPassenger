@@ -1,15 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, useLayoutEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-mapboxgl.accessToken = "pk.eyJ1IjoibWFydGludjk2IiwiYSI6ImNtNGdzemhoZzAzMGQyaXNndnN6dmpzdm4ifQ.TPhbyyQf-DvQ4hMsNAtzTg";
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibWFydGludjk2IiwiYSI6ImNtNGdzemhoZzAzMGQyaXNndnN6dmpzdm4ifQ.TPhbyyQf-DvQ4hMsNAtzTg";
 
-const InteractiveMap = () => {
+const InteractiveMap = ({
+  isSidebarVisible,
+}: {
+  isSidebarVisible: boolean;
+}) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<mapboxgl.Map | null>(null);
 
-  // Markers déclarés avec useMemo
+  // Définir les markers
   const markers = useMemo(
     () => [
       { id: 1, position: [37.6173, 55.7558] as [number, number] }, // Russie
@@ -36,13 +42,26 @@ const InteractiveMap = () => {
       new mapboxgl.Marker().setLngLat(position).addTo(map);
     });
 
+    mapRef.current = map;
+
     return () => map.remove();
   }, [markers]);
+
+  useLayoutEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.resize();
+    }
+  }, [isSidebarVisible]);
 
   return (
     <div
       ref={mapContainerRef}
-      className="w-full h-[500px] rounded-lg shadow-lg border border-gray-300 mt-6"
+      className={`transition-all h-[500px] rounded-lg shadow-lg border border-gray-300 mt-6
+        ${
+          isSidebarVisible ? "md:w-[calc(100%-300px)]" : "md:w-full"
+        } // Garder la taille en grand écran
+        md:ml-[256px] // Garder le décalage de la barre latérale
+        w-full`} // S'assurer que la carte prend toute la largeur en mobile
     ></div>
   );
 };
