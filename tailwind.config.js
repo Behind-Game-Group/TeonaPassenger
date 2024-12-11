@@ -16,8 +16,12 @@ module.exports = {
   ],
   safelist: [
     'h-screen',
+    'h-[80%]',
     'w - screen',
+    'w-[30%]',
+    'w-[90%]',
     'flex',
+    'flex-row',
     'justify-center',
     'items - center',
     'bg-black',
