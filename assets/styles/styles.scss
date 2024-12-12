@@ -1,0 +1,12 @@
+@use "tailwindcss/base";
+@use "tailwindcss/components";
+@use "tailwindcss/utilities";
+
+
+  
+  /* Réinitialisation de certaines marges par défaut */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
