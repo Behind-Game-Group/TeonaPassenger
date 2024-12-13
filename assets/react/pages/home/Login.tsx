@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useUser } from '../../service/context';
+import { useNavigate } from 'react-router-dom';
 
 axios.defaults.withCredentials = true;
 
 const LoginForm = () => {
-    const { setUser } = useUser();
+    const navigate = useNavigate();
+    const { user, setUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [userInfo, setUserInfo] = useState<{ email: string } | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prévenir le comportement par défaut de soumission de formulaire
@@ -32,16 +33,22 @@ const LoginForm = () => {
                     withCredentials: true
                 }
             );
+            if (response.status === 200) {
+                const userData = { email };
+                setUser(userData);
+            }
+            navigate('/profil');
             console.log('Login successful:', response);
-            setSuccess('Success');
-            setError('');
-
         } catch (error) {
             setError('Échec de l\'authentification');
             setSuccess('');
             console.error('Error logging in:', error);
         }
     };
+
+    if (!user === null) {
+        navigate('/profil');
+    }
 
     return (
         <section>
@@ -69,7 +76,6 @@ const LoginForm = () => {
                 {error && <p>{error}</p>}
                 {success && <p>{success}</p>}
             </form>
-            {userInfo && <p>Email: {userInfo.email}</p>}
         </section>
 
     );

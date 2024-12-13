@@ -32,4 +32,4 @@ security:
                 username_path: email
                 password_path: password
             logout:
-                path: /api/logout
+                path: /logout

@@ -16,6 +16,7 @@ const UserContext = createContext<UserContextType>({
     user: null,
     setUser: () => {}, // Fonction vide par défaut
 });
+;
 
 // Fournisseur de contexte utilisateur
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

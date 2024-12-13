@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../service/context';
 
 axios.defaults.withCredentials = true;
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
+    const { user, setUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');

@@ -1,15 +1,22 @@
 import React from 'react';
+import { useUser } from '../../service/context';
+import { useNavigate } from 'react-router-dom';
 
 function Profil() {
+    const navigate = useNavigate();
+    const { user } = useUser();
+
+    console.log(user?.email);
+
+    if (user === null) {
+        navigate('/connexion');
+    }
 
     return (
-        <main className='h-screen w-screen flex justify-center items-center'>
-            <section>
-                <h1 className='bg-black text-white'>Profil Page</h1>
-            </section>
-        </main>
-
-    )
-}
+        <div>
+            {user ? <h1>Bienvenue, {user.email}!</h1> : <h1>Veuillez vous connecter</h1>}
+        </div>
+    );
+};
 
 export default Profil;
