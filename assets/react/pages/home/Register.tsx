@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useUser } from '../../service/context';
 
 axios.defaults.withCredentials = true;
 
-const LoginForm = () => {
-    const { setUser } = useUser();
+const RegisterForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [userInfo, setUserInfo] = useState<{ email: string } | null>(null);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prévenir le comportement par défaut de soumission de formulaire
@@ -20,26 +17,14 @@ const LoginForm = () => {
             return;
         }
         try {
-            const response = await axios.post('login_check',
-                {
-                    email: email,
-                    password: password,
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true
-                }
-            );
-            console.log('Login successful:', response);
+            const response = await axios.post('register', { email, password });
+            console.log('User created successful:', response);
             setSuccess('Success');
             setError('');
-
         } catch (error) {
-            setError('Échec de l\'authentification');
+            console.error('Error creating user:', error);
+            setError('Échec de l\'inscription');
             setSuccess('');
-            console.error('Error logging in:', error);
         }
     };
 
@@ -47,32 +32,24 @@ const LoginForm = () => {
         <section>
             <h1>Login</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email">email</label>
                 <input
-                    id='email'
-                    name='email'
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                 />
-                <label htmlFor="password">password</label>
                 <input
-                    id='password'
-                    name='password'
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                 />
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
                 {error && <p>{error}</p>}
-                {success && <p>{success}</p>}
             </form>
-            {userInfo && <p>Email: {userInfo.email}</p>}
         </section>
 
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

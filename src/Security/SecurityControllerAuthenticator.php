@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,59 +19,64 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
  */
 class SecurityControllerAuthenticator extends AbstractAuthenticator
 {
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
-     * Called on every request to decide if this authenticator should be
-     * used for the request. Returning `false` will cause this authenticator
-     * to be skipped.
+     * Cette méthode détermine si l'authentificateur est utilisé pour la requête
      */
     public function supports(Request $request): ?bool
     {
+        // Vérifie si l'en-tête "X-AUTH-TOKEN" est présent dans la requête
         return $request->headers->has('X-AUTH-TOKEN');
     }
 
     public function authenticate(Request $request): Passport
     {
-        // $apiToken = $request->headers->get('X-AUTH-TOKEN');
-        // if (null === $apiToken) {
-        // The token header was empty, authentication fails with HTTP Status
-        // Code 401 "Unauthorized"
-        // throw new CustomUserMessageAuthenticationException('No API token provided');
-        // }
+        $data = json_decode($request->getContent(), true);
 
-        // implement your own logic to get the user identifier from `$apiToken`
-        // e.g. by looking up a user in the database using its API key
-        // $userIdentifier = /** ... */;
+        // Tu peux maintenant accéder aux données dans $data
+        $email = $data['email'] ?? null;
+        $password = $data['password'] ?? null;
 
-        // return new SelfValidatingPassport(new UserBadge($userIdentifier));
+        // Vérifie si l'email et le mot de passe sont fournis et valide
+        if (null === $email || null === $password) {
+            throw new CustomUserMessageAuthenticationException('Email et mot de passe requis');
+        }
+
+        // Cherche l'utilisateur avec l'email
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+
+        if (!$user || !password_verify($password, $user->getPassword())) {
+            throw new CustomUserMessageAuthenticationException('Identifiants invalides');
+        }
+
+        // Crée un passport avec le badge de l'utilisateur
+        return new SelfValidatingPassport(new UserBadge($user->getId()));
     }
-
+    /**
+     * Cette méthode est appelée lorsqu'une authentification réussie
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // on success, let the request continue
-        return null;
+        // Si l'authentification est réussie, laissez la requête continuer
+        return null; // Aucun besoin de faire quoi que ce soit ici, la requête est déjà authentifiée
     }
 
+    /**
+     * Cette méthode est appelée lorsqu'une authentification échoue
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        // Renvoyer une réponse JSON avec le message d'erreur de l'authentification
         $data = [
-            // you may want to customize or obfuscate the message first
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
-
-            // or to translate this message
-            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
-
-    // public function start(Request $request, AuthenticationException $authException = null): Response
-    // {
-    //     /*
-    //      * If you would like this class to control what happens when an anonymous user accesses a
-    //      * protected page (e.g. redirect to /login), uncomment this method and make this class
-    //      * implement Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface.
-    //      *
-    //      * For more details, see https://symfony.com/doc/current/security/experimental_authenticators.html#configuring-the-authentication-entry-point
-    //      */
-    // }
 }
