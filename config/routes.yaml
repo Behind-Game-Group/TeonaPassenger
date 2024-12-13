@@ -12,3 +12,8 @@ app_react:
   controller: App\Controller\IndexController::index
   requirements:
     reactRouting: .*
+
+api_users:
+    path: /api/users
+    controller: App\Controller\UserController::getUsers
+    methods: GET
