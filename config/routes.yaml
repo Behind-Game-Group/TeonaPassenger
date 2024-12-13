@@ -3,9 +3,11 @@ controllers:
     path: ../src/Controller/
     namespace: App\Controller
   type: attribute
+
 app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
+
 add_user:
   path: "/add"
   controller: 'App\Controller\UserController::addUser'
@@ -15,9 +17,9 @@ app_react:
   path: /{reactRouting}
   controller: App\Controller\IndexController::index
   requirements:
-    reactRouting: .*
+    # reactRouting: .*
 
 api_users:
     path: /api/users
-    controller: App\Controller\UserController::getUsers
-    methods: GET
+    controller: App\Controller\APIController::getUsers
+    methods: [GET, POST]

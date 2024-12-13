@@ -19,10 +19,11 @@ class APIController extends AbstractController
             return [
                 'id' => $user->getId(),
                 'email' => $user->getEmail(),
+                'password' => $user->getPassword(),
             ];
         }, $users); 
 
         // Retourne les données sous format JSON
-        return $this->json($userData);
+        return new JsonResponse($userData);
     }
 }

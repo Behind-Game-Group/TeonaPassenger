@@ -8,14 +8,14 @@ import Add from './pages/Add/Add';
 function App() {
   return (
     <Router>
-    <>
-        <Nav/>
+      <>
+        <Nav />
         <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/add" element={<Add />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/add" element={<Add />} />
         </Routes>
-    </>
+      </>
     </Router>
   );
 }
