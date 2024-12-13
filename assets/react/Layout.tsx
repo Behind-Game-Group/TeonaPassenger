@@ -145,7 +145,7 @@ function Layout({ children }: { children: ReactNode }) {
             <Link to={"/"} className="flex items-center space-x-4">
               <img src="/img/logo.svg" alt="Logo" width={52} height={52} />
               <div className="flex flex-col items-start">
-                <span className="font-bold text-lg">Teona Passager</span>
+                <span className="font-bold text-lg">Teona Passenger</span>
                 <span className="text-sm">All Wonders Whatever</span>
               </div>
             </Link>
