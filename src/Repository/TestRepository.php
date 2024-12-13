@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Test;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -12,11 +13,11 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * @extends ServiceEntityRepository<User>
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class TestRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, Test::class);
     }
 
     /**
@@ -33,7 +34,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function save(User $new, ?bool $isSave = false)
+    public function save(Test $new, ?bool $isSave = false)
     {
         $this->getEntityManager()->persist($new);
         if($isSave)

@@ -6,3 +6,13 @@ controllers:
 app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
+
+app_react:
+    path: /{reactRouting}
+    controller: App\Controller\IndexController::index
+    requirements:
+        reactRouting: .*
+
+api_register:
+    path: /api/register
+    controller: App\API\ProfilController::register

@@ -13,5 +13,4 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
     main:
-      custom_authenticators:
-        - App\Security\SecurityControllerAuthenticator
+      lazy: true
