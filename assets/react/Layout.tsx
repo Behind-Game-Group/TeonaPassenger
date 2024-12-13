@@ -35,20 +35,20 @@ function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-orange-400 m-0">
+    <div className="flex flex-col max-h-full bg-orange-400 m-0">
       {/* Menu latéral */}
       <aside
         ref={sidebarRef}
         className={`${
           isSidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } fixed top-0 left-0 w-64 h-full bg-orange-400 text-white p-4 border-r-2 border-white transform transition-transform lg:translate-x-0 lg:top-[117px] lg:absolute z-50 lg:z-auto`}
+        } fixed top-0 left-0 w-64 h-[165%] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
       >
         <h1 className="font-bold text-xl mb-6"></h1>
         <nav>
           <ul className="space-y-4">
             <li>
               <Link
-                to="/vols"
+                to="/vols/page"
                 className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
               >
                 <FaPlane size={20} className="mr-2" />
@@ -129,7 +129,7 @@ function Layout({ children }: { children: ReactNode }) {
         } transition-all duration-300`}
       >
         {/* Header avec bouton burger */}
-        <header className="flex items-center justify-between bg-orange-400 p-4">
+        <header className="flex items-center justify-between bg-orange-400 p-4 border-b-2 border-white">
           {/* Bouton Burger, visible seulement sur mobile */}
           <button
             type="button"

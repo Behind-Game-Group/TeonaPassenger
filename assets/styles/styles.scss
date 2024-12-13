@@ -2,7 +2,7 @@
 @use "tailwindcss/components";
 @use "tailwindcss/utilities";
 
-
+@import '~react-datepicker/dist/react-datepicker.css';
   
   /* Réinitialisation de certaines marges par défaut */
   * {
