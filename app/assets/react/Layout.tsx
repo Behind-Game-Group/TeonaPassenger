@@ -38,11 +38,11 @@ function Layout({ children }: { children: ReactNode }) {
     <div className="flex flex-col max-h-full bg-orange-400 m-0">
       {/* Bare latéral */}
       <aside
-        ref={sidebarRef}
-        className={`${
-          isSidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } fixed top-0 left-0 w-64 h-[calc(239vh-133px)] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
-      >
+  ref={sidebarRef}
+  className={`${
+    isSidebarVisible ? "translate-x-0" : "-translate-x-full"
+  } fixed top-0 left-0 w-64 h-[calc(239vh-133px)] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
+>
         <h1 className="font-bold text-xl mb-6"></h1>
         <nav>
           <ul className="space-y-4">
@@ -124,12 +124,12 @@ function Layout({ children }: { children: ReactNode }) {
 
       {/* Main Content */}
       <main
-        className={`flex-1 p-4 ${
+        className={`flex-1 p-5 ${
           isSidebarVisible ? "ml-64" : "ml-0"
         } transition-all duration-300`}
       >
         {/* Header */}
-        <header className="flex items-center justify-between bg-orange-400 p-4 border-b-2 border-white">
+        <header className="flex items-center justify-between bg-orange-400 p-[14.5px] border-b-2 border-white">
           <button
             type="button"
             onClick={toggleSidebar}
