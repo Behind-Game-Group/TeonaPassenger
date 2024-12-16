@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [isSidebarVisible] = useState(true);
@@ -30,7 +30,9 @@ const HomePage = () => {
           {/* Hébergements */}
           <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaHotel size={40} className="text-blue-500 mb-4" />
-            <p className="text-center font-semibold">Trouvez des hébergements</p>
+            <p className="text-center font-semibold">
+              Trouvez des hébergements
+            </p>
           </div>
 
           {/* Véhicules */}
@@ -59,13 +61,18 @@ const HomePage = () => {
       {/* Explorer le monde */}
       <div className="w-full max-w-6xl mt-10 pl-4 lg:ml-64 text-white">
         <h2 className="text-3xl font-bold">Explorer le monde</h2>
-        <p className="text-lg">Trouver des vols, des hébergements, des véhicules, des ferries, des carnets, et bien plus encore !</p>
+        <p className="text-lg">
+          Trouver des vols, des hébergements, des véhicules, des ferries, des
+          carnets, et bien plus encore !
+        </p>
       </div>
 
       {/* Newsletter */}
       <div className="w-full max-w-6xl mt-4 pl-4 lg:ml-64 text-white border border-white rounded-lg">
         <h2 className="text-center text-2xl">Recevez notre newsletter</h2>
-        <p className="text-center">Restez au courant de notre activité et de nos dernières mises à jour !</p>
+        <p className="text-center">
+          Restez au courant de notre activité et de nos dernières mises à jour !
+        </p>
         <div className="flex items-center justify-between bg-blue-500 rounded-lg p-2 m-2 max-w-md mx-auto">
           {/* Champ d'entrée et icône */}
           <div className="flex items-center bg-transparent flex-grow">
@@ -88,7 +95,8 @@ const HomePage = () => {
         <div className="text-white">
           <h2 className="text-3xl font-bold">Droit au but</h2>
           <p className="text-lg">
-            Évitez les escales et arrivez sans délai à votre destination grâce à ces itinéraires directs
+            Évitez les escales et arrivez sans délai à votre destination grâce à
+            ces itinéraires directs
           </p>
         </div>
         <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
@@ -107,23 +115,47 @@ const HomePage = () => {
         <div className="flex space-x-4 overflow-x-auto">
           {/* Carte 1 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">Bucarest</div>
-            <img src="/img/bucarest.png" alt="Bucarest" className="w-full h-40 object-cover" />
+            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+              Bucarest
+            </div>
+            <img
+              src="/img/bucarest.png"
+              alt="Bucarest"
+              className="w-[344px] h-[408px] object-cover"
+            />
           </div>
           {/* Carte 2 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">Batoumi</div>
-            <img src="/img/batoumi.png" alt="Batoumi" className="w-full h-40 object-cover" />
+            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+              Batoumi
+            </div>
+            <img
+              src="/img/batoumi.png"
+              alt="Batoumi"
+              className="w-[344px] h-[408px] object-cover"
+            />
           </div>
           {/* Carte 3 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">Bursa</div>
-            <img src="/img/bursa.png" alt="Bursa" className="w-full h-40 object-cover" />
+            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+              Bursa
+            </div>
+            <img
+              src="/img/bursa.png"
+              alt="Bursa"
+              className="w-[344px] h-[408px] object-cover"
+            />
           </div>
           {/* Carte 4 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">Verna</div>
-            <img src="/img/verna.png" alt="Verna" className="w-full h-40 object-cover" />
+            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+              Verna
+            </div>
+            <img
+              src="/img/verna.png"
+              alt="Verna"
+              className="w-[344px] h-[408px] object-cover"
+            />
           </div>
         </div>
 
@@ -133,6 +165,23 @@ const HomePage = () => {
         </button>
       </div>
 
+      <div className="w-full max-w-6xl flex justify-between mt-10 px-4 lg:ml-64 flex-wrap">
+        <h2 className="text-white text-3xl font-bold">Outils populaires</h2>
+        <a
+          href="#"
+          className="flex p-4 rounded-md max-w-44 m-3 bg-blue-500 text-white"
+        >
+          <FaPlane size={20} className="mr-2" />
+          Alerte de prix
+        </a>
+        <a
+          href="#"
+          className="flex p-4 rounded-md max-w-44 m-3 bg-blue-500 text-white"
+        >
+          <FaPlane size={20} className="mr-2" />
+          Trouver un vol
+        </a>
+      </div>
     </div>
   );
 };

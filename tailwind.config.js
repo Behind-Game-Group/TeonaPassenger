@@ -2,11 +2,11 @@
 module.exports = {
   content: [
     './templates/**/*.html.twig',
-    './assets/react/components/**/*.tsx',
-    './assets/react/components/**/*.js',
-    './assets/react/pages/**/*.tsx',
-    './assets/react/pages/**/*.js',
-    './assets/react/**/*.tsx',
+    './app/assets/react/components/**/*.tsx',
+    './app/assets/react/components/**/*.js',
+    './app/assets/react/pages/**/*.tsx',
+    './app/assets/react/pages/**/*.js',
+    './app/assets/react/**/*.tsx',
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
   theme: {
