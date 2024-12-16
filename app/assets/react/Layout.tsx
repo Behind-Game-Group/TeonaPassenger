@@ -36,12 +36,12 @@ function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex flex-col max-h-full bg-orange-400 m-0">
-      {/* Menu latéral */}
+      {/* Bare latéral */}
       <aside
         ref={sidebarRef}
         className={`${
           isSidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } fixed top-0 left-0 w-64 h-[165%] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
+        } fixed top-0 left-0 w-64 h-[calc(239vh-133px)] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
       >
         <h1 className="font-bold text-xl mb-6"></h1>
         <nav>
@@ -122,15 +122,14 @@ function Layout({ children }: { children: ReactNode }) {
         </nav>
       </aside>
 
-      {/* Contenu principal */}
+      {/* Main Content */}
       <main
         className={`flex-1 p-4 ${
           isSidebarVisible ? "ml-64" : "ml-0"
         } transition-all duration-300`}
       >
-        {/* Header avec bouton burger */}
+        {/* Header */}
         <header className="flex items-center justify-between bg-orange-400 p-4 border-b-2 border-white">
-          {/* Bouton Burger, visible seulement sur mobile */}
           <button
             type="button"
             onClick={toggleSidebar}
@@ -151,7 +150,7 @@ function Layout({ children }: { children: ReactNode }) {
             </Link>
           </div>
 
-          {/* Icône profil */}
+          {/* Profil */}
           <a
             href="#"
             className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center"
@@ -161,13 +160,41 @@ function Layout({ children }: { children: ReactNode }) {
           </a>
         </header>
 
-        {/* Contenu de la page */}
-        <div
-          className={`${isSidebarVisible ? "ml-64" : "ml-0"} transition-all duration-300`}
-        >
+        <section className={`${isSidebarVisible ? "ml-64" : "ml-0"} transition-all duration-300`}>
           {children}
-        </div>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-orange-400 text-white p-8 border-t-2 border-white">
+        <div className="flex justify-between gap-8">
+          <div className="flex flex-col space-y-4 w-1/4">
+            <h3 className="border-b-2 border-white pb-2">Entreprise</h3>
+            <p>a propos</p>
+            <p>offres d'emploi</p>
+            <p>Mobil Discover</p>
+            <p>Notre fonctionnement</p>
+            <p>Codes de réductions THEONA</p>
+          </div>
+          <div className="flex flex-col space-y-4 w-1/4">
+            <h3 className="border-b-2 border-white pb-2">Contact</h3>
+            <p>Aide/FAQ</p>
+            <p>Presse</p>
+            <p>Affiliation</p>
+          </div>
+          <div className="flex flex-col space-y-4 w-1/4">
+            <h3 className="border-b-2 border-white pb-2">Plus</h3>
+            <p>Frais de compagnies</p>
+            <p>Compagnies aériennes</p>
+            <p>Trains et bus</p>
+          </div>
+          <div className="flex flex-col space-y-4 w-1/4">
+            <h3 className="border-b-2 border-white pb-2">Télécharger l'application THEONA</h3>
+            <a href="#"><img className="w-1/3" src="/img/appstore.png" alt="appstore" /></a>
+            <a href="#"><img className="w-1/3" src="/img/googleplay.png" alt="googleplay" /></a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
