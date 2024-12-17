@@ -39,13 +39,13 @@ function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="flex flex-col max-h-full bg-orange-400 mx-auto">
+    <div className="flex flex-col max-h-full bg-customOrange mx-auto">
       {/* Bare latéral */}
       <aside
         ref={sidebarRef}
         className={`fixed top-[144px] left-0 ${
           isSidebarExpanded ? "w-64 z-10" : "w-10"
-        } h-full bg-orange-400 text-white border-r border-t border-white transition-all z-10`}
+        } h-full bg-customOrange text-white border-r border-t border-white transition-all z-10`}
       >
         
         <nav>
@@ -135,7 +135,7 @@ function Layout({ children }: { children: ReactNode }) {
         } transition-all duration-300`}
       >
         {/* Header */}
-        <header className="flex justify-between bg-orange-400 border-b-2 border-white">
+        <header className="flex justify-between bg-customOrange border-b-2 border-white">
         <button
           onMouseEnter={toggleExpandSidebar}
           className="text-white mb-4 fixed top-[4rem] left-[1.5rem] z-50"

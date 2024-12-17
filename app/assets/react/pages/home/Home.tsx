@@ -10,7 +10,7 @@ const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
 
   return (
-    <div className={`flex flex-col items-center bg-orange-400 min-h-screen ${isSidebarExpanded ? "ml-64 z-10" : "mr-36"}`}>
+    <div className={`flex flex-col items-center bg-customOrange min-h-screen ${isSidebarExpanded ? "ml-64 z-10" : "mr-36"}`}>
       {/* Barre de recherche */}
       <div className="">
         <SearchBar />
@@ -170,7 +170,7 @@ const HomePage = () => {
 <div className="w-full max-w-6xl mt-10 px-4 ">
   <h2 className="text-white text-3xl font-bold mb-2">Outils populaires</h2>
   <p className="text-white mb-4">Pour rendre vos voyages simplissime</p>
-  <div className="flex flex-col space-y-4">
+  <div className="flex gap-4">
     <a
       href="#"
       className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:bg-blue-600"
