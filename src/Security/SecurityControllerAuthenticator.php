@@ -2,81 +2,86 @@
 
 namespace App\Security;
 
-use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-/**
- * @see https://symfony.com/doc/current/security/custom_authenticator.html
- */
 class SecurityControllerAuthenticator extends AbstractAuthenticator
 {
-    private $userRepository;
+    private $logger;
+    private $tokenStorage;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(LoggerInterface $logger, TokenStorageInterface $tokenStorage)
     {
-        $this->userRepository = $userRepository;
+        $this->logger = $logger;
+        $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * Cette méthode détermine si l'authentificateur est utilisé pour la requête
-     */
     public function supports(Request $request): ?bool
     {
-        // Vérifie si l'en-tête "X-AUTH-TOKEN" est présent dans la requête
-        return $request->headers->has('X-AUTH-TOKEN');
+        $this->logger->info('supports() called', [
+            'path' => $request->getPathInfo(),
+            'method' => $request->getMethod()
+        ]);
+
+        return $request->getPathInfo() === '/loginCheck' && $request->isMethod('POST');
     }
 
     public function authenticate(Request $request): Passport
     {
+        $this->logger->info('authenticate() called');
+        // Récupération des données JSON
         $data = json_decode($request->getContent(), true);
 
-        // Tu peux maintenant accéder aux données dans $data
         $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
 
-        // Vérifie si l'email et le mot de passe sont fournis et valide
-        if (null === $email || null === $password) {
-            throw new CustomUserMessageAuthenticationException('Email et mot de passe requis');
+        if (empty($email) || empty($password)) {
+            $this->logger->error('Email or password is missing', [
+                'email' => $email,
+                'password' => $password
+            ]);
+            throw new CustomUserMessageAuthenticationException('Veuillez remplir tous les champs.');
         }
 
-        // Cherche l'utilisateur avec l'email
-        $user = $this->userRepository->findOneBy(['email' => $email]);
-
-        if (!$user || !password_verify($password, $user->getPassword())) {
-            throw new CustomUserMessageAuthenticationException('Identifiants invalides');
-        }
-
-        // Crée un passport avec le badge de l'utilisateur
-        return new SelfValidatingPassport(new UserBadge($user->getId()));
-    }
-    /**
-     * Cette méthode est appelée lorsqu'une authentification réussie
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-    {
-        // Si l'authentification est réussie, laissez la requête continuer
-        return null; // Aucun besoin de faire quoi que ce soit ici, la requête est déjà authentifiée
+        return new Passport(
+            new UserBadge($email),
+            new PasswordCredentials($password)
+        );
     }
 
-    /**
-     * Cette méthode est appelée lorsqu'une authentification échoue
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): JsonResponse
     {
-        // Renvoyer une réponse JSON avec le message d'erreur de l'authentification
-        $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
+        $user = $token->getUser(); // Récupérer l'utilisateur authentifié
+
+        // Générer un JWT
+        $key = 'votre_clé_secrète'; // Utilisez une clé secrète sécurisée
+        $payload = [
+            'email' => $user->getUserIdentifier(), // Identifiant unique (email ou username)
+            'roles' => $user->getRoles(),
+            'exp' => time() + 3600, // Expiration du token (1 heure)
         ];
+    
+        $jwt = JWT::encode($payload, $key, 'HS256'); // Encoder le token JWT
+    
+        return new JsonResponse([
+            'message' => 'Authentification réussie',
+            'token' => $jwt, // Retourner le token JWT
+        ], JsonResponse::HTTP_OK);
+    }
 
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
+    {
+        // Réponse en cas d'échec
+        return new JsonResponse(['error' => $exception->getMessage()], 401);
     }
 }

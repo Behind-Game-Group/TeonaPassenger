@@ -13,7 +13,7 @@ function App() {
         <Nav/>
         <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/connexion" element={<Connexion />} />
+        <Route path="/login" element={<Connexion />} />
         <Route path="/register" element={<Inscription />} />
         <Route path="/profil" element={<Profil />} />
         </Routes>

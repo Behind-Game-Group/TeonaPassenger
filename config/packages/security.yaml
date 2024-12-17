@@ -27,9 +27,10 @@ security:
                 property: email
     firewalls:
         main:
-            json_login:
-                check_path: /login_check
-                username_path: email
-                password_path: password
+            custom_authenticators:
+                - App\Security\SecurityControllerAuthenticator
             logout:
                 path: /logout
+
+    access_control:
+        - { path: ^/loginCheck, roles: IS_AUTHENTICATED_ANONYMOUSLY }

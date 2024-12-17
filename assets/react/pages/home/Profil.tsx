@@ -1,15 +1,15 @@
-import React from 'react';
-import { useUser } from '../../service/context';
+import React, { useEffect, useState } from 'react';
+import { useUser } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 function Profil() {
     const navigate = useNavigate();
     const { user } = useUser();
+    const [hasReloaded, setHasReloaded] = useState(false);
 
-    console.log(user?.email);
-
+    console.log(user);
     if (user === null) {
-        navigate('/connexion');
+        navigate('/login');
     }
 
     return (

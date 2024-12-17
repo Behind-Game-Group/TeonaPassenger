@@ -8,9 +8,16 @@ framework:
     #esi: true
     #fragments: true
 
+when@prod:
+    framework:
+        session:
+            cookie_lifetime: 86400  # 1 day
+            cookie_secure: true     # Enable only for HTTPS
+            cookie_samesite: strict # SameSite Strict for production
+
 when@test:
     framework:
         session:
-            handler_id: null
-            cookie_secure: auto
-            cookie_samesite: lax
+            cookie_lifetime: 86400  # Durée de vie des cookies en secondes (1 jour ici)
+            cookie_secure: false    # Activer uniquement pour HTTPS
+            cookie_samesite: lax    # SameSite pour éviter les attaques CSRF

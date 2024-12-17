@@ -29,6 +29,7 @@
         "@types/react": "^19.0.1",
         "@types/react-dom": "^19.0.2",
         "axios": "^1.7.9",
+        "jwt-decode": "^4.0.0",
         "ky": "^1.7.3",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",

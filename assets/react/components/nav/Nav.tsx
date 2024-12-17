@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../service/context';
+import { useUser } from '../../context/UserContext';
 import axios from 'axios';
 
 export default function Nav() {
@@ -9,18 +9,7 @@ export default function Nav() {
     const navigate = useNavigate();
     const [pathname, setPathname] = useState<string>();
     const [showMenu, setShowMenu] = useState<boolean>(false);
-    const { user, setUser } = useUser();
-
-    const logout = async () => {
-        try {
-            const response = await axios.post('logout');
-            console.log('Logout successful:', response);
-            setUser(null);
-            navigate('/connexion');
-        } catch (error) {
-            console.error('Error logging out:', error);
-        }
-    };
+    const { user, setUser, logout } = useUser();
 
     return (
         <>
@@ -38,7 +27,7 @@ export default function Nav() {
                                 <Link to="/profil">Profil</Link>
                             </li>
                             <li className={`rounded-lg p-2 flex flex-col items-center justify-center gap-2 hover:text-white ${pathname === "/profil" ? 'border-2 text-white' : 'text-gray-400'}`}>
-                                <button onClick={logout}>Logout</button>
+                                <button onClick={logout}>Déconnexion</button>
                             </li>
                         </>
                         
@@ -46,7 +35,7 @@ export default function Nav() {
                         // Si l'utilisateur n'est pas connecté
                         <>
                             <li className={`rounded-lg p-2 flex flex-col items-center justify-center gap-2 hover:text-white ${pathname === "/connexion" ? 'border-2 text-white' : 'text-gray-400'}`}>
-                                <Link to="/connexion">Connexion</Link>
+                                <Link to="/login">Connexion</Link>
                             </li>
                             <li className={`rounded-lg p-2 flex flex-col items-center justify-center gap-2 hover:text-white ${pathname === "/register" ? 'border-2 text-white' : 'text-gray-400'}`}>
                                 <Link to="/register">Inscription</Link>

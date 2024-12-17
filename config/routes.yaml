@@ -6,9 +6,31 @@ controllers:
 app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
+  
+app_login:
+  path: "/login"
+  controller: 'App\Controller\IndexController::login'
 
-app_react:
-    path: /{reactRouting}
-    controller: App\Controller\IndexController::index
-    requirements:
-        reactRouting: .*
+app_register:
+  path: "/register"
+  controller: 'App\Controller\IndexController::register'
+
+app_register_user:
+  path: "/registerUser"
+  controller: 'App\Security\AuthController::register'
+
+app_login_check:
+  path: "/loginCheck"
+  controller: 'App\Security\AuthController::loginCheck'
+
+app_logout:
+  path: "/logout"
+  controller: 'App\Security\AuthController::logout'
+
+app_profil:
+  path: "/profil"
+  controller: 'App\Controller\IndexController::profil'
+
+app_read_profile:
+  path: "/readProfile"
+  controller: 'App\Controller\ProfilController::readProfile'
