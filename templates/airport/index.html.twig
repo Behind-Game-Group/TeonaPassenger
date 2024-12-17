@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Airport index{% endblock %}
+
+{% block body %}
+    <h1>Airport index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for airport in airports %}
+            <tr>
+                <td>{{ airport.id }}</td>
+                <td>{{ airport.name }}</td>
+                <td>
+                    <a href="{{ path('app_airport_show', {'id': airport.id}) }}">show</a>
+                    <a href="{{ path('app_airport_edit', {'id': airport.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_airport_new') }}">Create new</a>
+{% endblock %}

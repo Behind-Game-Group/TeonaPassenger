@@ -16,6 +16,14 @@ class UserProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, UserProfile::class);
     }
 
+
+    public function save(UserProfile $userProfile, ?bool $isSaved): void
+    {
+        if($isSaved){
+            $this->getEntityManager()->persist($userProfile);
+            $this->getEntityManager()->flush();
+        }
+    }
 //    /**
 //     * @return UserProfile[] Returns an array of UserProfile objects
 //     */

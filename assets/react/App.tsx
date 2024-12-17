@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './pages/home/Home';
 import Nav from './components/nav/Nav';
-import Profile from './pages/Profile/Profile';
-import Add from './pages/Add/Add';
+import Profil from './pages/Profil/Profil';
 
 function App() {
   return (
@@ -12,8 +11,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/add" element={<Add />} />
+          <Route path="/profil" element={<Profil />} />
         </Routes>
       </>
     </Router>

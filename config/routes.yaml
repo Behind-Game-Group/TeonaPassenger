@@ -8,18 +8,14 @@ app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
 
-add_user:
-  path: "/add"
-  controller: 'App\Controller\UserController::addUser'
-  methods: POST
+app_profil:
+  path: "/profil"
+  controller: 'App\Controller\IndexController::profil'
 
-app_react:
-  path: /{reactRouting}
-  controller: App\Controller\IndexController::index
-  requirements:
-    # reactRouting: .*
+app_insert_data:
+  path: "/insert-user-data"
+  controller: 'App\Controller\DataController::insertData'
 
-api_users:
-    path: /api/users
-    controller: App\Controller\APIController::getUsers
-    methods: [GET, POST]
+api_user_list:
+  path: "/userlist"
+  controller: 'App\Controller\DataController::displayAllUsers'

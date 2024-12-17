@@ -22,6 +22,9 @@ export default function Nav() {
                     <li className={`rounded-lg p-2 flex flex-col items-center justify-center gap-2 hover:text-white ${pathname === "/register" ? 'border-2 text-white' : 'text-gray-400'}`}>
                         <Link to="/register">Inscription</Link>
                     </li>
+                    <li className={`rounded-lg p-2 flex flex-col items-center justify-center gap-2 hover:text-white ${pathname === "/register" ? 'border-2 text-white' : 'text-gray-400'}`}>
+                        <Link to="/airport">Ajouter un aéroport</Link>
+                    </li>
                 </ul>
             </nav>
             {showMenu &&
