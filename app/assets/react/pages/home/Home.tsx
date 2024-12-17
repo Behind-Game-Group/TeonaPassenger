@@ -2,21 +2,22 @@
 
 import React, { useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
-import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope } from "react-icons/fa";
+import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope, FaBell, FaBed } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import TrendingCities from "../../components/VillesTendances/VIllesTendances";
 
 const HomePage = () => {
-  const [isSidebarVisible] = useState(true);
+  const [isSidebarExpanded] = useState(true);
 
   return (
-    <div className={`flex flex-col items-center bg-orange-400 min-h-screen`}>
+    <div className={`flex flex-col items-center bg-orange-400 min-h-screen ${isSidebarExpanded ? "ml-64 z-10" : "mr-36"}`}>
       {/* Barre de recherche */}
-      <div className="lg:ml-64">
+      <div className="">
         <SearchBar />
       </div>
 
       {/* Section "Ce que Teona vous propose" */}
-      <div className="w-full max-w-6xl mt-10 px-4 lg:ml-64">
+      <div className="w-full max-w-6xl mt-10 px-4 ">
         <h2 className="text-2xl text-white font-bold text-center mb-6">
           Ce que Teona vous propose
         </h2>
@@ -50,7 +51,7 @@ const HomePage = () => {
       </div>
 
       {/* Image Map */}
-      <div className="w-full max-w-6xl mt-10 px-4 lg:ml-64">
+      <div className="w-full max-w-6xl mt-10 px-4 ">
         <img
           src="/img/map.JPG"
           alt="map"
@@ -59,7 +60,7 @@ const HomePage = () => {
       </div>
 
       {/* Explorer le monde */}
-      <div className="w-full max-w-6xl mt-10 pl-4 lg:ml-64 text-white">
+      <div className="w-full max-w-6xl mt-10 pl-4  text-white">
         <h2 className="text-3xl font-bold">Explorer le monde</h2>
         <p className="text-lg">
           Trouver des vols, des hébergements, des véhicules, des ferries, des
@@ -68,12 +69,12 @@ const HomePage = () => {
       </div>
 
       {/* Newsletter */}
-      <div className="w-full max-w-6xl mt-4 pl-4 lg:ml-64 text-white border border-white rounded-lg">
+      <div className="w-full max-w-6xl mt-4 pl-4  text-white border border-white rounded-lg">
         <h2 className="text-center text-2xl">Recevez notre newsletter</h2>
         <p className="text-center">
           Restez au courant de notre activité et de nos dernières mises à jour !
         </p>
-        <div className="flex items-center justify-between bg-blue-500 rounded-lg p-2 m-2 max-w-md mx-auto">
+        <div className="flex items-center justify-between bg-customBlue rounded-lg p-2 m-2 max-w-md mx-auto">
           {/* Champ d'entrée et icône */}
           <div className="flex items-center bg-transparent flex-grow">
             <FaEnvelope className="text-white mx-2" size={24} />
@@ -84,14 +85,14 @@ const HomePage = () => {
             />
           </div>
           {/* Bouton à droite */}
-          <button className="flex flex-col bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md">
+          <button className="flex flex-col bg-customBlue hover:bg-blue-600 text-white px-4 py-1 rounded-md">
             Envoyer
           </button>
         </div>
       </div>
 
       {/* Section Droit au but */}
-      <div className="w-full max-w-6xl flex justify-between items-center mt-10 px-4 lg:ml-64">
+      <div className="w-full max-w-6xl flex justify-between items-center mt-10 px-4 ">
         <div className="text-white">
           <h2 className="text-3xl font-bold">Droit au but</h2>
           <p className="text-lg">
@@ -99,15 +100,15 @@ const HomePage = () => {
             ces itinéraires directs
           </p>
         </div>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        <button className="bg-customBlue text-white px-4 py-2 rounded-lg hover:bg-blue-600">
           Tout plus
         </button>
       </div>
 
       {/* Carrousel */}
-      <div className="relative mt-6 pl-4 lg:ml-64">
+      <div className="relative mt-6 pl-4 ">
         {/* Bouton gauche */}
-        <button className="absolute top-[50%] bg-blue-500 text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
+        <button className="absolute top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
           &#8592;
         </button>
 
@@ -115,73 +116,83 @@ const HomePage = () => {
         <div className="flex space-x-4 overflow-x-auto">
           {/* Carte 1 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+            <div className="bg-customBlue text-center text-white py-2 font-bold">
               Bucarest
             </div>
             <img
               src="/img/bucarest.png"
               alt="Bucarest"
-              className="w-[344px] h-[408px] object-cover"
+              className="w-[379px] h-[451px] object-cover"
             />
           </div>
           {/* Carte 2 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+            <div className="bg-customBlue text-center text-white py-2 font-bold">
               Batoumi
             </div>
             <img
               src="/img/batoumi.png"
               alt="Batoumi"
-              className="w-[344px] h-[408px] object-cover"
+              className="w-[379px] h-[451px] object-cover"
             />
           </div>
           {/* Carte 3 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+            <div className="bg-customBlue text-center text-white py-2 font-bold">
               Bursa
             </div>
             <img
               src="/img/bursa.png"
               alt="Bursa"
-              className="w-[344px] h-[408px] object-cover"
+              className="w-[379px] h-[451px] object-cover"
             />
           </div>
           {/* Carte 4 */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-blue-500 text-center text-white py-2 font-bold">
+            <div className="bg-customBlue text-center text-white py-2 font-bold">
               Verna
             </div>
             <img
               src="/img/verna.png"
               alt="Verna"
-              className="w-[344px] h-[408px] object-cover"
+              className="w-[379px] h-[451px] object-cover"
             />
           </div>
         </div>
 
         {/* Bouton droit */}
-        <button className="absolute right-0 top-[50%] bg-blue-500 text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
+        <button className="absolute right-0 top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
           &#8594;
         </button>
       </div>
 
-      <div className="w-full max-w-6xl flex justify-between mt-10 px-4 lg:ml-64 flex-wrap">
-        <h2 className="text-white text-3xl font-bold">Outils populaires</h2>
-        <a
-          href="#"
-          className="flex p-4 rounded-md max-w-44 m-3 bg-blue-500 text-white"
-        >
-          <FaPlane size={20} className="mr-2" />
-          Alerte de prix
-        </a>
-        <a
-          href="#"
-          className="flex p-4 rounded-md max-w-44 m-3 bg-blue-500 text-white"
-        >
-          <FaPlane size={20} className="mr-2" />
-          Trouver un vol
-        </a>
-      </div>
+      {/* Section Outils populaires */}
+<div className="w-full max-w-6xl mt-10 px-4 ">
+  <h2 className="text-white text-3xl font-bold mb-2">Outils populaires</h2>
+  <p className="text-white mb-4">Pour rendre vos voyages simplissime</p>
+  <div className="flex flex-col space-y-4">
+    <a
+      href="#"
+      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:bg-blue-600"
+    >
+      <FaBell size={20} className="mr-2" />
+      Alerte de prix
+    </a>
+    <a
+      href="#"
+      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:bg-blue-600"
+    >
+      <FaPlane size={20} className="mr-2" />
+      Trouver un vol
+    </a>
+  </div>
+</div>
+
+<div>
+  <TrendingCities />
+</div>
+
+
     </div>
   );
 };

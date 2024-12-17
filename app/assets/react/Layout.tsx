@@ -1,19 +1,23 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiUser, FiHome, FiSun, FiTruck, FiTag } from "react-icons/fi";
-import { FaShip, FaPlane } from "react-icons/fa";
+import { FaShip, FaPlane, FaBed } from "react-icons/fa";
 import { AiOutlineCar } from "react-icons/ai";
 import "../styles/styles.scss"; // Assurez-vous que ce fichier est bien chargé dans Webpack
 
 function Layout({ children }: { children: ReactNode }) {
   // Gestion de l'état de la barre latérale
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false); // État pour la largeur de la barre latérale
 
-  // Référence à la barre latérale pour détecter les clics à l'extérieur
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const toggleSidebar = () => {
     setIsSidebarVisible((prev) => !prev);
+  };
+
+  const toggleExpandSidebar = () => {
+    setIsSidebarExpanded((prev) => !prev); // Bascule entre les deux modes
   };
 
   // Fermeture de la barre latérale si l'utilisateur clique à l'extérieur
@@ -35,88 +39,90 @@ function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="flex flex-col max-h-full bg-orange-400 m-0">
+    <div className="flex flex-col max-h-full bg-orange-400 mx-auto">
       {/* Bare latéral */}
       <aside
-  ref={sidebarRef}
-  className={`${
-    isSidebarVisible ? "translate-x-0" : "-translate-x-full"
-  } fixed top-0 left-0 w-64 h-[calc(239vh-133px)] bg-orange-400 text-white p-4 border-r-2 border-white border-t-2 transform transition-transform lg:translate-x-0 lg:top-[133px] lg:absolute z-50 lg:z-auto`}
->
-        <h1 className="font-bold text-xl mb-6"></h1>
+        ref={sidebarRef}
+        className={`fixed top-[144px] left-0 ${
+          isSidebarExpanded ? "w-64 z-10" : "w-10"
+        } h-full bg-orange-400 text-white border-r border-t border-white transition-all z-10`}
+      >
+        
         <nav>
-          <ul className="space-y-4">
+          <ul className="">
             <li>
               <Link
                 to="/vols/page"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-2 border-white"
               >
-                <FaPlane size={20} className="mr-2" />
-                Vols
+                <FaPlane size={20} />
+                {isSidebarExpanded && <span className="ml-2">Vols</span>}
               </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="/hebergements"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FiHome size={20} className="mr-2" />
-                Hébergements
-              </a>
+                <FaBed size={20} />
+                {isSidebarExpanded && (
+                  <span className="ml-2">Hébergements</span>
+                )}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <AiOutlineCar size={20} className="mr-2" />
-                Voitures
-              </a>
+                <AiOutlineCar size={20} />
+                {isSidebarExpanded && <span className="ml-2">Voitures</span>}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FiSun size={20} className="mr-2" />
-                Vol+Hôtel
-              </a>
+                <FiSun size={20} />
+                {isSidebarExpanded && <span className="ml-2">Vol+Hôtel</span>}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FiTag size={20} className="mr-2" />
-                Black Sea
-              </a>
+                <FaShip size={20} />
+                {isSidebarExpanded && <span className="ml-2">Black Sea</span>}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FiTruck size={20} className="mr-2" />
-                Bus
-              </a>
+                <FiTruck size={20} />
+                {isSidebarExpanded && <span className="ml-2">Bus</span>}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FaShip size={20} className="mr-2" />
-                Ferry
-              </a>
+                <FaShip size={20} />
+                {isSidebarExpanded && <span className="ml-2">Ferry</span>}
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 border-2 border-white rounded-md hover:bg-white hover:text-orange-400 transition-colors"
+              <Link
+                to="#"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
               >
-                <FiTag size={20} className="mr-2" />
-                Carnet
-              </a>
+                <FiTag size={20} />
+                {isSidebarExpanded && <span className="ml-2">Carnet</span>}
+              </Link>
             </li>
           </ul>
         </nav>
@@ -129,23 +135,26 @@ function Layout({ children }: { children: ReactNode }) {
         } transition-all duration-300`}
       >
         {/* Header */}
-        <header className="flex items-center justify-between bg-orange-400 p-[14.5px] border-b-2 border-white">
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="text-white p-2 lg:hidden"
-            aria-label="Afficher/masquer la barre latérale"
-          >
-            <FiMenu size={24} />
-          </button>
+        <header className="flex justify-between bg-orange-400 border-b-2 border-white">
+        <button
+          onMouseEnter={toggleExpandSidebar}
+          className="text-white mb-4 fixed top-[4rem] left-[1.5rem] z-50"
+          aria-label="Élargir la barre latérale"
+        >
+          <FiMenu size={24} />
+        </button>
 
           {/* Logo et titre */}
-          <div className="flex items-center justify-center w-full bg-orange-400 p-4">
-            <Link to={"/"} className="flex items-center space-x-4">
-              <img src="/img/logo.svg" alt="Logo" width={52} height={52} />
-              <div className="flex flex-col items-start">
-                <span className="font-bold text-lg">Teona Passenger</span>
-                <span className="text-sm">All Wonders Whatever</span>
+          <div
+            className={`relative flex w-full p-4 transition-all duration-300 `}
+          >
+            <Link to={"/"} className="flex relative left-10">
+              <img src="/img/logo.svg" alt="Logo" width={92} height={92} className="top-[1.3rem]" />
+              <div className="relative flex flex-col top-7">
+                <span className="font-bold text-xl text-white">
+                  TEONA PASSAGER
+                </span>
+                <span className="text-sm text-white">All Wonders Whatever</span>
               </div>
             </Link>
           </div>
@@ -153,25 +162,33 @@ function Layout({ children }: { children: ReactNode }) {
           {/* Profil */}
           <a
             href="#"
-            className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center"
+            className="relative w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-9 right-4"
             aria-label="Accéder au profil"
           >
-            <FiUser size={20} className="text-white" />
+            <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
           </a>
         </header>
 
-        <section className={`${isSidebarVisible ? "ml-64" : "ml-0"} transition-all duration-300`}>
+        <section
+          className={`${
+            isSidebarVisible ? "ml-64" : "mr-36"
+          } transition-all duration-300`}
+        >
           {children}
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-orange-400 text-white p-8 border-t-2 border-white">
+      <footer
+        className={`text-white p-8 border-t-2 border-white ${
+          isSidebarExpanded ? "ml-64" : "ml-[45px]"
+        } transition-all duration-300`}
+      >
         <div className="flex justify-between gap-8">
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Entreprise</h3>
-            <p>a propos</p>
-            <p>offres d'emploi</p>
+            <p>A propos</p>
+            <p>Offres d'emploi</p>
             <p>Mobil Discover</p>
             <p>Notre fonctionnement</p>
             <p>Codes de réductions THEONA</p>
@@ -189,9 +206,19 @@ function Layout({ children }: { children: ReactNode }) {
             <p>Trains et bus</p>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
-            <h3 className="border-b-2 border-white pb-2">Télécharger l'application THEONA</h3>
-            <a href="#"><img className="w-1/3" src="/img/appstore.png" alt="appstore" /></a>
-            <a href="#"><img className="w-1/3" src="/img/googleplay.png" alt="googleplay" /></a>
+            <h3 className="border-b-2 border-white pb-2">
+              Télécharger l'application THEONA
+            </h3>
+            <a href="#">
+              <img className="w-1/3" src="/img/appstore.png" alt="appstore" />
+            </a>
+            <a href="#">
+              <img
+                className="w-1/3"
+                src="/img/googleplay.png"
+                alt="googleplay"
+              />
+            </a>
           </div>
         </div>
       </footer>

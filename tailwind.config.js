@@ -10,7 +10,11 @@ module.exports = {
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customBlue: 'rgba(19, 154, 210, 1)',
+      },
+    },
   },
   plugins: [
     // require('tw-elements/dist/plugin')
