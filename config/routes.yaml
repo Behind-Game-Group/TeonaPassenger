@@ -6,3 +6,22 @@ controllers:
 app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
+
+app_get_current_user:
+  path: "/getCurrentUser"
+  controller: 'App\Controller\IndexController::getCurrentUser'
+  methods: GET
+
+app_register_credentials:
+  path: "/registerCredentials"
+  controller: 'App\Controller\AuthController::registerCredentials'
+  methods: POST
+
+app_login_credentials:
+  path: "/loginCredentials"
+  controller: 'App\Controller\AuthController::loginCredentials'
+  methods: POST
+
+logout_route:
+  path: /logout
+  methods: GET

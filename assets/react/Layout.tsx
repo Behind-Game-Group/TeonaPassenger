@@ -4,11 +4,18 @@ import { FiMenu, FiSun, FiTruck, FiTag } from "react-icons/fi";
 import { FaShip, FaPlane, FaBed } from "react-icons/fa";
 import { AiOutlineCar } from "react-icons/ai";
 import "../styles/styles.scss"; // Assurez-vous que ce fichier est bien chargé dans Webpack
+import Header from "./components/header/Header";
+import Authenticator from "./components/authenticator/Authenticator";
+import { useUserContext } from "./context/UserContext";
+import { getMethod } from "./services/axiosInstance";
 
 function Layout({ children }: { children: ReactNode }) {
   // Gestion de l'état de la barre latérale
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false); // État pour la largeur de la barre latérale
+  const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false); // État pour la largeur de la barre latérale
+  const {user, updateUser, authenticatorView} = useUserContext();
+  const [loginView, setLoginView] = useState<boolean>(false);
+  const [registerView, setRegisterView] = useState<boolean>(false);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -37,6 +44,22 @@ function Layout({ children }: { children: ReactNode }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    getMethod('/getCurrentUser')
+          .then(data => {
+            // console.log('Données récupérées :', data);
+            updateUser(data.user);
+          })
+          .catch(error => {
+            console.error(
+              'Erreur lors de la récupération des données :',
+              error,
+            );
+          });
+  }, []);
+
+  console.log(authenticatorView);
 
   return (
     <div className="flex flex-col max-h-full bg-customOrange mx-auto">
@@ -126,59 +149,20 @@ function Layout({ children }: { children: ReactNode }) {
           </ul>
         </nav>
       </aside>
-
+      <Header isSidebarExpanded={isSidebarExpanded} toggleExpandSidebar={toggleExpandSidebar} />
       {/* Main Content */}
       <main
         className={`flex-1 p-5 ${
           isSidebarVisible ? "ml-64" : "ml-0"
         } transition-all duration-300`}
       >
-        {/* Header */}
-        <header className="fixed top-0 w-full flex justify-between bg-customOrange border-b border-white z-50">
-          <button
-            onClick={toggleExpandSidebar}
-            className="text-white mb-4 fixed top-[3.5rem] left-[1.5rem] z-50"
-            aria-label="Élargir la barre latérale"
-          >
-            <FiMenu size={24} />
-          </button>
-
-          {/* Logo et titre */}
-          <div
-            className={`relative flex w-full p-4 transition-all duration-300 `}
-          >
-            <Link to={"/"} className="flex relative left-10">
-              <img
-                src="/img/logo.svg"
-                alt="Logo"
-                width={92}
-                height={92}
-                className="top-[1.3rem]"
-              />
-              <div className="relative flex flex-col top-7">
-                <span className="font-bold text-xl text-white">
-                  TEONA PASSENGER
-                </span>
-                <span className="text-sm text-white">All Wonders Whatever</span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Profil */}
-          <a
-            href="#"
-            className="fixed w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[40px] right-8 hover:brightness-95"
-            aria-label="Accéder au profil"
-          >
-            <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
-          </a>
-        </header>
-
+        {authenticatorView && <div className="fixed w-[100%] h-[100%] place-content-center z-10 rounded-lg bg-transparent text-white gap-2 flex flex-col items-center justify-around top-[5rem] hover:brightness-95"><Authenticator /></div>}
         <section
           className={`mt-32 ${
             isSidebarVisible ? "ml-64" : "mr-36"
           } transition-all duration-300`}
         >
+          
           {children}
         </section>
       </main>
