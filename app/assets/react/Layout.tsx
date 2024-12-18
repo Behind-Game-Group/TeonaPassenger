@@ -43,7 +43,7 @@ function Layout({ children }: { children: ReactNode }) {
       {/* Bare latéral */}
       <aside
         ref={sidebarRef}
-        className={`fixed top-[144px] left-0 ${
+        className={`fixed top-[124px] left-0 ${
           isSidebarExpanded ? "w-64 z-10" : "w-10"
         } h-full bg-customOrange text-white border-r border-t border-white transition-all z-10`}
       >
@@ -135,10 +135,10 @@ function Layout({ children }: { children: ReactNode }) {
         } transition-all duration-300`}
       >
         {/* Header */}
-        <header className="flex justify-between bg-customOrange border-b-2 border-white">
+        <header className="fixed top-0 w-full flex justify-between bg-customOrange border-b-2 border-white z-50">
         <button
           onMouseEnter={toggleExpandSidebar}
-          className="text-white mb-4 fixed top-[4rem] left-[1.5rem] z-50"
+          className="text-white mb-4 fixed top-[3.5rem] left-[1.5rem] z-50"
           aria-label="Élargir la barre latérale"
         >
           <FiMenu size={24} />
@@ -162,7 +162,7 @@ function Layout({ children }: { children: ReactNode }) {
           {/* Profil */}
           <a
             href="#"
-            className="relative w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-9 right-4"
+            className="fixed w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[40px] right-8"
             aria-label="Accéder au profil"
           >
             <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
@@ -170,7 +170,7 @@ function Layout({ children }: { children: ReactNode }) {
         </header>
 
         <section
-          className={`${
+          className={`mt-32 ${
             isSidebarVisible ? "ml-64" : "mr-36"
           } transition-all duration-300`}
         >
