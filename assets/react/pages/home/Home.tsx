@@ -24,7 +24,7 @@ const HomePage = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {/* Vols */}
-          <div className="flex flex-col items-center p-4 bg-black shadow-md rounded-lg">
+          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
             <FaPlane size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Réservez vos vols</p>
           </div>
