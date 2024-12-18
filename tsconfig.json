@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["app/assets/**/*"]
+  "include": ["app/assets/**/*", "assets/react/pages/home", "assets/react/components"]
 }
