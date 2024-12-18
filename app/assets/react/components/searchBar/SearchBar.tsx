@@ -22,7 +22,7 @@ const SearchBar = () => {
 
   return (
 
-      <div className="flex flex-wrap items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white shadow-md rounded-lg w-full max-w-6xl mt-6">
+      <div className="flex flex-wrap items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-customBlue shadow-md rounded-lg w-full max-w-6xl mt-6">
         {/* Aéroport départ */}
         <input
           type="text"
@@ -58,7 +58,7 @@ const SearchBar = () => {
         />
 
         {/* Bouton de recherche */}
-        <button className="bg-customBlue text-white px-4 py-2 rounded-md w-full sm:w-auto">
+        <button className="bg-customBlue text-white px-4 py-2 rounded-md border border-white w-full sm:w-auto hover:brightness-95">
           Rechercher
         </button>
       </div>

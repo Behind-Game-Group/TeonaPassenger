@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiUser, FiHome, FiSun, FiTruck, FiTag } from "react-icons/fi";
+import { FiMenu, FiSun, FiTruck, FiTag } from "react-icons/fi";
 import { FaShip, FaPlane, FaBed } from "react-icons/fa";
 import { AiOutlineCar } from "react-icons/ai";
 import "../styles/styles.scss"; // Assurez-vous que ce fichier est bien chargé dans Webpack
@@ -47,7 +47,6 @@ function Layout({ children }: { children: ReactNode }) {
           isSidebarExpanded ? "w-64 z-10" : "w-10"
         } h-full bg-customOrange text-white border-r border-t border-white transition-all z-10`}
       >
-        
         <nav>
           <ul className="">
             <li>
@@ -136,23 +135,29 @@ function Layout({ children }: { children: ReactNode }) {
       >
         {/* Header */}
         <header className="fixed top-0 w-full flex justify-between bg-customOrange border-b-2 border-white z-50">
-        <button
-          onMouseEnter={toggleExpandSidebar}
-          className="text-white mb-4 fixed top-[3.5rem] left-[1.5rem] z-50"
-          aria-label="Élargir la barre latérale"
-        >
-          <FiMenu size={24} />
-        </button>
+          <button
+            onMouseEnter={toggleExpandSidebar}
+            className="text-white mb-4 fixed top-[3.5rem] left-[1.5rem] z-50"
+            aria-label="Élargir la barre latérale"
+          >
+            <FiMenu size={24} />
+          </button>
 
           {/* Logo et titre */}
           <div
             className={`relative flex w-full p-4 transition-all duration-300 `}
           >
             <Link to={"/"} className="flex relative left-10">
-              <img src="/img/logo.svg" alt="Logo" width={92} height={92} className="top-[1.3rem]" />
+              <img
+                src="/img/logo.svg"
+                alt="Logo"
+                width={92}
+                height={92}
+                className="top-[1.3rem]"
+              />
               <div className="relative flex flex-col top-7">
                 <span className="font-bold text-xl text-white">
-                  TEONA PASSAGER
+                  TEONA PASSENGER
                 </span>
                 <span className="text-sm text-white">All Wonders Whatever</span>
               </div>
@@ -162,7 +167,7 @@ function Layout({ children }: { children: ReactNode }) {
           {/* Profil */}
           <a
             href="#"
-            className="fixed w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[40px] right-8"
+            className="fixed w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[40px] right-8 hover:brightness-95"
             aria-label="Accéder au profil"
           >
             <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />

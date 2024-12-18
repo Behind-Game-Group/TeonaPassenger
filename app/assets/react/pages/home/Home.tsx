@@ -5,6 +5,7 @@ import SearchBar from "../../components/searchBar/SearchBar";
 import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope, FaBell, FaBed } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import TrendingCities from "../../components/VillesTendances/VIllesTendances";
+import FAQSection from "../../components/FAQSection/FAQSection";
 
 const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
@@ -85,7 +86,7 @@ const HomePage = () => {
             />
           </div>
           {/* Bouton à droite */}
-          <button className="flex flex-col bg-customBlue hover:bg-blue-600 text-white px-4 py-1 rounded-md">
+          <button className="flex flex-col bg-customBlue hover:brightness-95 text-white px-4 py-1 rounded-md">
             Envoyer
           </button>
         </div>
@@ -100,7 +101,7 @@ const HomePage = () => {
             ces itinéraires directs
           </p>
         </div>
-        <button className="bg-customBlue text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        <button className="bg-customBlue text-white px-4 py-2 rounded-lg hover:brightness-95">
           Tout plus
         </button>
       </div>
@@ -108,7 +109,7 @@ const HomePage = () => {
       {/* Carrousel */}
       <div className="relative mt-6 pl-4 ">
         {/* Bouton gauche */}
-        <button className="absolute top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
+        <button className="absolute top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:brightness-95 flex items-center justify-center">
           &#8592;
         </button>
 
@@ -161,7 +162,7 @@ const HomePage = () => {
         </div>
 
         {/* Bouton droit */}
-        <button className="absolute right-0 top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:bg-blue-600 flex items-center justify-center">
+        <button className="absolute right-0 top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:brightness-95 flex items-center justify-center">
           &#8594;
         </button>
       </div>
@@ -173,14 +174,14 @@ const HomePage = () => {
   <div className="flex gap-4">
     <a
       href="#"
-      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:bg-blue-600"
+      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
     >
       <FaBell size={20} className="mr-2" />
       Alerte de prix
     </a>
     <a
       href="#"
-      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:bg-blue-600"
+      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
     >
       <FaPlane size={20} className="mr-2" />
       Trouver un vol
@@ -192,6 +193,9 @@ const HomePage = () => {
   <TrendingCities />
 </div>
 
+<div>
+  <FAQSection />
+</div>
 
     </div>
   );
