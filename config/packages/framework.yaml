@@ -1,23 +1,15 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
+  secret: "%env(APP_SECRET)%"
 
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+  # Note that the session will be started ONLY if you read or write from it.
+  session: true
 
-    #esi: true
-    #fragments: true
-
-when@prod:
-    framework:
-        session:
-            cookie_lifetime: 86400  # 1 day
-            cookie_secure: true     # Enable only for HTTPS
-            cookie_samesite: strict # SameSite Strict for production
+  #esi: true
+  #fragments: true
 
 when@test:
-    framework:
-        session:
-            cookie_lifetime: 86400  # Durée de vie des cookies en secondes (1 jour ici)
-            cookie_secure: false    # Activer uniquement pour HTTPS
-            cookie_samesite: lax    # SameSite pour éviter les attaques CSRF
+  framework:
+    test: true
+    session:
+      storage_factory_id: session.storage.factory.mock_file

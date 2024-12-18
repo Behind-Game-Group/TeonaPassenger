@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class IndexController extends AbstractController
 {
-    #[Route('/', name: 'app_react')]
+    #[Route('/', name: 'app_index')]
     public function index(): Response
     {
         return $this->render('index/index.html.twig', [
@@ -16,27 +18,20 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/login', name: 'app_login')]
-    public function login(): Response
+    #[Route('/getCurrentUser', name: 'app_get_current_user')]
+    public function getCurrentUser(): JsonResponse
     {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
-    }
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            return new JsonResponse([
+                'user' => [
+                    'id' => $user->getId(),
+                    'email' => $user->getEmail(),
+                    'roles' => $user->getRoles(),
+                ],
+            ]);
+        }
 
-    #[Route('/register', name: 'app_register')]
-    public function register(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
-    }
-
-    #[Route('/profil', name: 'app_profil')]
-    public function profil(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 }

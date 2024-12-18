@@ -1,36 +1,20 @@
-# security:
-#   # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-#   password_hashers:
-#     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
-#   # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
-#   providers:
-#     # used to reload user from session & other features (e.g. switch_user)
-#     app_user_provider:
-#       entity:
-#         class: App\Entity\User
-#         property: email
-#   firewalls:
-#     dev:
-#       pattern: ^/(_(profiler|wdt)|css|images|js)/
-#     main:
-#       custom_authenticators:
-#         - App\Security\SecurityControllerAuthenticator
-
 security:
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
-    providers:
-        # Le provider d'utilisateurs doit être configuré si tu utilises une base de données
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-    firewalls:
-        main:
-            custom_authenticators:
-                - App\Security\SecurityControllerAuthenticator
-            logout:
-                path: logout
-
-    access_control:
-        - { path: ^/loginCheck, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: "auto"
+  # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+  providers:
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+    main:
+      custom_authenticators:
+        - App\Security\SecurityControllerAuthenticator
+      logout:
+        path: logout_route
+        target: /
