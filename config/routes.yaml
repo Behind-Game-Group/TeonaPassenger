@@ -16,6 +16,14 @@ app_insert_data:
   path: "/insert-user-data"
   controller: 'App\Controller\DataController::insertData'
 
-api_user_list:
+app_user_list:
   path: "/userlist"
   controller: 'App\Controller\DataController::displayAllUsers'
+
+app_delete_user:
+  path: "/delete-user/{id}"
+  controller: 'App\Controller\DataController::deleteUser'
+
+app_update_user:
+  path: "/update-user/{id}"
+  controller: 'App\Controller\DataController::updateUser'

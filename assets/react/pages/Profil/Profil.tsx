@@ -4,6 +4,7 @@ import axios from 'axios';
 interface User {
     id: number;
     email: string;
+    password: string;
 }
 
 const Profil = () => {
@@ -11,12 +12,14 @@ const Profil = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [formError, setFormError] = useState('');
+    const [editUserId, setEditUserId] = useState<number | null>(null);
 
     // Fonction pour récupérer les utilisateurs existants
     const fetchUsers = async () => {
+        const url = '/userlist';
         try {
             setIsLoading(true);
-            const response = await axios.get('http://localhost:8000/userlist');
+            const response = await axios.get(url);
             console.log("Données reçues :", response.data);
             setUsers(response.data); // Assurez-vous que les données renvoyées correspondent au format attendu
         } catch (error) {
@@ -39,30 +42,71 @@ const Profil = () => {
         });
     };
 
-    // Gestion de l'envoi du formulaire
+    // POST A USER IN DATABASE
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setFormError('');
-    
+
         if (!formData.email) {
             setFormError("L'email est requis.");
             return;
         }
-    
+
         if (!formData.password) {
             setFormError("Le mot de passe est requis.");
             return;
         }
-    
+
         try {
-            const response = await axios.post('http://localhost:8000/insert-user-data', formData);
-    
+            if (editUserId) {
+                const response = await axios.put(`http://localhost:8000/update-user/${editUserId}`, formData);
+                console.log(response.data);
+                if (response.data.status === 'success') {
+                    console.log("Utilisateur mis à jour avec succès :", response.data.message);
+                    alert("Utilisateur mis à jour avec succès.");
+                    // Réinitialiser le formulaire
+                    setFormData({ email: '', password: '' });
+                    setEditUserId(null);
+                    // Recharger les utilisateurs
+                    fetchUsers();
+                } else {
+                    setFormError(response.data.message || "Une erreur s'est produite.");
+                }
+            } else {
+                const response = await axios.post('http://localhost:8000/insert-user-data', formData);
+
+                if (response.data.status === 'success') {
+                    console.log("Utilisateur ajouté avec succès :", response.data.message);
+                    alert("Utilisateur ajouté avec succès.");
+                    // Réinitialiser le formulaire
+                    setFormData({ email: '', password: '' });
+
+                    // Recharger les utilisateurs
+                    fetchUsers();
+                } else {
+                    setFormError(response.data.message || "Une erreur s'est produite.");
+                }
+            }
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setFormError(error.response.data.message);
+            } else {
+                setFormError("Une erreur inattendue s'est produite.");
+            }
+        }
+    };
+
+    // DELETE A USER IN DATABASE
+    const handleDelete = async (id: number) => {
+        try {
+            const response = await axios.delete(`http://localhost:8000/delete-user/${id}`);
+            console.log(response.data);
             if (response.data.status === 'success') {
-                console.log("Utilisateur ajouté avec succès :", response.data.message);
-                alert("Utilisateur ajouté avec succès.");
+                console.log("Utilisateur supprimé avec succès :", response.data.message);
+                alert("Utilisateur supprimé avec succès.");
                 // Réinitialiser le formulaire
                 setFormData({ email: '', password: '' });
-    
+
                 // Recharger les utilisateurs
                 fetchUsers();
             } else {
@@ -73,10 +117,16 @@ const Profil = () => {
                 setFormError(error.response.data.message);
             } else {
                 setFormError("Une erreur inattendue s'est produite.");
+                console.log(error);
             }
         }
     };
-    
+
+    // UPDATE A USER IN DATABASE
+    const handleUpdate = (user: User) => {
+        setEditUserId(user.id);
+        setFormData({ email: user.email, password: user.password })
+    };
 
     if (isLoading) {
         return <div>Chargement...</div>;
@@ -90,8 +140,10 @@ const Profil = () => {
                 <ul>
                     {users.length > 0 ? (
                         users.map((user) => (
-                            <li key={user.id}>
+                            <li key={user.id} className='flex flex-row gap-4 items-center'>
                                 <strong>{user.email}</strong>
+                                <button onClick={() => handleDelete(user.id)} className='bg-red-300 w-8 shadow-lg rounded-lg'>X</button>
+                                <button onClick={() => handleUpdate(user)} className='bg-blue-300 w-8 shadow-lg rounded-lg'>V</button>
                             </li>
                         ))
                     ) : (

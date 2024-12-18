@@ -43,7 +43,7 @@ class DataController extends AbstractController
         ], 201);
     }
 
-    #[Route('/userlist', name: 'api_user_list', methods: ['GET'])]
+    #[Route('/userlist', name: 'app_user_list', methods: ['GET'])]
     public function displayAllUsers(UserRepository $userRepository): JsonResponse
     {
         // Récupération de données BDD
@@ -60,5 +60,62 @@ class DataController extends AbstractController
 
         // Retourne les données sous format JSON
         return new JsonResponse($userData);
+    }
+
+    #[Route('/delete-user/{id}', name: 'app_delete_user', methods: ['DELETE'])]
+    public function deleteUser(int $id, UserRepository $userRepository): JsonResponse
+    {
+        // Rechercher l'utilisateur par ID
+        $user = $userRepository->find($id);
+        if (!$user) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+    
+        try {
+            // Supprimer l'utilisateur
+            $userRepository->remove($user, true); // Ajout du "flush" directement depuis le repository
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'User successfully deleted.',
+            ], 200);
+        } catch (\Exception $e) {
+            // Gestion des erreurs
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'An error occurred while deleting the user: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    #[Route('/update-user/{id}', name: 'app_update_user', methods: ['GET'])]
+    public function updateUser(int $id, UserRepository $userRepository): JsonResponse
+    {
+        // Rechercher l'utilisateur par ID
+        $user = $userRepository->find($id);
+        if (!$user) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'User not found.',
+            ], 404);
+        }
+    
+        try {
+            // Mettre à jour l'utilisateur
+            $user->setEmail('new@email.com');
+            $userRepository->save($user);
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'User successfully updated.',
+            ], 200);
+        } catch (\Exception $e) {
+            // Gestion des erreurs
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'An error occurred while updating the user: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
