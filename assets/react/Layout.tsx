@@ -45,14 +45,14 @@ function Layout({ children }: { children: ReactNode }) {
         ref={sidebarRef}
         className={`fixed top-[124px] left-0 ${
           isSidebarExpanded ? "w-64 z-10" : "w-10"
-        } h-full bg-customOrange text-white border-r border-t border-white transition-all z-10`}
+        } h-full bg-customOrange text-white border-r border-white transition-all z-10`}
       >
         <nav>
           <ul className="">
             <li>
               <Link
                 to="/vols/page"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-t border-b border-white"
               >
                 <FaPlane size={20} />
                 {isSidebarExpanded && <span className="ml-2">Vols</span>}
@@ -61,7 +61,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="/hebergements"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaBed size={20} />
                 {isSidebarExpanded && (
@@ -72,7 +72,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <AiOutlineCar size={20} />
                 {isSidebarExpanded && <span className="ml-2">Voitures</span>}
@@ -81,7 +81,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiSun size={20} />
                 {isSidebarExpanded && <span className="ml-2">Vol+Hôtel</span>}
@@ -90,7 +90,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaShip size={20} />
                 {isSidebarExpanded && <span className="ml-2">Black Sea</span>}
@@ -99,7 +99,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiTruck size={20} />
                 {isSidebarExpanded && <span className="ml-2">Bus</span>}
@@ -108,7 +108,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaShip size={20} />
                 {isSidebarExpanded && <span className="ml-2">Ferry</span>}
@@ -117,7 +117,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-2 border-white"
+                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiTag size={20} />
                 {isSidebarExpanded && <span className="ml-2">Carnet</span>}
@@ -134,9 +134,9 @@ function Layout({ children }: { children: ReactNode }) {
         } transition-all duration-300`}
       >
         {/* Header */}
-        <header className="fixed top-0 w-full flex justify-between bg-customOrange border-b-2 border-white z-50">
+        <header className="fixed top-0 w-full flex justify-between bg-customOrange border-b border-white z-50">
           <button
-            onMouseEnter={toggleExpandSidebar}
+            onClick={toggleExpandSidebar}
             className="text-white mb-4 fixed top-[3.5rem] left-[1.5rem] z-50"
             aria-label="Élargir la barre latérale"
           >
@@ -192,23 +192,45 @@ function Layout({ children }: { children: ReactNode }) {
         <div className="flex justify-between gap-8">
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Entreprise</h3>
+            <a href="#">
             <p>A propos</p>
+            </a>
+            <a href="#">
             <p>Offres d'emploi</p>
+            </a>
+            <a href="#">
             <p>Mobil Discover</p>
+            </a>
+            <a href="#">
             <p>Notre fonctionnement</p>
+            </a>
+            <a href="#">
             <p>Codes de réductions THEONA</p>
+            </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Contact</h3>
+            <a href="">
             <p>Aide/FAQ</p>
+            </a>
+            <a href="">
             <p>Presse</p>
+            </a>
+            <a href="">
             <p>Affiliation</p>
+            </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Plus</h3>
+            <a href="">
             <p>Frais de compagnies</p>
+            </a>
+            <a href="">
             <p>Compagnies aériennes</p>
+            </a>
+            <a href="">
             <p>Trains et bus</p>
+            </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">
