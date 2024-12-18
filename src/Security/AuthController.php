@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Security\SecurityControllerAuthenticator;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AuthController extends AbstractController
 {
@@ -48,11 +49,15 @@ class AuthController extends AbstractController
         return new JsonResponse(['message' => 'User created'], 201);
     }
 
-    public function loginCheck(): JsonResponse
+    public function loginCheck()
     {
         // Renvoyer une réponse JSON avec un message de succès
-        return new JsonResponse(['message' => 'Connexion réussie'], JsonResponse::HTTP_OK);
+        return new RedirectResponse('/profil');
     }
 
-    public function logout() {}
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(Request $request)
+    {
+        return $this->redirect('/');
+    }
 }

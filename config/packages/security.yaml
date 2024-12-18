@@ -30,7 +30,7 @@ security:
             custom_authenticators:
                 - App\Security\SecurityControllerAuthenticator
             logout:
-                path: /logout
+                path: logout
 
     access_control:
         - { path: ^/loginCheck, roles: IS_AUTHENTICATED_ANONYMOUSLY }

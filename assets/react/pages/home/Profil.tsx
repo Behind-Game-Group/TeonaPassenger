@@ -8,9 +8,6 @@ function Profil() {
     const [hasReloaded, setHasReloaded] = useState(false);
 
     console.log(user);
-    if (user === null) {
-        navigate('/login');
-    }
 
     return (
         <div>

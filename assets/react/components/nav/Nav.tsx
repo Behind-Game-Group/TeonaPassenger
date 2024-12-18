@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import axios from 'axios';
 
 export default function Nav() {
     const location = useLocation();
     const navigate = useNavigate();
     const [pathname, setPathname] = useState<string>();
     const [showMenu, setShowMenu] = useState<boolean>(false);
-    const { user, setUser, logout } = useUser();
+    const { user, setUser } = useUser();
+
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('token');
+        navigate('/logout');
+    }
 
     return (
         <>

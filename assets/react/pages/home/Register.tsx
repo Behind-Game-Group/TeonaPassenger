@@ -35,9 +35,6 @@ const RegisterForm = () => {
         }
     };
 
-    //event: React.FormEvent<HTMLFormElement>
-    //event.preventDefault(); // Prévenir le comportement par défaut de soumission de formulaire
-
     return (
         <section>
             <h1>Login</h1>

@@ -44,15 +44,6 @@ const LoginForm = () => {
         }
     };
 
-    // if (response.status === 200) {
-    //    const userData = { email };
-    // setUser(userData);
-    // }
-
-    if (!user === null) {
-        navigate('/profil');
-    }
-
     return (
         <section>
             <h1>Login</h1>
