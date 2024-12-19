@@ -25,3 +25,7 @@ app_login_credentials:
 logout_route:
   path: /logout
   methods: GET
+
+google_callback:
+    path: /google/callback
+    controller: App\Controller\GoogleController::callback

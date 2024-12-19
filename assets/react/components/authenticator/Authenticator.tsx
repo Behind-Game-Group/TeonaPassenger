@@ -32,7 +32,7 @@ export default function Authenticator() {
 
     const postData = async () => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/; // Au moins 8 caractères, une lettre et un chiffre.
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         if (!emailRegex.test(email)) {
             setErrorEmail("Adresse e-mail invalide. Veuillez entrer une adresse valide.");
@@ -44,7 +44,7 @@ export default function Authenticator() {
 
         if (!passwordRegex.test(password)) {
             setErrorPassword(
-                "Mot de passe invalide. Il doit contenir au moins 8 caractères, une lettre et un chiffre."
+                "Mot de passe invalide. Il doit contenir au moins 8 caractères, une lettre, un chiffre et un caractère spécial."
             );
             setSuccess("");
             return;
@@ -56,7 +56,7 @@ export default function Authenticator() {
             email: email,
             password: password,
         };
-        console.log(data);
+        
         try {
             if (url !== undefined) {
                 const response = await postMethod(url, data);
@@ -81,6 +81,10 @@ export default function Authenticator() {
         }
     };
 
+    const LoginGoogle = () => {
+        window.location.href = '/google/connect';
+    }
+
     return (
         <div className="relative w-[60%] p-2 h-[70%] place-content-center z-20 rounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95">
             <div className='flex flex-col items-center justify-around'>
@@ -91,7 +95,7 @@ export default function Authenticator() {
                 <h3 className='text-black text-xl w-[80%]'>Connectez-vous ou créez un compte pour enregistrer des recherches, créer des Alertes de prix, voir les Offres privées et plus encore.</h3>
             </>
             <div className='flex flex-row items-center justify-around w-full h-10'>
-                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><FcGoogle />Google</button>
+                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl' onClick={LoginGoogle}><FcGoogle />Google</button>
                 <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><FaApple />Apple</button>
             </div>
             <div className='flex flex-row p-2 items-center gap-2 justify-around w-[80%] h-auto'>
@@ -100,11 +104,11 @@ export default function Authenticator() {
                 <div className='w-[50%] h-[2px] bg-gray-500' />
             </div>
             <text className='text-black text-xl text-center'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></text>
-            <div className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
+            <form action={email && password && postData} className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
                 {error && <text className='text-red-500 text-xl'>{error}</text>}
                 {success && <text className='text-green-500 text-xl'>{success}</text>}
                 {errorEmail && <text className='text-red-500 text-xs'>{errorEmail}</text>}
-                <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='email' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
+                <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
                 {errorPassword && <text className='text-red-500 text-xs'>{errorPassword}</text>}
                 <div className='flex flex-row gap-2 ml-[22px]'>
                     <input
@@ -123,8 +127,8 @@ export default function Authenticator() {
                         {showPassword ? <FaEyeSlash size={20} color='#000' /> : <FaEye size={20} color='#000' />}
                     </button>
                 </div>
-                <button onClick={postData} className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
-            </div>
+                <button className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
+            </form>
         </div>
     )
 }
