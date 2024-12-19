@@ -15,3 +15,6 @@ security:
     main:
       custom_authenticators:
         - App\Security\SecurityControllerAuthenticator
+      logout:
+        path: logout_route
+        target: /
