@@ -54,7 +54,7 @@ export default function Authenticator() {
   return (
     <div className="relative w-[60%] p-2 h-[70%] place-content-center z-20 rounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95">
         <div className='flex flex-col items-center justify-around'>
-            <h2 className='text-black text-2xl'>Bienvenue sur TEONA PASSAGER.</h2>
+            <h2 className='text-black text-2xl'>Bienvenue sur TEONA PASSENGER.</h2>
             <h2 className='text-black text-2xl'>C'est parti pour un tour</h2>
         </div>
         <>
