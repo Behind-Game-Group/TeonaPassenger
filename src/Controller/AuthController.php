@@ -27,6 +27,7 @@ class AuthController extends AbstractController
 
         $user = new User();
         $user->setEmail($email);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($passwordHasher->hashPassword($user, $password));
 
         $em->persist($user);
