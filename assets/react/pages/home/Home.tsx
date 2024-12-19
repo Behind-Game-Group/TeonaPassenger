@@ -3,34 +3,36 @@
 import React, { useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope, FaBell, FaBed } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import TrendingCities from "../../components/VillesTendances/VIllesTendances";
 import FAQSection from "../../components/FAQSection/FAQSection";
 
 const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
+  const { category } = useParams<{ category: string }>();
 
   return (
-    <div className={`flex flex-col items-center bg-customOrange min-h-screen ${isSidebarExpanded ? "ml-64 z-10" : "mr-36"}`}>
+    <div className={`flex flex-col items-center bg-customOrange min-h-screen ${isSidebarExpanded ? "ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10" : "mr-36"}`}>
       {/* Barre de recherche */}
-      <div className="">
+      <div>
         <SearchBar />
       </div>
 
       {/* Section "Ce que Teona vous propose" */}
-      <div className="w-full max-w-6xl mt-10 px-4 ">
+      <div className="w-full max-w-6xl mt-10 px-4 content-center">
         <h2 className="text-2xl text-white font-bold text-center mb-6">
           Ce que Teona vous propose
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 mr-[61px] ml-[-61px] gap-x-[8.5rem] gap-y-[2.5rem] sm:grid-cols-2 md:grid-cols-4 sm:gap-6 sm:mx-auto">
           {/* Vols */}
-          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
+          <div className="flex flex-col items-center p-2 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaPlane size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Réservez vos vols</p>
+            {category === "vols" && <p>Recherche de vols disponibles...</p>} {/* ceci est un test */}
           </div>
 
           {/* Hébergements */}
-          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
+          <div className="flex flex-col items-center p-2 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaHotel size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">
               Trouvez des hébergements
@@ -38,13 +40,13 @@ const HomePage = () => {
           </div>
 
           {/* Véhicules */}
-          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
+          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaCar size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Louez une voiture</p>
           </div>
 
           {/* Ferry */}
-          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg">
+          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaShip size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Voyagez en ferry</p>
           </div>
@@ -52,11 +54,11 @@ const HomePage = () => {
       </div>
 
       {/* Image Map */}
-      <div className="w-full max-w-6xl mt-10 px-4 ">
+      <div className="w-[75%] mt-10 px-4 ">
         <img
-          src="/img/map.JPG"
+          src="/img/map2.png"
           alt="map"
-          className="w-full h-auto border border-white rounded-lg"
+          className=" hidden sm:block sm:w-full sm:h-auto border border-white rounded-lg"
         />
       </div>
 
@@ -107,7 +109,7 @@ const HomePage = () => {
       </div>
 
       {/* Carrousel */}
-      <div className="relative mt-6 pl-4 ">
+      <div className="relative mt-6 pl-4 hidden sm:block">
         {/* Bouton gauche */}
         <button className="absolute top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:brightness-95 flex items-center justify-center">
           &#8592;
@@ -116,14 +118,14 @@ const HomePage = () => {
         {/* Cartes */}
         <div className="flex space-x-4 overflow-x-auto">
           {/* Carte 1 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden ">
             <div className="bg-customBlue text-center text-white py-2 font-bold">
               Bucarest
             </div>
             <img
               src="/img/bucarest.png"
               alt="Bucarest"
-              className="w-[379px] h-[451px] object-cover"
+              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
             />
           </div>
           {/* Carte 2 */}
@@ -134,7 +136,7 @@ const HomePage = () => {
             <img
               src="/img/batoumi.png"
               alt="Batoumi"
-              className="w-[379px] h-[451px] object-cover"
+              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
             />
           </div>
           {/* Carte 3 */}
@@ -143,9 +145,9 @@ const HomePage = () => {
               Bursa
             </div>
             <img
-              src="/img/bursa.png"
+              src="/img/bursa.jpg"
               alt="Bursa"
-              className="w-[379px] h-[451px] object-cover"
+              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
             />
           </div>
           {/* Carte 4 */}
@@ -156,7 +158,7 @@ const HomePage = () => {
             <img
               src="/img/verna.png"
               alt="Verna"
-              className="w-[379px] h-[451px] object-cover"
+              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
             />
           </div>
         </div>

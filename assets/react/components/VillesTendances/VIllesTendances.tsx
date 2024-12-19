@@ -31,7 +31,7 @@ const TrendingCities = () => {
         Villes tendance
       </h2>
       <p className="text-center text-white mb-8">Les destinations les plus recherchées sur notre site</p>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 max-w-6xl mx-auto">
         {cities.map((city, index) => (
           <div key={index} className="relative group">
             <a href="#">

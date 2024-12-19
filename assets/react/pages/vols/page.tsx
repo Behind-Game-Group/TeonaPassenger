@@ -24,7 +24,7 @@ const FlightsPage = () => {
   return (
     <div className="flex flex-col items-center bg-orange-400 min-h-screen">
       <div className="lg:ml-64 mt-6">
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
 
       <div className="w-full max-w-6xl mt-10 px-4 lg:ml-64">

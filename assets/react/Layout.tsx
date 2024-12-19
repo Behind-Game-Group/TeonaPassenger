@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FiMenu, FiSun, FiTruck, FiTag } from "react-icons/fi";
 import { FaShip, FaPlane, FaBed } from "react-icons/fa";
 import { AiOutlineCar } from "react-icons/ai";
@@ -10,6 +10,7 @@ import { useUserContext } from "./context/UserContext";
 import { getMethod } from "./services/axiosInstance";
 
 function Layout({ children }: { children: ReactNode }) {
+  const { category } = useParams();
   // Gestion de l'état de la barre latérale
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false); // État pour la largeur de la barre latérale
@@ -74,8 +75,8 @@ function Layout({ children }: { children: ReactNode }) {
           <ul className="">
             <li>
               <Link
-                to="/vols/page"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-t border-b border-white"
+                to="/vols"
+                className="{category === 'vols'} flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-t border-b border-white"
               >
                 <FaPlane size={20} />
                 {isSidebarExpanded && <span className="ml-2">Vols</span>}
@@ -84,7 +85,7 @@ function Layout({ children }: { children: ReactNode }) {
             <li>
               <Link
                 to="/hebergements"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                className="{category === 'hebergements'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaBed size={20} />
                 {isSidebarExpanded && (
@@ -94,8 +95,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/voitures"
+                className="{category === 'voitures'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <AiOutlineCar size={20} />
                 {isSidebarExpanded && <span className="ml-2">Voitures</span>}
@@ -103,8 +104,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/vol+hotel"
+                className="{category === 'vol+hotel'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiSun size={20} />
                 {isSidebarExpanded && <span className="ml-2">Vol+Hôtel</span>}
@@ -112,8 +113,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/black+sea"
+                className="{category === 'black+sea'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaShip size={20} />
                 {isSidebarExpanded && <span className="ml-2">Black Sea</span>}
@@ -121,8 +122,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/bus"
+                className="{category === 'bus'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiTruck size={20} />
                 {isSidebarExpanded && <span className="ml-2">Bus</span>}
@@ -130,8 +131,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/ferry"
+                className=" {category === 'ferry'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FaShip size={20} />
                 {isSidebarExpanded && <span className="ml-2">Ferry</span>}
@@ -139,8 +140,8 @@ function Layout({ children }: { children: ReactNode }) {
             </li>
             <li>
               <Link
-                to="#"
-                className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
+                to="/carnet"
+                className="{category === 'carnet'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
                 <FiTag size={20} />
                 {isSidebarExpanded && <span className="ml-2">Carnet</span>}
@@ -159,8 +160,11 @@ function Layout({ children }: { children: ReactNode }) {
         {authenticatorView && <div className="fixed w-[100%] h-[100%] place-content-center z-10 rounded-lg bg-transparent text-white gap-2 flex flex-col items-center justify-around top-[5rem] hover:brightness-95"><Authenticator /></div>}
         <section
           className={`mt-32 ${
-            isSidebarVisible ? "ml-64" : "mr-36"
+            isSidebarVisible
+              ? "ml-64 lg:ml-64 md:ml-20 sm:ml-10"
+              : "mr-36 lg:mr-36 md:mr-20 sm:mr-10"
           } transition-all duration-300`}
+          
         >
           
           {children}
