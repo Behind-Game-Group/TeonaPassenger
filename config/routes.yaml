@@ -7,6 +7,10 @@ app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
 
+app_profil:
+  path: "/profil"
+  controller: 'App\Controller\IndexController::profil'
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -21,6 +25,16 @@ app_login_credentials:
   path: "/loginCredentials"
   controller: 'App\Controller\AuthController::loginCredentials'
   methods: POST
+
+app_display_profil:
+  path: "/profil/display"
+  controller: 'App\Controller\ProfilController::displayProfil'
+  methods: GET
+
+app_edit_profil:
+  path: "/profil/edit"
+  controller: 'App\Controller\ProfilController::editProfil'
+  methods: GET
 
 logout_route:
   path: /logout

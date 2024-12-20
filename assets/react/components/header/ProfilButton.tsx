@@ -13,7 +13,7 @@ export default function ProfilButton() {
     {user.email ?
         <div className='flex flex-col w-[30%] h-auto justify-between items-center gap-2'>
             <a
-                href="#"
+                href="/profil"
                 className="relative w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[50px] right-8 hover:brightness-95"
                 aria-label="Accéder au profil"
             >
