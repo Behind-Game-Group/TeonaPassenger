@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Entity\User;
+use App\Entity\UserProfile;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use DateTimeImmutable;
 use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,9 +25,13 @@ final readonly class OAuthRegistrationService
     {
         $user = new User();
         $user->setEmail($resourceOwner->getEmail());
-        $user->setGoogleId($resourceOwner->getId());
+        $user->setGoogle_Id($resourceOwner->getId());
         $user->setRoles(['ROLE_USER']);
         $user->setPassword($this->passwordHasher->hashPassword($user, bin2hex(random_bytes(16))));
+
+        $userProfile = new UserProfile();
+        $userProfile->setCreateTime(new DateTimeImmutable());
+        $user->setUserProfile($userProfile);
 
         $userRepository->save($user, true);
 

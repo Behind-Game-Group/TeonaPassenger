@@ -36,21 +36,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user:unread'])]
-    #[ORM\Column(nullable: true)]
-    private ?string $googleId = null;
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255, nullable:true)]
+    private ?string $google_id = null;
 
-    public function getGoogleId(): ?string
-    {
-        return $this->googleId;
-    }
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255, nullable:true)]
+    private ?string $apple_id = null;
 
-    public function setGoogleId(string $googleId): static
-    {
-        $this->googleId = $googleId;
-
-        return $this;
-    }
+    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?UserProfile $userProfile = null;
 
     public function getId(): ?int
     {
@@ -125,5 +120,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
+
+    public function setUserProfile(UserProfile $userProfile): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userProfile->getUserId() !== $this) {
+            $userProfile->setUserId($this);
+        }
+
+        $this->userProfile = $userProfile;
+
+        return $this;
+    }
+
+    public function getGoogle_id()
+    {
+        return $this->google_id;
+    }
+
+    public function setGoogle_id($google_id)
+    {
+        $this->google_id = $google_id;
+
+        return $this;
+    }
+
+    public function getApple_id()
+    {
+        return $this->apple_id;
+    }
+
+    public function setApple_id($apple_id)
+    {
+        $this->apple_id = $apple_id;
+
+        return $this;
     }
 }

@@ -26,7 +26,7 @@ class GoogleAuthenticator extends AbstractOAuthAuthenticator
         }
 
         return $repository->findOneBy([
-            'googleId' => $resourceOwner->getId(),
+            'google_id' => $resourceOwner->getId(),
             'email' => $resourceOwner->getEmail()
         ]);
     }
