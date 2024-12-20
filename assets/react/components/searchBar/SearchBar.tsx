@@ -23,15 +23,15 @@ const SearchBar = () => {
 
   return (
 
-      <div className="flex flex-col xl:flex-row items-center justify-center space-y-4 xl:space-y-0 xl:space-x-4 p-4 bg-customBlue shadow-md rounded-lg w-full max-w-6xl mt-6">
+      <div className="flex flex-col xl:flex-row items-center justify-center space-y-4 xl:space-y-0 xl:space-x-4 p-2 bg-customBlue shadow-md rounded-lg w-full max-w-6xl mt-6">
         <div className="relative">
       {/* Aéroport départ */}
       <FaPlane size={20} className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-500"/>
       {/* Champ Input */}
-      <input type="text" placeholder="De..." className="w-[215px] h-[50px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+      <input type="text" placeholder="De..." className="w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
     </div>
   
-    <div className="relative w-[90px] h-[50px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex items-center justify-center">
+    <div className="relative w-[90px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex items-center justify-center">
       <img src="/img/arrows.png" alt="arrow-switch-horizontal" className="w-[23px] text-white"/>
     </div>
   
@@ -39,10 +39,10 @@ const SearchBar = () => {
       {/* Aéroport arrivée */}
       <FaPlane size={20} className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-500"/>
       {/* Champ Input */}
-      <input type="text" placeholder="A..." className="w-[215px] h-[50px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+      <input type="text" placeholder="A..." className="w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
     </div>
   
-    <div className="w-[215px] h-[50px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
+    <div className="w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
       {/* Date aller */}
       <DatePicker
         selected={departureDate}
@@ -54,7 +54,7 @@ const SearchBar = () => {
       />
     </div>
   
-    <div className="w-[215px] h-[50px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
+    <div className="w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
       {/* Date retour */}
       <DatePicker
         selected={returnDate}
@@ -67,7 +67,7 @@ const SearchBar = () => {
     </div>
   
   
-    <button className="w-[162px] h-[46px] border-[1px] border-white rounded-[27px] flex flex-row justify-end items-center p-[8px] gap-[14px]">
+    <button className="w-[162px] h-[46px] border-[1px] border-white rounded-[27px] flex flex-row justify-end items-center p-[8px] gap-[14px] hover:brightness-95">
       {/* Bouton de recherche */}
       <span className="w-[71px] h-[20px] text-white text-[15px] leading-[20px] font-roboto font-normal">Rechercher</span>
       <img src="/img/search.svg" alt="search-icon" className="w-[24px] text-white"/>

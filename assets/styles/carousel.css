@@ -1,0 +1,10 @@
+/* Style pour le carousel */
+.carousel-track {
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  /* Déplacement des cartes en fonction de l'index */
+  .carousel-track[data-index] {
+    transform: translateX(var(--carousel-index));
+  }
+  

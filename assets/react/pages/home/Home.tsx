@@ -2,20 +2,81 @@
 
 import React, { useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
-import { FaPlane, FaHotel, FaCar, FaShip, FaEnvelope, FaBell, FaBed } from "react-icons/fa";
+import {
+  FaPlane,
+  FaHotel,
+  FaCar,
+  FaShip,
+  FaEnvelope,
+  FaBell,
+  FaBed,
+} from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import TrendingCities from "../../components/VillesTendances/VIllesTendances";
 import FAQSection from "../../components/FAQSection/FAQSection";
+import Carousel from "../../components/Carrousel/Carrousel";
+import DestinationSelector from "../../components/destinationSelector/destinationSelector";
 
 const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
   const { category } = useParams<{ category: string }>();
 
   return (
-    <div className={`flex flex-col items-center bg-customOrange min-h-screen ${isSidebarExpanded ? "ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10" : "mr-36"}`}>
+    <div
+      className={`relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ${
+        isSidebarExpanded ? "ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10" : "mr-36"
+      }`}
+    >
+      
+      <DestinationSelector />
+
       {/* Barre de recherche */}
       <div>
         <SearchBar />
+      </div>
+
+      {/* Section "Carrousel 1" */}
+      <div className="hidden lg:grid-cols-2 xl:flex xl:justify-center xl:mt-10">
+        <div className="flex gap-[4.5rem]">
+          <a href="#">
+            <div className="w-[310px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+              <img
+                src="/img/cities/batoumi.png"
+                alt="batoumi picture"
+                className="rounded-l-[15px] w-[150px] h-full object-cover"
+              />
+              <h2 className="flex items-center justify-center flex-grow text-white text-[20px] font-normal">
+                Batoumi
+              </h2>
+            </div>
+          </a>
+
+          <a href="">
+            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+              <img
+                src="/img/cities/bucarest.png"
+                alt="bucarest picture"
+                className="rounded-l-[15px] w-[150px] h-full object-cover"
+              />
+              <h2 className="flex items-center justify-center flex-grow text-white text-[20px] font-normal">
+                Bucarest
+              </h2>
+            </div>
+          </a>
+
+          <a href="">
+            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+              <img
+                src="/img/cities/tbilissi.png"
+                alt="tbilissi picture"
+                className="rounded-l-[15px] w-[150px] h-full object-cover"
+              />
+              <h2 className="flex items-center justify-center flex-grow text-white text-[20px] font-normal">
+                Tbilissi
+              </h2>
+            </div>
+          </a>
+        </div>
       </div>
 
       {/* Section "Ce que Teona vous propose" */}
@@ -28,11 +89,14 @@ const HomePage = () => {
           <div className="flex flex-col items-center p-2 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaPlane size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Réservez vos vols</p>
-            {category === "vols" && <p>Recherche de vols disponibles...</p>} {/* ceci est un test */}
+            {category === "vols" && (
+              <p>Recherche de vols disponibles...</p>
+            )}{" "}
+            {/* ceci est un test */}
           </div>
 
           {/* Hébergements */}
-          <div className="flex flex-col items-center p-2 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
+          <div className="flex flex-col items-center p-3 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaHotel size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">
               Trouvez des hébergements
@@ -108,97 +172,42 @@ const HomePage = () => {
         </button>
       </div>
 
-      {/* Carrousel */}
-      <div className="relative mt-6 pl-4 hidden sm:block">
-        {/* Bouton gauche */}
-        <button className="absolute top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:brightness-95 flex items-center justify-center">
-          &#8592;
-        </button>
-
-        {/* Cartes */}
-        <div className="flex space-x-4 overflow-x-auto">
-          {/* Carte 1 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden ">
-            <div className="bg-customBlue text-center text-white py-2 font-bold">
-              Bucarest
-            </div>
-            <img
-              src="/img/bucarest.png"
-              alt="Bucarest"
-              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
-            />
-          </div>
-          {/* Carte 2 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-customBlue text-center text-white py-2 font-bold">
-              Batoumi
-            </div>
-            <img
-              src="/img/batoumi.png"
-              alt="Batoumi"
-              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
-            />
-          </div>
-          {/* Carte 3 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-customBlue text-center text-white py-2 font-bold">
-              Bursa
-            </div>
-            <img
-              src="/img/bursa.jpg"
-              alt="Bursa"
-              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
-            />
-          </div>
-          {/* Carte 4 */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="bg-customBlue text-center text-white py-2 font-bold">
-              Verna
-            </div>
-            <img
-              src="/img/verna.png"
-              alt="Verna"
-              className="h[200px] w-[379px] lg:w-[379px] lg:h-[300px] object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Bouton droit */}
-        <button className="absolute right-0 top-[50%] bg-customBlue text-white p-3 w-10 h-10 rounded-full hover:brightness-95 flex items-center justify-center">
-          &#8594;
-        </button>
+      {/* Carousel */}
+      <div>
+        <Carousel />
       </div>
 
       {/* Section Outils populaires */}
-<div className="w-full max-w-6xl mt-10 px-4 ">
-  <h2 className="text-white text-3xl font-bold mb-2">Outils populaires</h2>
-  <p className="text-white mb-4">Pour rendre vos voyages simplissime</p>
-  <div className="flex gap-4">
-    <a
-      href="#"
-      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
-    >
-      <FaBell size={20} className="mr-2" />
-      Alerte de prix
-    </a>
-    <a
-      href="#"
-      className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
-    >
-      <FaPlane size={20} className="mr-2" />
-      Trouver un vol
-    </a>
-  </div>
-</div>
+      <div className="w-full max-w-6xl mt-10 px-4 ">
+        <h2 className="text-white text-3xl font-bold mb-2">
+          Outils populaires
+        </h2>
+        <p className="text-white mb-4">Pour rendre vos voyages simplissime</p>
+        <div className="flex gap-4">
+          <a
+            href="#"
+            className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
+          >
+            <FaBell size={20} className="mr-2" />
+            Alerte de prix
+          </a>
+          <a
+            href="#"
+            className="flex w-auto max-w-[12rem] p-4 rounded-md bg-customBlue text-white text-center hover:brightness-95"
+          >
+            <FaPlane size={20} className="mr-2" />
+            Trouver un vol
+          </a>
+        </div>
+      </div>
 
-<div>
-  <TrendingCities />
-</div>
+      <div>
+        <TrendingCities />
+      </div>
 
-<div>
-  <FAQSection />
-</div>
-
+      <div>
+        <FAQSection />
+      </div>
     </div>
   );
 };
