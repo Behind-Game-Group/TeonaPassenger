@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FavoriteHotelRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FavoriteHotelRepository::class)]
 class FavoriteHotel
@@ -11,9 +12,11 @@ class FavoriteHotel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['favoriteHotel:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['favoriteHotel:read'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoriteHotels')]

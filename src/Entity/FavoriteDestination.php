@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FavoriteDestinationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FavoriteDestinationRepository::class)]
 class FavoriteDestination
@@ -11,12 +12,15 @@ class FavoriteDestination
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['favoriteDestination:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['favoriteDestination:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['favoriteDestination:read'])]
     private ?string $address = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoriteDestinations')]

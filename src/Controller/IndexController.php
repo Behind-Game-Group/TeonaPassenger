@@ -18,6 +18,22 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/profil', name: 'app_profil')]
+    public function profil(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/vols/page', name: 'app_profil')]
+    public function vols(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
     public function getCurrentUser(): JsonResponse
     {

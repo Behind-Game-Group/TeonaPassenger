@@ -7,6 +7,14 @@ app_default:
   path: "/"
   controller: 'App\Controller\IndexController::index'
 
+app_profil:
+  path: "/profil"
+  controller: 'App\Controller\IndexController::profil'
+
+app_vols:
+  path: "/vols/page"
+  controller: 'App\Controller\IndexController::vols'
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -29,3 +37,68 @@ logout_route:
 google_callback:
     path: /google/callback
     controller: App\Controller\GoogleController::callback
+
+app_show_companies:
+    path: /showCompanies
+    controller: App\Controller\CompanyController::showCompanies
+    methods: GET
+
+app_add_company:
+    path: /addCompany
+    controller: App\Controller\CompanyController::addCompany
+    methods: POST
+
+app_delete_company:
+    path: /deleteCompany
+    controller: App\Controller\CompanyController::deleteCompany
+    methods: POST
+
+app_show_disliked_hotels:
+    path: /showDislikedHotels
+    controller: App\Controller\HotelController::showDislikedHotels
+    methods: GET
+
+app_add_disliked_hotel:
+    path: /addDislikedHotel
+    controller: App\Controller\HotelController::addDislikedHotel
+    methods: POST
+
+app_delete_disliked_hotel:
+    path: /deleteDislikedHotel
+    controller: App\Controller\HotelController::deleteDislikedHotel
+    methods: POST
+
+app_show_favoite_hotels:
+    path: /showFavoriteHotels
+    controller: App\Controller\HotelController::showFavoiteHotels
+    methods: GET
+
+app_add_favoite_hotel:
+    path: /addFavoriteHotel
+    controller: App\Controller\HotelController::addFavoiteHotel
+    methods: POST
+
+app_delete_favoite_hotel:
+    path: /deleteFavoriteHotel
+    controller: App\Controller\HotelController::deleteFavoiteHotel
+    methods: POST
+  
+app_show_destinations:
+    path: /showDestinations
+    controller: App\Controller\DestinationController::showDestinations
+    methods: GET
+
+app_add_destination:
+    path: /addDestination
+    controller: App\Controller\DestinationController::addDestination
+    methods: POST
+
+app_delete_destination:
+    path: /deleteDestination
+    controller: App\Controller\DestinationController::deleteDestination
+    methods: POST
+
+app_modify_destination:
+    path: /modifyDestination
+    controller: App\Controller\DestinationController::modifyDestination
+    methods: POST

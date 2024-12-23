@@ -3,6 +3,7 @@ import { IoMdLogIn } from "react-icons/io";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useUserContext } from '../../context/UserContext';
+import { Link } from 'react-router-dom';
 
 export default function ProfilButton() {
     const { user, authenticatorView, setAuthenticatorView } = useUserContext();
@@ -12,13 +13,13 @@ export default function ProfilButton() {
     {/* Profil */}
     {user.email ?
         <div className='flex flex-col w-[30%] h-auto justify-between items-center gap-2'>
-            <a
-                href="#"
+            <Link
+                to={'/profil'}
                 className="relative w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[50px] right-8 hover:brightness-95"
                 aria-label="Accéder au profil"
             >
                 <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
-            </a>
+            </Link>
             <text className='absolute right-8 text-black'>Bienvenu, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
             <a
                 href="/logout"

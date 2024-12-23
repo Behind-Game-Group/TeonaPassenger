@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DislikedHotelRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DislikedHotelRepository::class)]
 class DislikedHotel
@@ -11,9 +12,11 @@ class DislikedHotel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['dislikedHotel:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['dislikedHotel:read'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'dislikedHotels')]
