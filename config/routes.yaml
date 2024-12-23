@@ -35,3 +35,13 @@ resultats_city:
   path: /resultat/{city}
   controller: 'App\Controller\IndexController::resultat'
   methods: GET
+
+vols:
+  path: /vols
+  controller: 'App\Controller\IndexController::vols'
+  methods: GET
+
+hebergement:
+  path: /hebergement
+  controller: 'App\Controller\IndexController::hebergement'
+  methods: GET

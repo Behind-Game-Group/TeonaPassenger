@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const TrendingCities = () => {
   const cities = [
@@ -25,6 +26,21 @@ const TrendingCities = () => {
     { name: "Shumen", image: "/img/cities/shumen.png" },
   ];
 
+  const [destinationName, setDestinationName] = useState("");
+    useEffect(() => {
+      // Ajoute dynamiquement les destinations à partir des éléments <h2>
+      const pElements = document.querySelectorAll(".dynamic-destination h2");
+      pElements.forEach((p) => {
+        p.addEventListener("click", () => {
+          const name = p.textContent?.trim();
+          if (name) {
+            setDestinationName(name);
+            window.location.href = `/resultat/${encodeURIComponent(name)}`;
+          }
+        });
+      });
+    }, []);
+
   return (
     <section className="w-full max-w-6xl mt-5 px-4 ${isSidebarVisible ? 'ml-64' : 'ml-10'} py-6">
       <h2 className="text-3xl font-bold text-white text-center mb-3">
@@ -34,7 +50,7 @@ const TrendingCities = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 max-w-6xl mx-auto">
         {cities.map((city, index) => (
           <div key={index} className="relative group">
-            <a href="#">
+            <Link to={`/resultat/${encodeURIComponent(city.name)}`}>
             <img
               src={city.image}
               alt={city.name}
@@ -42,7 +58,7 @@ const TrendingCities = () => {
             />
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
               <p className="text-white text-lg font-semibold">{city.name}</p>
-            </div></a>
+            </div></Link>
           </div>
         ))}
       </div>
