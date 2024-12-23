@@ -34,4 +34,13 @@ class IndexController extends AbstractController
 
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
+
+    #[Route('/assets/react/pages/Résultat/Resultat.tsx', name:'resultats')]
+
+    public function resultat():Response
+    {
+        return $this->render('resultat/resultat.html.twig', [
+            'test' => 'test'
+        ]);
+    }
 }

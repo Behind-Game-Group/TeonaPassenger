@@ -26,8 +26,8 @@ const TrendingCities = () => {
   ];
 
   return (
-    <section className="w-full max-w-6xl mt-10 px-4 ${isSidebarVisible ? 'ml-64' : 'ml-10'} py-6">
-      <h2 className="text-3xl font-bold text-white text-center">
+    <section className="w-full max-w-6xl mt-5 px-4 ${isSidebarVisible ? 'ml-64' : 'ml-10'} py-6">
+      <h2 className="text-3xl font-bold text-white text-center mb-3">
         Villes tendance
       </h2>
       <p className="text-center text-white mb-8">Les destinations les plus recherchées sur notre site</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import {
   FaPlane,
@@ -21,6 +21,22 @@ const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
   const { category } = useParams<{ category: string }>();
 
+  const [destinationName, setDestinationName] = useState("");
+  useEffect(() => {
+    // Ajoute dynamiquement les destinations à partir des éléments <h2>
+    const h2Elements = document.querySelectorAll(".dynamic-destination h2");
+    h2Elements.forEach((h2) => {
+      h2.addEventListener("click", () => {
+        const name = h2.textContent?.trim();
+        if (name) {
+          setDestinationName(name);
+          window.location.href = `/resultat/${encodeURIComponent(name)}`;
+        }
+      });
+    });
+  }, []);
+
+  
   return (
     <div
       className={`relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ${
@@ -38,8 +54,8 @@ const HomePage = () => {
       {/* Section "Carrousel 1" */}
       <div className="hidden lg:grid-cols-2 xl:flex xl:justify-center xl:mt-10">
         <div className="flex gap-[4.5rem]">
-          <a href="#">
-            <div className="w-[310px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+          <Link to={`/resultat/${encodeURIComponent("Batoumi")}`}>
+            <div className="w-[310px] h-[100px] bg-[#009DD7] rounded-[15px] flex dynamic-destination" onClick={() => setDestinationName(destinationName)}>
               <img
                 src="/img/cities/batoumi.png"
                 alt="batoumi picture"
@@ -49,10 +65,10 @@ const HomePage = () => {
                 Batoumi
               </h2>
             </div>
-          </a>
+          </Link>
 
-          <a href="">
-            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+          <Link to={`/resultat/${encodeURIComponent("Bucarest")}`}>
+            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex dynamic-destination" onClick={() => setDestinationName(destinationName)}>
               <img
                 src="/img/cities/bucarest.png"
                 alt="bucarest picture"
@@ -62,10 +78,10 @@ const HomePage = () => {
                 Bucarest
               </h2>
             </div>
-          </a>
+          </Link>
 
-          <a href="">
-            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex">
+          <Link to={`/resultat/${encodeURIComponent("Tbilissi")}`}>
+            <div className="w-[350px] h-[100px] bg-[#009DD7] rounded-[15px] flex dynamic-destination" onClick={() => setDestinationName(destinationName)}>
               <img
                 src="/img/cities/tbilissi.png"
                 alt="tbilissi picture"
@@ -75,7 +91,7 @@ const HomePage = () => {
                 Tbilissi
               </h2>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -86,7 +102,8 @@ const HomePage = () => {
         </h2>
         <div className="grid grid-cols-2 mr-[61px] ml-[-61px] gap-x-[8.5rem] gap-y-[2.5rem] sm:grid-cols-2 md:grid-cols-4 sm:gap-6 sm:mx-auto">
           {/* Vols */}
-          <div className="flex flex-col items-center p-2 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
+          <Link to="/resultat">
+          <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaPlane size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">Réservez vos vols</p>
             {category === "vols" && (
@@ -94,7 +111,7 @@ const HomePage = () => {
             )}{" "}
             {/* ceci est un test */}
           </div>
-
+          </Link>
           {/* Hébergements */}
           <div className="flex flex-col items-center p-3 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
             <FaHotel size={40} className="text-blue-500 mb-4" />

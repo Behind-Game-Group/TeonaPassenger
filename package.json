@@ -3,6 +3,7 @@
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-react": "^7.9.0",
+        "@hint/hint-no-inline-styles": "^1.0.19",
         "@symfony/webpack-encore": "^5.0.0",
         "@types/react-slick": "^0.23.13",
         "autoprefixer": "^10.4.20",

@@ -1,0 +1,11 @@
+{
+    "connector": {
+        "name": "local"
+    },
+    "formatters": ["summary"],
+    "hints": {
+        "no-inline-styles": ["off", {
+            "requireNoStyleElement": false
+        }]
+    }
+}

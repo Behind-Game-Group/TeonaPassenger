@@ -47,7 +47,7 @@ const DestinationSelector: React.FC = () => {
   };
 
   return (
-    <div className="relative top-10 right-[318px] isolate z-20">
+    <div className="relative top-10 xl:right-[318px] isolate z-20">
       <div className="absolute top-0 left-[-60px] flex flex-wrap items-end content-start gap-[16px_14px] w-[853px] h-[103px]">
         <h2 className="w-[505px] h-[44px] text-white font-lucida font-medium text-[32px] leading-[40px] text-center">
           Où voulez-vous partir ?
@@ -66,15 +66,16 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("tripType")}
           />
           {activeDropdown === "tripType" && (
-            <div className="absolute top-12 left-0 bg-white text-black p-6 rounded-xl shadow-2xl w-48 z-50">
-              {["Aller", "Retour", "Aller-retour"].map((type) => (
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-72 flex flex-col gap-2 z-50">
+              <p>Quelle type de voyage souhaitez-vous ?</p>
+              {["Aller-retour", "Aller simple", "Multidestination"].map((type) => (
                 <button
                   key={type}
                   onClick={() => {
                     setTripType(type);
                     setActiveDropdown(null);
                   }}
-                  className="block w-full text-left hover:bg-gray-200 p-2"
+                  className="w-36 text-left font-normal text-sm hover:bg-gray-50 rounded-md border border-customBlue p-1 "
                 >
                   {type}
                 </button>
@@ -96,20 +97,21 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("passengers")}
           />
           {activeDropdown === "passengers" && (
-            <div className="absolute top-12 left-0 bg-white text-black p-6 rounded-xl shadow-2xl w-80 z-50">
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50">
+              <p>Combien de personnes ?</p>
               <div className="flex justify-between items-center mb-2">
                 <span>Adultes</span>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => handlePassengersChange("adults", false)}
-                    className="bg-gray-200 px-2"
+                    className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                   >
                     -
                   </button>
                   <span>{passengers.adults}</span>
                   <button
                     onClick={() => handlePassengersChange("adults", true)}
-                    className="bg-gray-200 px-2"
+                    className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                   >
                     +
                   </button>
@@ -120,14 +122,14 @@ const DestinationSelector: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => handlePassengersChange("children", false)}
-                    className="bg-gray-200 px-2"
+                    className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                   >
                     -
                   </button>
                   <span>{passengers.children}</span>
                   <button
                     onClick={() => handlePassengersChange("children", true)}
-                    className="bg-gray-200 px-2"
+                    className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                   >
                     +
                   </button>
@@ -149,7 +151,8 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("classType")}
           />
           {activeDropdown === "classType" && (
-            <div className="absolute top-12 left-0 bg-white text-black p-6 rounded-xl shadow-2xl w-48 z-50">
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-64 gap-2 flex flex-col  z-50">
+              <p>En quelle classe souhaitez-vous voyager ?</p>
               {["Économique", "Affaire", "Premium"].map((type) => (
                 <button
                   key={type}
@@ -157,7 +160,7 @@ const DestinationSelector: React.FC = () => {
                     setClassType(type);
                     setActiveDropdown(null);
                   }}
-                  className="block w-full text-left hover:bg-gray-200 p-2"
+                  className="block w-24 text-sm font-normal text-left hover:bg-gray-50 rounded-md border border-customBlue p-1"
                 >
                   {type}
                 </button>
@@ -178,19 +181,19 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("baggage")}
           />
           {activeDropdown === "baggage" && (
-            <div className="absolute top-12 left-0 bg-white text-black p-6 rounded-xl shadow-2xl w-80 z-50">
+            <div className="absolute top-24 left-0 sm:left-[-185px] md:left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50">
               <div className="flex justify-between items-center">
                 <p>Combien de bagages ?</p>
                 <button
                   onClick={() => setBaggage(Math.max(0, baggage - 1))}
-                  className="bg-gray-200 px-2"
+                  className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                 >
                   -
                 </button>
                 <span>{baggage}</span>
                 <button
                   onClick={() => setBaggage(baggage + 1)}
-                  className="bg-gray-200 px-2"
+                  className="bg-gray-200 rounded-full w-8 h-8 pb-1 flex items-center justify-center"
                 >
                   +
                 </button>

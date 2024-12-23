@@ -25,3 +25,13 @@ app_login_credentials:
 logout_route:
   path: /logout
   methods: GET
+
+resultats:
+  path: /resultat
+  controller: 'App\Controller\IndexController::resultat'
+  methods: GET
+
+resultats_city:
+  path: /resultat/{city}
+  controller: 'App\Controller\IndexController::resultat'
+  methods: GET
