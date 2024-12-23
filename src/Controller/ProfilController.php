@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserProfileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ class ProfilController extends AbstractController
     {
         $user = $this->getUser();
 
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return new JsonResponse(['error' => 'You are not logged in!'], 404);
         }
 
@@ -38,31 +39,30 @@ class ProfilController extends AbstractController
                     'localAirport' => $userProfile->getLocalAirport(),
                 ],
             ]);
-            
         }
     }
 
-    //EDIT PROFIL
-    #[Route('/profil/edit', name: 'app_edit_profil')]
-    public function editProfil(Request $request): JsonResponse
+    //Add user to expeditors
+    #[Route('/expeditors', name: 'app_add_expeditor', methods: ['POST'])]
+    public function addExpeditor(Request $request, UserProfileRepository $userProfileRepository): JsonResponse
     {
+        $data = json_decode($request->getContent());
         $user = $this->getUser();
 
-        $data = json_decode($request->getContent(), true);
-
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return new JsonResponse(['error' => 'You are not logged in!'], 404);
         }
 
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-
             if ($userProfile == null) {
                 return new JsonResponse(['error' => 'User not found'], 404);
             }
 
-            return new JsonResponse('');
-            
+            $userProfile->addAuthorizedExpeditor($data['email']);
+
+            $userProfileRepository->save($userProfile, true);
+
         }
     }
 }

@@ -31,11 +31,11 @@ app_display_profil:
   controller: 'App\Controller\ProfilController::displayProfil'
   methods: GET
 
-app_edit_profil:
-  path: "/profil/edit"
-  controller: 'App\Controller\ProfilController::editProfil'
-  methods: GET
-
+app_add_expeditor:
+  path: "/expeditors"
+  controller: 'App\Controller\ProfilController::addExpeditor'
+  methods: POST
+  
 logout_route:
   path: /logout
   methods: GET
