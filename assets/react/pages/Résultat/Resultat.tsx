@@ -21,6 +21,9 @@ const ResultatPage = () => {
 
   const [mode, setMode] = useState<"départ" | "arrivée">("départ");
 
+  const [priceOpen, setPriceOpen] = useState(false); // État pour la section "Prix"
+  const [price, setPrice] = useState(50); // État pour la valeur du curseur
+
   // Fonction pour tout sélectionner
   const selectAll = () => {
     const checkboxes = document.querySelectorAll<HTMLInputElement>(
@@ -58,10 +61,10 @@ const ResultatPage = () => {
       "Cathay Pacific",
       "Japan Airlines",
       "Air India",
-      "Aeroflot"
+      "Aeroflot",
     ];
     return allCompagnies.slice(0, n);
-  };  
+  };
 
   const [showAllCheckBoxes, setShowAllCheckBoxes] = useState(false);
 
@@ -69,6 +72,16 @@ const ResultatPage = () => {
 
   const toggleVisibility = () => {
     setShowAllCheckBoxes(!showAllCheckBoxes);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSection = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const togglePriceSection = () => {
+    setPriceOpen(!priceOpen); // Ouvre ou ferme la section Prix
   };
 
   return (
@@ -79,22 +92,22 @@ const ResultatPage = () => {
     >
       <main className="flex-1 p-6">
         {/* Filtres */}
-        <section className="flex space-x-6">
+        <section className="flex space-x-6 min-w-[40.5rem]">
           <div className="w-1/4 bg-white p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-4">Filtres</h2>
             <div className="space-y-4">
               {/* Type de vol */}
               <div>
-                <h3 className="font-semibold">Type de vol</h3>
+                <h3 className="font-semibold pb-2">Type de vol</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-sm">
                     <input type="checkbox" className="mr-2" />
                     Vol direct
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center text-sm">
                     <input type="checkbox" className="mr-2" />1 escale
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center text-sm">
                     <input type="checkbox" className="mr-2" />2 escales et +
                   </label>
                 </div>
@@ -107,13 +120,13 @@ const ResultatPage = () => {
                 {/* Boutons Départs/Arrivées */}
                 <div className="mb-4 bg-gray-200 py-1 px-1 grid grid-cols-2 gap-2 rounded-md">
                   <button
-                    className="px-2 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-0 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                     onClick={() => setMode("départ")}
                   >
                     Départs
                   </button>
                   <button
-                    className="px-2 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    className="px-0 py-1 bg-gray-500 text-white rounded hover:bg-gray-600"
                     onClick={() => setMode("arrivée")}
                   >
                     Arrivées
@@ -155,23 +168,23 @@ const ResultatPage = () => {
               </div>
 
               <div>
-                <h3 className="font-semibold mb-2">Compagnies</h3>
-                <div className="mb-4 bg-gray-200 p-2 grid grid-cols-2 gap-2 rounded-md shadow-sm">
+                <h3 className="font-semibold mb-1">Compagnies</h3>
+                <div className="mb-4  p-2 grid grid-cols-2 gap-1">
                   <button
-                    className="px-0 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-200 ease-in-out font-medium text-xs"
+                    className="px-0 py-1  text-left text-gray-500  transition-all duration-200 ease-in-out font-light text-xs underline"
                     onClick={selectAll}
                   >
                     Tout sélectionner
                   </button>
                   <button
-                    className="px-0 py-1 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-all duration-200 ease-in-out font-medium text-xs"
+                    className="px-0 py-1  text-left text-gray-500  transition-all duration-200 ease-in-out font-light text-xs underline"
                     onClick={deselectAll}
                   >
                     Tout supprimer
                   </button>
                 </div>
                 <div>
-                <div className="space-y-2">
+                  <div className="space-y-2">
                     {compagnies.map((compagnie, index) => (
                       <label key={index} className="flex items-center text-sm">
                         <input
@@ -182,9 +195,105 @@ const ResultatPage = () => {
                         {compagnie}
                       </label>
                     ))}
-                    <button onClick={toggleVisibility}>
-                      {showAllCheckBoxes ? "Masquer" : "Afficher"} toutes les compagnies
+                    <button
+                      className="text-left text-gray-500  transition-all duration-200 ease-in-out font-light text-xs underline"
+                      onClick={toggleVisibility}
+                    >
+                      {showAllCheckBoxes ? "Masquer" : "Afficher"} toutes les
+                      compagnies
                     </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Moyens de transport */}
+              <div>
+                <h3 className="font-semibold mb-2">Moyens de transport</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Vol
+                  </label>
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Vol + Bus
+                  </label>
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Vol + Train
+                  </label>
+                </div>
+              </div>
+
+              {/* Classes */}
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={toggleSection}
+              >
+                <h3 className="font-semibold">Classes</h3>
+                {/* Flèche */}
+                <span
+                  className={`transform transition-transform text-gray-300 ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                >
+                  ▼
+                </span>
+              </div>
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  isOpen ? "max-h-40" : "max-h-0"
+                }`}
+              >
+                <div className="mt-0 space-y-2">
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Eco
+                  </label>
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Premium
+                  </label>
+                  <label className="flex items-center text-sm">
+                    <input type="checkbox" className="mr-2" />
+                    Premium +
+                  </label>
+                </div>
+              </div>
+
+              {/* Section Prix */}
+              <div>
+                <div
+                  className="flex justify-between items-center cursor-pointer"
+                  onClick={togglePriceSection}
+                >
+                  <h3 className="font-semibold">Prix</h3>
+                  <span
+                    className={`transform transition-transform text-gray-300 ${
+                      priceOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </div>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    priceOpen ? "max-h-40" : "max-h-0"
+                  }`}
+                >
+                  <div className="mt-2 space-y-2">
+                    <label className="block">
+                      Prix : <strong>{price}€</strong>
+                      <input
+                        type="range"
+                        min="50"
+                        max="3000"
+                        step="50"
+                        value={price}
+                        onChange={(e) => setPrice(parseInt(e.target.value, 10))}
+                        className="w-full mt-2"
+                      />
+                    </label>
                   </div>
                 </div>
               </div>
