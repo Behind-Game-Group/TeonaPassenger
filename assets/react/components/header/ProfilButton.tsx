@@ -19,7 +19,7 @@ export default function ProfilButton() {
             >
                 <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
             </a>
-            <text className='absolute right-8 text-black'>Bienvenu, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
+            <text className='absolute right-8 text-black'>Bienvenue, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
             <a
                 href="/logout"
                 className="absolute w-[100%] h-auto text-red-500 flex flex-row items-center justify-center gap-2 top-[100px] hover:brightness-95"
@@ -30,7 +30,7 @@ export default function ProfilButton() {
         </div>
         : 
         <>
-        <button 
+        <button
         onClick={()=>setAuthenticatorView(!authenticatorView)}
             className={`fixed w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center top-[40px] right-8 hover:brightness-95 hover:border hover:border-white ${authenticatorView && 'border border-white'}`}
             aria-label="Se connecter" title='Se connecter'>

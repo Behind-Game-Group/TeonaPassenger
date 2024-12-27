@@ -114,7 +114,7 @@ const HomePage = () => {
           </Link>
           {/* Hébergements */}
           <div className="flex flex-col items-center p-3 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
-            <FaHotel size={40} className="text-blue-500 mb-4" />
+            <FaBed size={40} className="text-blue-500 mb-4" />
             <p className="text-center font-semibold">
               Trouvez des hébergements
             </p>

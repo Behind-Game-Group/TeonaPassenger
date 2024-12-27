@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FiMenu, FiSun, FiTruck, FiTag } from "react-icons/fi";
-import { FaShip, FaPlane, FaBed } from "react-icons/fa";
+import { FiSun, FiTag } from "react-icons/fi";
+import { FaShip, FaPlane, FaBed, FaBus } from "react-icons/fa";
 import { AiOutlineCar } from "react-icons/ai";
 import "../styles/styles.scss"; // Assurez-vous que ce fichier est bien chargé dans Webpack
 import Header from "./components/header/Header";
@@ -125,7 +125,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="/bus"
                 className="{category === 'bus'} flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FiTruck size={20} />
+                <FaBus size={20} />
                 {isSidebarExpanded && <span className="ml-2">Bus</span>}
               </Link>
             </li>

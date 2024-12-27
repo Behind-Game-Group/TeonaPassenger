@@ -114,7 +114,7 @@ const ResultatPage = () => {
               </div>
 
               {/* Horaires */}
-              <div>
+              <div className="border-t">
                 <h3 className="font-semibold">Horaires</h3>
 
                 {/* Boutons Départs/Arrivées */}
@@ -167,7 +167,7 @@ const ResultatPage = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="border-t">
                 <h3 className="font-semibold mb-1">Compagnies</h3>
                 <div className="mb-4  p-2 grid grid-cols-2 gap-1">
                   <button
@@ -207,7 +207,7 @@ const ResultatPage = () => {
               </div>
 
               {/* Moyens de transport */}
-              <div>
+              <div className="border-t">
                 <h3 className="font-semibold mb-2">Moyens de transport</h3>
                 <div className="space-y-2">
                   <label className="flex items-center text-sm">

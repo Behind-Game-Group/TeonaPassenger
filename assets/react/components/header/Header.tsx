@@ -42,6 +42,7 @@ export default function Header({isSidebarExpanded, toggleExpandSidebar}: HomePro
             </Link>
           </div>
 
+          <a href="/profil">profile</a>
           {/* Profil */}
               <ProfilButton />
         </header>

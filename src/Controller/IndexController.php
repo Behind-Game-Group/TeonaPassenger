@@ -36,7 +36,6 @@ class IndexController extends AbstractController
     }
 
     #[Route('/assets/react/pages/Résultat/Resultat.tsx', name:'resultats')]
-
     public function resultat():Response
     {
         return $this->render('resultat/resultat.html.twig', [
@@ -53,9 +52,14 @@ class IndexController extends AbstractController
     }
 
     #[Route('/hebergement', name: 'app_hebergement')]
-
     public function hebergement(): Response
     {
         return $this->render('hebergement/hebergement.html.twig');
+    }
+
+    #[Route('/profil', name: 'app_profil')]
+    public function profil(): Response
+    {
+        return $this->render('profil/profil.html.twig');
     }
 }
