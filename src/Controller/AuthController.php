@@ -50,4 +50,5 @@ class AuthController extends AbstractController
         // Symfony déclenchera automatiquement le SecurityControllerAuthenticator sur cette route.
         return new JsonResponse(['message' => 'You should never see this!'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
 }

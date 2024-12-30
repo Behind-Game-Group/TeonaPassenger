@@ -4,18 +4,21 @@ namespace App\Entity;
 
 use App\Repository\AuthorizedExpeditorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AuthorizedExpeditorRepository::class)]
 class AuthorizedExpeditor
 {
+    #[Groups('expeditor:read')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('expeditor:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'authorizedExpeditors')]
     #[ORM\JoinColumn(nullable: false)]
     private ?UserProfile $userProfile_id = null;

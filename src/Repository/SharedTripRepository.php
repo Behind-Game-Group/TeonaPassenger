@@ -15,7 +15,20 @@ class SharedTripRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, SharedTrip::class);
     }
+    
+    public function save(SharedTrip $sharedTrip, ?bool $isSaved): void
+    {
+        if($isSaved){
+            $this->getEntityManager()->persist($sharedTrip);
+            $this->getEntityManager()->flush();
+        }
+    }
 
+    public function remove(SharedTrip $sharedTrip): void
+    {
+        $this->getEntityManager()->remove($sharedTrip);
+        $this->getEntityManager()->flush();
+    }
 //    /**
 //     * @return SharedTrip[] Returns an array of SharedTrip objects
 //     */

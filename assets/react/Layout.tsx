@@ -45,20 +45,6 @@ function Layout({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  useEffect(() => {
-    getMethod('/getCurrentUser')
-          .then(data => {
-            // console.log('Données récupérées :', data);
-            updateUser(data.user);
-          })
-          .catch(error => {
-            console.error(
-              'Erreur lors de la récupération des données :',
-              error,
-            );
-          });
-  }, []);
-
   console.log(authenticatorView);
 
   return (

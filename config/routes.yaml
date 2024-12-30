@@ -11,6 +11,16 @@ app_profil:
   path: "/profil"
   controller: 'App\Controller\IndexController::profil'
 
+app_shared_trips:
+  path: "/sharedtrips"
+  controller: 'App\Controller\IndexController::sharedTrips'
+  methods: GET
+
+app_trips:
+  path: "/trips"
+  controller: 'App\Controller\IndexController::Trips'
+  methods: GET
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -26,16 +36,61 @@ app_login_credentials:
   controller: 'App\Controller\AuthController::loginCredentials'
   methods: POST
 
-app_display_profil:
-  path: "/profil/display"
-  controller: 'App\Controller\ProfilController::displayProfil'
+app_display_expeditors:
+  path: "/expeditors"
+  controller: 'App\Controller\ExpeditorController::displayExpeditors'
   methods: GET
 
 app_add_expeditor:
   path: "/expeditors"
-  controller: 'App\Controller\ProfilController::addExpeditor'
+  controller: 'App\Controller\ExpeditorController::addExpeditor'
+  methods: POST
+
+app_remove_expeditor:
+  path: "/expeditor"
+  controller: 'App\Controller\ExpeditorController::removeExpeditor'
+  methods: DELETE
+
+app_get_trips:
+  path: "/trips/display"
+  controller: 'App\Controller\TripsController::getTrips'
+  methods: GET
+
+app_delete_trip:
+  path: "/trip"
+  controller: 'App\Controller\TripsController::deleteTrip'
+  methods: DELETE
+
+app_edit_trip:
+  path: "/trip/{id}"
+  controller: 'App\Controller\TripsController::editTrip'
+  methods: PUT
+
+app_shared_trips_add:
+  path: "/sharedtrips/add"
+  controller: 'App\Controller\SharedTripsController::addSharedTrips'
+  methods: POST
+
+app_display_shared_trips:
+  path: "/sharedtrips/display"
+  controller: 'App\Controller\SharedTripsController::displaySharedTrips'
+  methods: GET
+
+app_delete_shared_trip:
+  path: "/sharedtrips/delete"
+  controller: 'App\Controller\SharedTripsController::deleteSharedTrip'
+  methods: DELETE
+
+app_add_trip:
+  path: "/trip/add"
+  controller: 'App\Controller\TripsController::addTrip'
   methods: POST
   
 logout_route:
   path: /logout
+  methods: GET
+
+csrf_token:
+  path: /csrfToken
+  controller: 'App\Controller\AuthController::getCsrfToken'
   methods: GET

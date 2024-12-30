@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\HistoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: HistoryRepository::class)]
 class History
@@ -14,21 +15,27 @@ class History
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('history:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
+    #[Groups('history:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $departureAirport = null;
 
+    #[Groups('history:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $arrivalAirport = null;
-
+    
+    #[Groups('history:read')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $departureDate = null;
-
+    
+    #[Groups('history:read')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $arrivalDate = null;
-
+    
+    #[Groups('history:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class IndexController extends AbstractController
 {
@@ -27,12 +28,15 @@ class IndexController extends AbstractController
     }
 
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
-    public function getCurrentUser(): JsonResponse
+    public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
         $user = $this->getUser();
         if ($user instanceof User) {
+
+            $csrfToken = $csrfTokenManager->getToken('default')->getValue();
             return new JsonResponse([
                 'user' => [
+                    'csrfToken' => $csrfToken, 
                     'id' => $user->getId(),
                     'email' => $user->getEmail(),
                     'roles' => $user->getRoles(),
@@ -41,5 +45,21 @@ class IndexController extends AbstractController
         }
 
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    #[Route('/sharedtrips', name: 'app_shared_trips', methods: ['GET'])]
+    public function sharedTrips(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/trips', name: 'app_trips', methods: ['GET'])]
+    public function Trips(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
     }
 }
