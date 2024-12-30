@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getMethod, postMethod } from '../../services/axiosInstance';
+import { useUserContext } from '../../context/UserContext';
 
 type Company = {
     id: number;
@@ -35,6 +36,7 @@ const Profile = () => {
     const [addDestinationAdress, setAddDestinationAdress] = useState("");
     const [editDestination, setEditDestination] = useState(false)
     const [id, setId] = useState(0)
+    const { csrfToken } = useUserContext();
 
     useEffect(() => {
         getCompanies();
@@ -61,7 +63,7 @@ const Profile = () => {
             try {
                 e.preventDefault();
                 setAddCompany((e.target as HTMLInputElement).value);
-                const response = await postMethod('/addCompany', { name: addCompany });
+                const response = await postMethod('/addCompany', { name: addCompany, csrfToken: csrfToken });
                 if (response) {
                     console.log(response);
                     getCompanies();
@@ -76,7 +78,7 @@ const Profile = () => {
 
     const deleteCompany = async (id: number) => {
         try {
-            const response = await postMethod('/deleteCompany', { id: id });
+            const response = await postMethod('/deleteCompany', { id: id, csrfToken: csrfToken });
             if (response) {
                 console.log(response);
                 getCompanies();
@@ -106,7 +108,7 @@ const Profile = () => {
             try {
                 e.preventDefault();
                 setAddFavoriteHotel((e.target as HTMLInputElement).value);
-                const response = await postMethod('/addFavoriteHotel', { name: addFavoriteHotel });
+                const response = await postMethod('/addFavoriteHotel', { name: addFavoriteHotel, csrfToken: csrfToken });
                 if (response) {
                     console.log(response);
                     getFavoriteHotels();
@@ -122,7 +124,7 @@ const Profile = () => {
 
     const deleteFavoriteHotel = async (id: number) => {
         try {
-            const response = await postMethod('/deleteFavoriteHotel', { id: id });
+            const response = await postMethod('/deleteFavoriteHotel', { id: id, csrfToken: csrfToken });
             if (response) {
                 console.log(response);
                 getFavoriteHotels();
@@ -152,7 +154,7 @@ const Profile = () => {
             try {
                 e.preventDefault();
                 setAddDislikedHotel((e.target as HTMLInputElement).value);
-                const response = await postMethod('/addDislikedHotel', { name: addDislikedHotel });
+                const response = await postMethod('/addDislikedHotel', { name: addDislikedHotel, csrfToken: csrfToken });
                 if (response) {
                     console.log(response);
                     getFavoriteHotels();
@@ -168,7 +170,7 @@ const Profile = () => {
 
     const deleteDislikedHotel = async (id: number) => {
         try {
-            const response = await postMethod('/deleteDislikedHotel', { id: id });
+            const response = await postMethod('/deleteDislikedHotel', { id: id, csrfToken: csrfToken });
             if (response) {
                 console.log(response);
                 getDislikedHotels();
@@ -197,7 +199,8 @@ const Profile = () => {
         try {
             const response = await postMethod('/addDestination', {
                 name: addDestination,
-                adress: addDestinationAdress
+                adress: addDestinationAdress,
+                csrfToken: csrfToken
             });
             if (response) {
                 console.log(response);
@@ -218,7 +221,8 @@ const Profile = () => {
             const response = await postMethod('/modifyDestination', {
                 id: id,
                 name: addDestination,
-                adress: addDestinationAdress
+                adress: addDestinationAdress,
+                csrfToken: csrfToken
             });
             if (response) {
                 console.log(response);
@@ -238,7 +242,7 @@ const Profile = () => {
 
     const deleteDestination = async (id: number) => {
         try {
-            const response = await postMethod('/deleteDestination', { id: id });
+            const response = await postMethod('/deleteDestination', { id: id, csrfToken: csrfToken });
             if (response) {
                 console.log(response);
                 getDestinations();

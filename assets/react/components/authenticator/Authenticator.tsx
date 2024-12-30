@@ -34,7 +34,7 @@ export default function Authenticator() {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        if (!emailRegex.test(email)) {
+        if (register && !emailRegex.test(email)) {
             setErrorEmail("Adresse e-mail invalide. Veuillez entrer une adresse valide.");
             setSuccess("");
             return;
@@ -42,7 +42,7 @@ export default function Authenticator() {
             setErrorEmail("");
         }
 
-        if (!passwordRegex.test(password)) {
+        if (register && !passwordRegex.test(password)) {
             setErrorPassword(
                 "Mot de passe invalide. Il doit contenir au moins 8 caractères, une lettre, un chiffre et un caractère spécial."
             );
@@ -107,9 +107,8 @@ export default function Authenticator() {
             <form action={email && password && postData} className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
                 {error && <text className='text-red-500 text-xl'>{error}</text>}
                 {success && <text className='text-green-500 text-xl'>{success}</text>}
-                {errorEmail && <text className='text-red-500 text-xs'>{errorEmail}</text>}
                 <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
-                {errorPassword && <text className='text-red-500 text-xs'>{errorPassword}</text>}
+                {errorEmail && <text className='text-red-500 text-xs'>{errorEmail}</text>}
                 <div className='flex flex-row gap-2 ml-[22px]'>
                     <input
                         onChange={handlePasswordChange}
@@ -127,6 +126,7 @@ export default function Authenticator() {
                         {showPassword ? <FaEyeSlash size={20} color='#000' /> : <FaEye size={20} color='#000' />}
                     </button>
                 </div>
+                {errorPassword && <text className='text-red-500 text-xs'>{errorPassword}</text>}
                 <button className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
             </form>
         </div>

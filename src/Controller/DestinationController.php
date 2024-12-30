@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class DestinationController extends AbstractController
@@ -30,14 +32,26 @@ class DestinationController extends AbstractController
     }
 
     #[Route('/addDestination', name: 'app_add_destination')]
-    public function addDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository): JsonResponse
+    public function addDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $destination = new FavoriteDestination();
 
-            $data = json_decode($request->getContent(), true);
             $name = $data['name'] ?? null;
             $address = $data['adress'] ?? null;
             if (!$name || !$address) {
@@ -68,13 +82,25 @@ class DestinationController extends AbstractController
     }
 
     #[Route('/deleteDestination', name: 'app_delete_destination')]
-    public function deleteDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository): JsonResponse
+    public function deleteDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            
-            $data = json_decode($request->getContent(), true);
+
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -93,13 +119,25 @@ class DestinationController extends AbstractController
     }
 
     #[Route('/modifyDestination', name: 'app_modify_destination')]
-    public function modifyDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository): JsonResponse
+    public function modifyDestination(EntityManagerInterface $em, Request $request, FavoriteDestinationRepository $favoriteDestinationRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             
-            $data = json_decode($request->getContent(), true);
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);

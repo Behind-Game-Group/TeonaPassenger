@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class HotelController extends AbstractController
@@ -31,14 +33,26 @@ class HotelController extends AbstractController
     }
 
     #[Route('/addFavoriteHotel', name: 'app_add_favoite_hotel')]
-    public function addFavoiteHotel(EntityManagerInterface $em, Request $request, FavoriteHotelRepository $favoriteHotelRepository, DislikedHotelRepository $dislikedHotelRepository): JsonResponse
+    public function addFavoiteHotel(EntityManagerInterface $em, Request $request, FavoriteHotelRepository $favoriteHotelRepository, DislikedHotelRepository $dislikedHotelRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $favoriteHotel = new FavoriteHotel();
 
-            $data = json_decode($request->getContent(), true);
             $name = $data['name'] ?? null;
             if (!$name) {
                 return new JsonResponse(['error' => 'Name is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -66,13 +80,25 @@ class HotelController extends AbstractController
     }
 
     #[Route('/deleteFavoriteHotel', name: 'app_delete_favoite_hotel')]
-    public function deleteFavoiteHotel(EntityManagerInterface $em, Request $request, FavoriteHotelRepository $favoriteHotelRepository): JsonResponse
+    public function deleteFavoiteHotel(EntityManagerInterface $em, Request $request, FavoriteHotelRepository $favoriteHotelRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            
-            $data = json_decode($request->getContent(), true);
+
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -104,14 +130,26 @@ class HotelController extends AbstractController
     }
 
     #[Route('/addDislikedHotel', name: 'app_add_disliked_hotel')]
-    public function addDislikedHotel(EntityManagerInterface $em, Request $request, DislikedHotelRepository $dislikedHotelRepository, FavoriteHotelRepository $favoriteHotelRepository): JsonResponse
+    public function addDislikedHotel(EntityManagerInterface $em, Request $request, DislikedHotelRepository $dislikedHotelRepository, FavoriteHotelRepository $favoriteHotelRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $dislikedHotel = new DislikedHotel();
 
-            $data = json_decode($request->getContent(), true);
             $name = $data['name'] ?? null;
             if (!$name) {
                 return new JsonResponse(['error' => 'Name is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -139,13 +177,25 @@ class HotelController extends AbstractController
     }
 
     #[Route('/deleteDislikedHotel', name: 'app_delete_disliked_hotel')]
-    public function deleteDislikedHotel(EntityManagerInterface $em, Request $request, DislikedHotelRepository $dislikedHotelRepository): JsonResponse
+    public function deleteDislikedHotel(EntityManagerInterface $em, Request $request, DislikedHotelRepository $dislikedHotelRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            
-            $data = json_decode($request->getContent(), true);
+
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);

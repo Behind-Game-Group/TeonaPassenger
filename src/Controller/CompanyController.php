@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CompanyController extends AbstractController
@@ -29,14 +31,26 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/addCompany', name: 'app_add_company')]
-    public function addCompany(EntityManagerInterface $em, Request $request, CompanyRepository $companyRepository): JsonResponse
+    public function addCompany(EntityManagerInterface $em, Request $request, CompanyRepository $companyRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $company = new Company();
 
-            $data = json_decode($request->getContent(), true);
             $name = $data['name'] ?? null;
             if (!$name) {
                 return new JsonResponse(['error' => 'Name is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -57,13 +71,25 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/deleteCompany', name: 'app_delete_company')]
-    public function deleteCompany(EntityManagerInterface $em, Request $request, CompanyRepository $companyRepository): JsonResponse
+    public function deleteCompany(EntityManagerInterface $em, Request $request, CompanyRepository $companyRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             
-            $data = json_decode($request->getContent(), true);
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);

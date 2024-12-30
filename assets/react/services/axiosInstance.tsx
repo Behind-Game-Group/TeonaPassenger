@@ -98,3 +98,4 @@ export const postFileMethod = async (url: string, formData: FormData) => {
   const response = await apiInstance.post(url, formData);
   return response.data;
 };
+

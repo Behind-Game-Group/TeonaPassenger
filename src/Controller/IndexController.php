@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class IndexController extends AbstractController
 {
@@ -35,12 +36,14 @@ class IndexController extends AbstractController
     }
 
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
-    public function getCurrentUser(): JsonResponse
+    public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
         $user = $this->getUser();
+        $csrfToken = $csrfTokenManager->getToken('default')->getValue();
         if ($user instanceof User) {
             return new JsonResponse([
                 'user' => [
+                    'csrfToken' => $csrfToken, 
                     'id' => $user->getId(),
                     'email' => $user->getEmail(),
                     'roles' => $user->getRoles(),
