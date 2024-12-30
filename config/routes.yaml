@@ -35,70 +35,70 @@ logout_route:
   methods: GET
 
 google_callback:
-    path: /google/callback
-    controller: App\Controller\GoogleController::callback
+  path: /google/callback
+  controller: App\Controller\GoogleController::callback
 
 app_show_companies:
-    path: /showCompanies
-    controller: App\Controller\CompanyController::showCompanies
-    methods: GET
+  path: /showCompanies
+  controller: App\Controller\CompanyController::showCompanies
+  methods: GET
 
 app_add_company:
-    path: /addCompany
-    controller: App\Controller\CompanyController::addCompany
-    methods: POST
+  path: /addCompany
+  controller: App\Controller\CompanyController::addCompany
+  methods: [POST, PUT]
 
 app_delete_company:
-    path: /deleteCompany
-    controller: App\Controller\CompanyController::deleteCompany
-    methods: POST
+  path: /deleteCompany
+  controller: App\Controller\CompanyController::deleteCompany
+  methods: [POST, DELETE]
 
 app_show_disliked_hotels:
-    path: /showDislikedHotels
-    controller: App\Controller\HotelController::showDislikedHotels
-    methods: GET
+  path: /showDislikedHotels
+  controller: App\Controller\HotelController::showDislikedHotels
+  methods: GET
 
 app_add_disliked_hotel:
-    path: /addDislikedHotel
-    controller: App\Controller\HotelController::addDislikedHotel
-    methods: POST
+  path: /addDislikedHotel
+  controller: App\Controller\HotelController::addDislikedHotel
+  methods: [POST, PUT]
 
 app_delete_disliked_hotel:
-    path: /deleteDislikedHotel
-    controller: App\Controller\HotelController::deleteDislikedHotel
-    methods: POST
+  path: /deleteDislikedHotel
+  controller: App\Controller\HotelController::deleteDislikedHotel
+  methods: [POST, DELETE]
 
 app_show_favoite_hotels:
-    path: /showFavoriteHotels
-    controller: App\Controller\HotelController::showFavoiteHotels
-    methods: GET
+  path: /showFavoriteHotels
+  controller: App\Controller\HotelController::showFavoiteHotels
+  methods: GET
 
 app_add_favoite_hotel:
-    path: /addFavoriteHotel
-    controller: App\Controller\HotelController::addFavoiteHotel
-    methods: POST
+  path: /addFavoriteHotel
+  controller: App\Controller\HotelController::addFavoiteHotel
+  methods: [POST, PUT]
 
 app_delete_favoite_hotel:
-    path: /deleteFavoriteHotel
-    controller: App\Controller\HotelController::deleteFavoiteHotel
-    methods: POST
-  
+  path: /deleteFavoriteHotel
+  controller: App\Controller\HotelController::deleteFavoiteHotel
+  methods: [POST, DELETE]
+
 app_show_destinations:
-    path: /showDestinations
-    controller: App\Controller\DestinationController::showDestinations
-    methods: GET
+  path: /showDestinations
+  controller: App\Controller\DestinationController::showDestinations
+  methods: GET
 
 app_add_destination:
-    path: /addDestination
-    controller: App\Controller\DestinationController::addDestination
-    methods: POST
+  path: /addDestination
+  controller: App\Controller\DestinationController::addDestination
+  methods: [POST, PUT]
 
 app_delete_destination:
-    path: /deleteDestination
-    controller: App\Controller\DestinationController::deleteDestination
-    methods: POST
+  path: /deleteDestination
+  controller: App\Controller\DestinationController::deleteDestination
+  methods: [POST, DELETE]
 
 app_modify_destination:
-    path: /modifyDestination
-    controller: App\Controller\DestinationController::modifyDestination
-    methods: POST
+  path: /modifyDestination
+  controller: App\Controller\DestinationController::modifyDestination
+  methods: [POST, UPDATE]

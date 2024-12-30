@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getMethod, postMethod } from '../../services/axiosInstance';
-import { set } from 'date-fns';
 
 type Company = {
     id: number;
