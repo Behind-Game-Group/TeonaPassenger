@@ -215,7 +215,7 @@ const UserProfile: React.FC = () => {
       setSuccess('Profile updated successfully.');
       setProfile({ ...profile, ...formData } as UserProfile);
     } catch (err) {
-      setError('Failed to update profile.');
+      setError('Failed to add traveler.');
     } finally {
       setLoading(false);
     }
@@ -237,9 +237,8 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="name"
-            value={formData.name || ''}
-            onChange={handleChange}
-            aria-label="User's Name"
+            value={newTraveler.name || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
@@ -248,47 +247,53 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="surname"
-            value={formData.surname || ''}
-            onChange={handleChange}
-            aria-label="User's Surname"
+            value={newTraveler.surname || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Username:
+          Email:
           <input
-            type="text"
-            name="username"
-            value={formData.username || ''}
-            onChange={handleChange}
-            aria-label="User's Username"
+            type="email"
+            name="email"
+            value={newTraveler.email || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Site:
+          Birthdate:
           <input
-            type="text"
-            name="site"
-            value={formData.site || ''}
-            onChange={handleChange}
-            aria-label="User's Site"
+            type="date"
+            name="birthdate"
+            value={newTraveler.birthdate || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Local Airport:
+          Gender:
           <input
             type="text"
-            name="local_airport"
-            value={formData.local_airport || ''}
-            onChange={handleChange}
-            aria-label="User's Local Airport"
+            name="gender"
+            value={newTraveler.gender || ''}
+            onChange={handleTravelerChange}
+          />
+        </label>
+        <br />
+        <label>
+          Phone:
+          <input
+            type="tel"
+            name="phone"
+            value={newTraveler.phone || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <button type="submit" disabled={loading}>
-          {loading ? 'Updating...' : 'Update Profile'}
+          {loading ? 'Adding...' : 'Add Traveler'}
         </button>
       </form>
       {/* Formulaire pour ajouter un voyageur */}
@@ -358,7 +363,6 @@ const UserProfile: React.FC = () => {
           {loading ? 'Adding...' : 'Add Traveler'}
         </button>
       </form>
-
       {/* Affichage des voyageurs */}
       <h2>My Travelers</h2>
       <ul>
