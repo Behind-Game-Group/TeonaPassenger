@@ -62,4 +62,5 @@ class IndexController extends AbstractController
             'sitename' => 'Teona Passenger',
         ]);
     }
+
 }

@@ -2,19 +2,18 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Trip;
 use App\Entity\User;
 use App\Repository\TripRepository;
-use DateTime;
-use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TripsController extends AbstractController
 {
@@ -25,7 +24,7 @@ class TripsController extends AbstractController
 
         // Vérification de la présence du token CSRF dans la requête
         if (empty($data['csrfToken'])) {
-            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
         }
 
         // Validation du token CSRF
@@ -134,7 +133,7 @@ class TripsController extends AbstractController
 
             // Vérification de la présence du token CSRF dans la requête
             if (empty($data['csrfToken'])) {
-                return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
             }
 
             // Validation du token CSRF
@@ -181,7 +180,7 @@ class TripsController extends AbstractController
 
             // Vérification de la présence du token CSRF dans la requête
             if (empty($data['csrfToken'])) {
-                return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
             }
     
             // Validation du token CSRF

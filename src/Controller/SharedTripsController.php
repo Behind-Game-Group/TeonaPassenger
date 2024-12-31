@@ -47,7 +47,7 @@ class SharedTripsController extends AbstractController
 
             // Vérification de la présence du token CSRF dans la requête
             if (empty($data['csrfToken'])) {
-                return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
             }
 
             // Validation du token CSRF
@@ -107,7 +107,7 @@ class SharedTripsController extends AbstractController
 
             // Vérification de la présence du token CSRF dans la requête
             if (empty($data['csrfToken'])) {
-                return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
             }
 
             // Validation du token CSRF

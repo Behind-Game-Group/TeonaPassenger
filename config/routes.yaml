@@ -11,16 +11,6 @@ app_profil:
   path: "/profil"
   controller: 'App\Controller\IndexController::profil'
 
-app_shared_trips:
-  path: "/sharedtrips"
-  controller: 'App\Controller\IndexController::sharedTrips'
-  methods: GET
-
-app_trips:
-  path: "/trips"
-  controller: 'App\Controller\IndexController::Trips'
-  methods: GET
-
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -90,7 +80,7 @@ logout_route:
   path: /logout
   methods: GET
 
-csrf_token:
-  path: /csrfToken
-  controller: 'App\Controller\AuthController::getCsrfToken'
+app_trips:
+  path: "/trips"
+  controller: 'App\Controller\IndexController::Trips'
   methods: GET

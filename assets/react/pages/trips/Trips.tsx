@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { postMethod, getMethod, deleteMethod, putMethod } from '../../services/axiosInstance';
+import { useUserContext } from '../../context/UserContext';
 
 type Trip = {
     id: number;
@@ -7,7 +8,7 @@ type Trip = {
     name: string;
     departureDate: string;
     arrivalDate: string;
-    isConsultable: boolean;
+    consultation: boolean;
 };
 
 // Fonction pour formater une date au format 'YYYY-MM-DD'
@@ -19,20 +20,25 @@ const formatDateForInput = (date: string) => {
     return `${year}-${month}-${day}`;  // Retourne au format 'YYYY-MM-DD'
 };
 
+
 function Trips() {
+
+    const [tripSuccessMessage, setTripSuccessMessage] = useState<string>('');
+    const [tripErrorMessage, setTripErrorMessage] = useState<string>('');
+
     // États des voyages
     const [name, setName] = useState<string>('');
     const [destination, setDestination] = useState<string>('');
     const [departureDate, setDepartureDate] = useState<string>('');
     const [arrivalDate, setArrivalDate] = useState<string>('');
-    const [successMessage, setSuccessMessage] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [isConsultable, setIsConsultable] = useState<'option1' | 'option2' | null>(null);
-    const [trips, setTrips] = useState<Trip[]>([]);
-    const [tripToEdit, setTripToEdit] = useState<Trip | null>(null);  // Nouvel état pour l'édition
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);  // Indicateur de soumission en cours
+    const [isConsultable, setIsConsultable] = useState<'isConsultableOption1' | 'isConsultableOption2' | null>(null);
 
-    // Handlers pour chaque champ de formulaire
+    const [trips, setTrips] = useState<Trip[]>([]);
+    const [tripToEdit, setTripToEdit] = useState<Trip | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+    const { csrfToken } = useUserContext();
+
     const handleDestinationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDestination(e.target.value);
     };
@@ -49,8 +55,11 @@ function Trips() {
         setArrivalDate(e.target.value);
     };
 
-    const handleChoiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsConsultable(e.target.value === 'option1' ? 'option1' : 'option2');
+    const handleChoiceChangeExpeditor = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === 'isConsultableOption1' || value === 'isConsultableOption2') {
+            setIsConsultable(value);
+        }
     };
 
     // Validation des dates
@@ -58,7 +67,7 @@ function Trips() {
         const depDate = new Date(departureDate);
         const arrDate = new Date(arrivalDate);
         if (arrDate <= depDate) {
-            setErrorMessage('La date d\'arrivée doit être après la date de départ.');
+            setTripErrorMessage('La date d\'arrivée doit être après la date de départ.');
             return false;
         }
         return true;
@@ -67,17 +76,17 @@ function Trips() {
     // Soumission du formulaire (ajout ou mise à jour)
     const handleSubmitTrip = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSuccessMessage('');
-        setErrorMessage('');
+        setTripSuccessMessage('');
+        setTripErrorMessage('');
 
         if (!validateDates()) return;  // Validation avant envoi
-
         const data = {
             name,
             destination,
             departureDate,
             arrivalDate,
-            isConsultable,
+            isConsultable: isConsultable === 'isConsultableOption1' ? 'isConsultableOption1' : 'isConsultableOption2',
+            csrfToken
         };
 
         setIsSubmitting(true);  // Marquer la soumission en cours
@@ -94,20 +103,20 @@ function Trips() {
             }
 
             if (response && response.message) {
-                setSuccessMessage(response.message);
+                setTripSuccessMessage(response.message);
                 fetchTrips();  // Recharge la liste des voyages
                 resetForm();  // Réinitialiser le formulaire après la soumission
             } else {
-                setErrorMessage('Une erreur inattendue est survenue.');
+                setTripErrorMessage('Une erreur inattendue est survenue.');
             }
         } catch (error: any) {
             console.error('Erreur détectée:', error);
             if (error.response) {
-                setErrorMessage(error.response.data.error || 'Erreur inconnue du serveur.');
+                setTripErrorMessage(error.response.data.error || 'Erreur inconnue du serveur.');
             } else if (error.request) {
-                setErrorMessage('Erreur réseau. Veuillez vérifier votre connexion.');
+                setTripErrorMessage('Erreur réseau. Veuillez vérifier votre connexion.');
             } else {
-                setErrorMessage('Une erreur inattendue est survenue.');
+                setTripErrorMessage('Une erreur inattendue est survenue.');
             }
         } finally {
             setIsSubmitting(false);  // Fin de la soumission
@@ -124,8 +133,10 @@ function Trips() {
                     ...trip,
                     departureDate: formatDateForInput(trip.departureDate),
                     arrivalDate: formatDateForInput(trip.arrivalDate),
+
                 }));
                 setTrips(formattedTrips);
+
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des voyages:', error);
@@ -135,12 +146,12 @@ function Trips() {
 
     const handleDeleteTrip = async (id: number) => {
         const url = '/trip';
-        const data = { id };
+        const data = { id, csrfToken };
 
         try {
             const response = await deleteMethod(url, data);
             if (response.status === 200) {
-                setSuccessMessage('Voyage supprimé avec succès!');
+                setTripSuccessMessage('Voyage supprimé avec succès!');
                 // Rafraîchir la liste des voyages
                 fetchTrips();
 
@@ -149,14 +160,14 @@ function Trips() {
                     setTripToEdit(null);  // Réinitialise l'état de l'édition
                 }
             } else {
-                setErrorMessage('Une erreur inattendue est survenue.');
+                setTripErrorMessage('Une erreur inattendue est survenue.');
             }
         } catch (error: any) {
             console.error('Erreur Axios:', error);
             if (error.response) {
-                setErrorMessage(error.response.data.error || 'Une erreur est survenue.');
+                setTripErrorMessage(error.response.data.error || 'Une erreur est survenue.');
             } else {
-                setErrorMessage('Erreur réseau. Veuillez réessayer.');
+                setTripErrorMessage('Erreur réseau. Veuillez réessayer.');
             }
         }
     };
@@ -179,7 +190,14 @@ function Trips() {
         setDestination(trip.destination);
         setDepartureDate(trip.departureDate);
         setArrivalDate(trip.arrivalDate);
-        setIsConsultable(trip.isConsultable ? 'option1' : 'option2');
+        setIsConsultable(
+            trip.consultation === true
+                ? 'isConsultableOption1'
+                : trip.consultation === false
+                    ? 'isConsultableOption2'
+                    : 'isConsultableOption1'
+        );
+        console.log('trip.isConsultable:', trip.consultation);
     };
 
     useEffect(() => {
@@ -187,8 +205,9 @@ function Trips() {
     }, []);
 
     return (
-        <div className='flex flex-col items-center justify-around'>
-            <div>
+        <div>
+
+            <div className='border-2 border-black p-4 rounded-lg text-center justify-center'>
                 <h1 className='text-3xl font-bold'>{tripToEdit ? 'Éditer un voyage' : 'Créer un voyage'}</h1>
                 <section className='flex flex-col items-center justify-around gap-4'>
                     <label htmlFor="destination" className='text-black text-xl'>Nom de la destination</label>
@@ -234,24 +253,30 @@ function Trips() {
                     />
 
                     <div className="flex items-center gap-4">
-                        <label htmlFor="option1">Toutes les personnes disposant du lien</label>
+                        <label htmlFor="isConsultableOption1">
+                            Toutes les personnes disposant du lien
+                        </label>
                         <input
                             type="radio"
+                            id="isConsultableOption1"
                             name="choice"
-                            value="option1"
-                            className='radio-button'
-                            onChange={handleChoiceChange}
-                            checked={isConsultable === 'option1'}
+                            value="isConsultableOption1"
+                            className="radio-button"
+                            onChange={handleChoiceChangeExpeditor}
+                            checked={isConsultable === 'isConsultableOption1'}
                         />
 
-                        <label htmlFor="option2">Seulement les personnes que vous invitez par e-mail</label>
+                        <label htmlFor="isConsultableOption2">
+                            Seulement les personnes que vous invitez par e-mail
+                        </label>
                         <input
                             type="radio"
+                            id="isConsultableOption2"
                             name="choice"
-                            value="option2"
-                            className='radio-button'
-                            onChange={handleChoiceChange}
-                            checked={isConsultable === 'option2'}
+                            value="isConsultableOption2"
+                            className="radio-button"
+                            onChange={handleChoiceChangeExpeditor}
+                            checked={isConsultable === 'isConsultableOption2'}
                         />
                     </div>
 
@@ -267,8 +292,8 @@ function Trips() {
 
                 {/* Affichage des messages */}
                 <div className='text-center'>
-                    {successMessage && <p className="text-green-500 mt-4">{successMessage}</p>}
-                    {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+                    {tripSuccessMessage && <p className="text-green-500 mt-4">{tripSuccessMessage}</p>}
+                    {tripErrorMessage && <p className="text-red-500 mt-4">{tripErrorMessage}</p>}
                 </div>
             </div>
 
@@ -279,7 +304,7 @@ function Trips() {
                     {Array.isArray(trips) && trips.length > 0 ? (
                         trips.map((trip) => (
                             <li key={trip.id} className='mt-2'>
-                                {trip.name} - {trip.destination} - {trip.departureDate} - {trip.arrivalDate} - {trip.isConsultable ? 'Consultable' : 'Non consultable'}
+                                {trip.name} - {trip.destination} - {trip.departureDate} - {trip.arrivalDate} - {trip.consultation == false ? 'Seulement les personnes que vous invitez par e-mail' : 'Toutes les personnes disposant du lien'}
                                 <button
                                     onClick={() => handleDeleteTrip(trip.id)}
                                     className="ml-2 text-red-500 hover:text-red-700"
@@ -299,8 +324,6 @@ function Trips() {
                     )}
                 </ul>
             </div>
-
-            <a href="/trips" className='text-white hover:text-blue-700 bg-gray-300 p-4 rounded-lg shadow-lg mt-4'>Ajouter un voyage</a>
         </div>
     );
 }

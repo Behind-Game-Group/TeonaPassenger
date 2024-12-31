@@ -5,9 +5,7 @@ import Home from './pages/home/Home';
 import VolsPage from './pages/vols/page';
 import UserProvider from './context/UserContext';
 import Profil from './pages/profil/Profil';
-import SharedTrips from './pages/sharedtrips/Sharedtrips';
 import Trips from './pages/trips/Trips';
-
 
 
 function App() {
@@ -21,7 +19,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/vols/page" element={<VolsPage />} />
               <Route path="/profil" element={<Profil />} />
-              <Route path="/sharedtrips" element={<SharedTrips />} />
               <Route path="/trips" element={<Trips />} />
               </Routes>
           </Layout>
