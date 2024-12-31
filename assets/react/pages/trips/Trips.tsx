@@ -20,6 +20,16 @@ const formatDateForInput = (date: string) => {
     return `${year}-${month}-${day}`;  // Retourne au format 'YYYY-MM-DD'
 };
 
+// Utilitaire pour obtenir la date d'aujourd'hui
+const getTodayDate = () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Mois de 0 à 11
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+};
+
+// Utilisez cette fonction pour initialiser departureDate
 
 function Trips() {
 
@@ -29,7 +39,7 @@ function Trips() {
     // États des voyages
     const [name, setName] = useState<string>('');
     const [destination, setDestination] = useState<string>('');
-    const [departureDate, setDepartureDate] = useState<string>('');
+    const [departureDate, setDepartureDate] = useState(getTodayDate());
     const [arrivalDate, setArrivalDate] = useState<string>('');
     const [isConsultable, setIsConsultable] = useState<'isConsultableOption1' | 'isConsultableOption2' | null>(null);
 
