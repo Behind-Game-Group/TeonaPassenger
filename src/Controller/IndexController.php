@@ -27,6 +27,15 @@ class IndexController extends AbstractController
         ]);
     }
 
+    // Ajout de la route
+    #[Route('/userprofil', name: 'app_userprofil')]
+    public function userprofil(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/vols/page', name: 'app_profil')]
     public function vols(): Response
     {

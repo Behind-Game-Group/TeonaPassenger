@@ -5,7 +5,7 @@ import Home from './pages/home/Home';
 import VolsPage from './pages/vols/page';
 import UserProvider from './context/UserContext';
 import Profil from './pages/profil/Profil';
-
+import UserProfil from './pages/profil/UserProfil';
 
 function App() {
   return (
@@ -17,6 +17,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/vols/page" element={<VolsPage />} />
               <Route path='/profil' element={<Profil />} />
+              {/* Ajout de la route */}
+              <Route path='/UserProfil' element={<UserProfil />} />
               </Routes>
           </Layout>
         </>
