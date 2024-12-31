@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\UserProfile;
-use App\Repository\UserProfileRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,6 +53,7 @@ class UserProfileController extends AbstractController
             $userProfile->setUsername($data['username'] ?? $userProfile->getUsername());
             $userProfile->setSite($data['site'] ?? $userProfile->getSite());
             $userProfile->setLocalAirport($data['local_airport'] ?? $userProfile->getLocalAirport());
+            $userProfile->setUpdateTime(new DateTimeImmutable());
             $em->persist($userProfile);
             $em->flush();
             return new JsonResponse(['message' => 'Profile updated successfully'], Response::HTTP_OK);
