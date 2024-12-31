@@ -53,7 +53,13 @@ class TravelerController extends AbstractController
 
             $name = $data['name'] ?? null;
             $email = $data['email'] ?? null;
-            if (!$name || !$email) {
+            $birthdate = $data['birthdate'] ?? null;
+            $gender = $data['gender'] ?? null;
+            $secondName = $data['secondName'] ?? null;
+            $phone = $data['phone'] ?? null;
+            $DHS = $data['DHS'] ?? null;
+            $KTN = $data['KTN'] ?? null;
+            if (!$name || !$email || !$birthdate || !$gender || !$phone) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -64,7 +70,13 @@ class TravelerController extends AbstractController
             }
 
             $traveler->setName($name);
-            // $traveler->setEmail($email);
+            $traveler->setEmail($email);
+            $traveler->setBirthdate($birthdate);
+            $traveler->setGender($gender);
+            $traveler->setSecondName($secondName);
+            $traveler->setPhone($phone);
+            $traveler->setDHS($DHS);
+            $traveler->setKTN($KTN);
             $userProfile->addTraveler($traveler); // Associe ce voyageur au profil utilisateur
             $em->persist($traveler);
             $em->flush();
@@ -130,8 +142,6 @@ class TravelerController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
-            $userProfile = $user->getUserProfile();
-
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -143,12 +153,24 @@ class TravelerController extends AbstractController
 
             $name = $data['name'] ?? null;
             $email = $data['email'] ?? null;
-            if (!$name || !$email) {
+            $birthdate = $data['birthdate'] ?? null;
+            $gender = $data['gender'] ?? null;
+            $secondName = $data['secondName'] ?? null;
+            $phone = $data['phone'] ?? null;
+            $DHS = $data['DHS'] ?? null;
+            $KTN = $data['KTN'] ?? null;
+            if (!$name || !$email || !$birthdate || !$gender || !$phone) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             $traveler->setName($name);
             $traveler->setEmail($email);
+            $traveler->setBirthdate($birthdate);
+            $traveler->setGender($gender);
+            $traveler->setSecondName($secondName);
+            $traveler->setPhone($phone);
+            $traveler->setDHS($DHS);
+            $traveler->setKTN($KTN);
             $em->persist($traveler);
             $em->flush();
 

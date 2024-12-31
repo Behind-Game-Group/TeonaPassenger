@@ -20,13 +20,6 @@ app_get_current_user:
   controller: 'App\Controller\IndexController::getCurrentUser'
   methods: GET
 
-
-
-app_get_current_user:
-  path: "/getCurrentUser"
-  controller: 'App\Controller\IndexController::getCurrentUser'
-  methods: GET
-
 app_register_credentials:
   path: "/registerCredentials"
   controller: 'App\Controller\AuthController::registerCredentials'
@@ -110,28 +103,67 @@ app_modify_destination:
   controller: App\Controller\DestinationController::modifyDestination
   methods: [POST, UPDATE]
 
-create_user_profile:
-  path: /user_profile
-  controller: App\Controller\UserProfileController::createUserProfile
+app_show_travelers:
+  path: /showTravelers
+  controller: App\Controller\TravelerController::showTravelers
+  methods: GET
+
+app_add_traveler:
+  path: /addTraveler
+  controller: App\Controller\TravelerController::addTraveler
+  methods: [POST, PUT]
+
+app_delete_traveler:
+  path: /deleteTraveler
+  controller: App\Controller\TravelerController::deleteTraveler
+  methods: [POST, DELETE]
+
+app_modify_traveler:
+  path: /modifyTraveler
+  controller: App\Controller\TravelerController::modifyTraveler
   methods: [POST, UPDATE]
 
-get_user_profile:
-  path: /user_profile/{id}
-  controller: App\Controller\UserProfileController::getUserProfile
+app_show_airports:
+  path: /showAirports
+  controller: App\Controller\AirportController::showAirports
+  methods: GET
+
+app_add_airport:
+  path: /addAirport
+  controller: App\Controller\AirportController::addAirport
+  methods: [POST, PUT]
+
+app_delete_airport:
+  path: /deleteAirport
+  controller: App\Controller\AirportController::deleteAirport
+  methods: [POST, DELETE]
+
+app_show_fidelity_programs:
+  path: /showFidelityPrograms
+  controller: App\Controller\FidelityProgramController::showFidelityPrograms
+  methods: GET
+
+app_add_fidelity_program:
+  path: /addFidelityProgram
+  controller: App\Controller\FidelityProgramController::addFidelityProgram
+  methods: [POST, PUT]
+
+app_delete_fidelity_program:
+  path: /deleteFidelityProgram
+  controller: App\Controller\FidelityProgramController::deleteFidelityProgram
+  methods: [POST, DELETE]
+
+app_modify_fidelity_program:
+  path: /modifyFidelityProgram
+  controller: App\Controller\FidelityProgramController::modifyFidelityProgram
   methods: [POST, UPDATE]
 
-update_user_profile:
-  path: /user_profile/{id}
+app_show_user_profile:
+  path: /showUserProfile
+  controller: App\Controller\UserProfileController::showUserProfile
+  methods: GET
+
+app_update_user_profile:
+  path: /updateUserProfile
   controller: App\Controller\UserProfileController::updateUserProfile
   methods: [POST, UPDATE]
-
-delete_user_profile:
-  path: /user_profile/{id}
-  controller: App\Controller\UserProfileController::deleteUserProfile
-  methods: [POST, UPDATE]
-
-traveler_index:
-  path: /travelers
-  controller: App\Controller\TravelerController::deleteUserProfile
-  methods: [POST, UPDATE]
-

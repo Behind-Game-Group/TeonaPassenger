@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\UserProfile;
 use App\Repository\UserProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +21,7 @@ class UserProfileController extends AbstractController
     public function showUserProfile(SerializerInterface $serializerInterface): JsonResponse
     {
         $user = $this->getUser();
-        if ($user) {
+        if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $data = $serializerInterface->serialize($userProfile, 'json', ['groups' => ['userProfile:read']]);
             return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
@@ -46,9 +47,13 @@ class UserProfileController extends AbstractController
         }
 
         $user = $this->getUser();
-        if ($user) {
+        if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
             $userProfile->setName($data['name'] ?? $userProfile->getName());
+            $userProfile->setSurname($data['surname'] ?? $userProfile->getSurname());
+            $userProfile->setUsername($data['username'] ?? $userProfile->getUsername());
+            $userProfile->setSite($data['site'] ?? $userProfile->getSite());
+            $userProfile->setLocalAirport($data['local_airport'] ?? $userProfile->getLocalAirport());
             $em->persist($userProfile);
             $em->flush();
             return new JsonResponse(['message' => 'Profile updated successfully'], Response::HTTP_OK);

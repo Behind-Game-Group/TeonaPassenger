@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TravelerRepository::class)]
 class Traveler
@@ -14,30 +15,43 @@ class Traveler
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['traveler:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?string $surname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?\DateTimeInterface $birthdate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?string $gender = null;
     
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traveler:read'])]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?string $secondName = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?int $phone = null;
     
     #[ORM\Column(nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?int $DHS = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?int $KTN = null;
 
     #[ORM\ManyToOne(inversedBy: 'travelers')]
@@ -194,6 +208,18 @@ class Traveler
                 $fidelityProgram->setTravelerId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FidelityProgram;
 use App\Entity\User;
 use App\Repository\FidelityProgramRepository;
+use App\Repository\TravelerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,8 +24,11 @@ class FidelityProgramController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            $fidelityPrograms = $userProfile->getFidelityPrograms();
-            $data = $serializerInterface->serialize($fidelityPrograms, 'json', ['groups' => ['fidelityProgram:read']]);
+            $travelers = $userProfile->getTravelers();
+            foreach ($travelers as $traveler) {
+                $fidelityProgram[] = $traveler->getFidelityPrograms();
+            }
+            $data = $serializerInterface->serialize($fidelityProgram, 'json', ['groups' => ['fidelityProgram:read']]);
             return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
         }
 
@@ -32,7 +36,7 @@ class FidelityProgramController extends AbstractController
     }
 
     #[Route('/addFidelityProgram', name: 'app_add_fidelity_program')]
-    public function addFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    public function addFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager, TravelerRepository $travelerRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -50,11 +54,21 @@ class FidelityProgramController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
+
+            $id = $data['id'] ?? null;
+            if (!$id) {
+                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            $traveler = $travelerRepository->find($id);
+            if (!$traveler) {
+                return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
+            }
+
             $fidelityProgram = new FidelityProgram();
 
             $name = $data['name'] ?? null;
-            $description = $data['description'] ?? null;
-            if (!$name || !$description) {
+            $programNumber = $data['programNumber'] ?? null;
+            if (!$name || !$programNumber) {
                 return new JsonResponse(['error' => 'Name and description are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -65,8 +79,8 @@ class FidelityProgramController extends AbstractController
             }
 
             $fidelityProgram->setName($name);
-            $fidelityProgram->setDescription($description);
-            $userProfile->addFidelityProgram($fidelityProgram);
+            $fidelityProgram->setProgramNumber($programNumber);
+            $traveler->addFidelityProgram($fidelityProgram);
             $em->persist($fidelityProgram);
             $em->flush();
 
@@ -77,7 +91,7 @@ class FidelityProgramController extends AbstractController
     }
 
     #[Route('/deleteFidelityProgram', name: 'app_delete_fidelity_program')]
-    public function deleteFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    public function deleteFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager, TravelerRepository $travelerRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -94,20 +108,26 @@ class FidelityProgramController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
-            $userProfile = $user->getUserProfile();
-
-            $id = $data['id'] ?? null;
-            if (!$id) {
-                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            $traveler_id = $data['traveler_id'] ?? null;
+            if (!$traveler_id) {
+                return new JsonResponse(['error' => 'Traveler id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            $traveler = $travelerRepository->find($traveler_id);
+            if (!$traveler) {
+                return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
-            $fidelityProgram = $fidelityProgramRepository->find($id);
-            if (!$fidelityProgram) {
-                return new JsonResponse(['error' => 'Fidelity program not found'], JsonResponse::HTTP_NOT_FOUND);
+            $program_id = $data['program_id'] ?? null;
+            if (!$program_id) {
+                return new JsonResponse(['error' => 'Program id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            $program = $fidelityProgramRepository->find($program_id);
+            if (!$program) {
+                return new JsonResponse(['error' => 'Program not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
-            $userProfile->removeFidelityProgram($fidelityProgram);
-            $em->remove($fidelityProgram);
+            $traveler->removeFidelityProgram($program);
+            $em->remove($program);
             $em->flush();
 
             return new JsonResponse(['message' => 'Fidelity program deleted successfully'], Response::HTTP_OK);
@@ -117,7 +137,7 @@ class FidelityProgramController extends AbstractController
     }
 
     #[Route('/modifyFidelityProgram', name: 'app_modify_fidelity_program')]
-    public function modifyFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    public function modifyFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager, TravelerRepository $travelerRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
@@ -134,26 +154,33 @@ class FidelityProgramController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
-            $userProfile = $user->getUserProfile();
-
-            $id = $data['id'] ?? null;
-            if (!$id) {
-                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            $traveler_id = $data['traveler_id'] ?? null;
+            if (!$traveler_id) {
+                return new JsonResponse(['error' => 'Traveler id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+            $traveler = $travelerRepository->find($traveler_id);
+            if (!$traveler) {
+                return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
-            $fidelityProgram = $fidelityProgramRepository->find($id);
+            $program_id = $data['program_id'] ?? null;
+            if (!$program_id) {
+                return new JsonResponse(['error' => 'Program id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $fidelityProgram = $fidelityProgramRepository->find($program_id);
             if (!$fidelityProgram) {
                 return new JsonResponse(['error' => 'Fidelity program not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
             $name = $data['name'] ?? null;
-            $description = $data['description'] ?? null;
-            if (!$name || !$description) {
+            $programNumber = $data['programNumber'] ?? null;
+            if (!$name || !$programNumber) {
                 return new JsonResponse(['error' => 'Name and description are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             $fidelityProgram->setName($name);
-            $fidelityProgram->setDescription($description);
+            $fidelityProgram->setProgramNumber($programNumber);
 
             $em->persist($fidelityProgram);
             $em->flush();

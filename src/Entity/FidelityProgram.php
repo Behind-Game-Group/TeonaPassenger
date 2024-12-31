@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FidelityProgramRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FidelityProgramRepository::class)]
 class FidelityProgram
@@ -11,12 +12,15 @@ class FidelityProgram
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['fidelityProgram:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['fidelityProgram:read'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['fidelityProgram:read'])]
     private ?int $programNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'fidelityPrograms')]

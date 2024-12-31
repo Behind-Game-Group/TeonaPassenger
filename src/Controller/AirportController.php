@@ -53,8 +53,7 @@ class AirportController extends AbstractController
             $airport = new Airport();
 
             $name = $data['name'] ?? null;
-            $location = $data['location'] ?? null;
-            if (!$name || !$location) {
+            if (!$name) {
                 return new JsonResponse(['error' => 'Name and location are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -65,7 +64,6 @@ class AirportController extends AbstractController
             }
 
             $airport->setName($name);
-            // $airport->setLocation($location);
             $userProfile->addAirport($airport);
             $em->persist($airport);
             $em->flush();
