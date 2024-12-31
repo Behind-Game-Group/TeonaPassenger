@@ -11,24 +11,60 @@ interface UserProfile {
   local_airport: string | null;
 }
 
+interface Traveler {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  birthdate: string;
+  gender: string;
+  phone: string;
+  DHS?: number;
+  KTN?: number;
+}
+
+interface FidelityProgram {
+  id: number;
+  name: string;
+  programNumber: number;
+}
+
+interface Airport {
+  id: number;
+  name: string;
+}
+
 const UserProfile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [formData, setFormData] = useState<Partial<UserProfile>>({});
+  const [travelers, setTravelers] = useState<Traveler[]>([]);
+  const [newTraveler, setNewTraveler] = useState<Partial<Traveler>>({});
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
+  const [fidelityPrograms, setFidelityPrograms] = useState<FidelityProgram[]>([]); 
+  const [newFidelityProgram, setNewFidelityProgram] = useState<Partial<FidelityProgram>>({});
+  const [selectedTravelerId, setSelectedTravelerId] = useState<number | null>(null);
+
+  // Nouvel état pour les aéroports
+  const [airports, setAirports] = useState<Airport[]>([]);
+  const [newAirport, setNewAirport] = useState<Partial<Airport>>({});
+
   useEffect(() => {
     fetchUserProfile();
     fetchCsrfToken();
+    fetchTravelers();
+    fetchFidelityPrograms();
+    fetchAirports(); // Chargement des aéroports
   }, []);
 
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get('/showUserProfile');
       setProfile(response.data);
-      setFormData(response.data); // Pré-remplir le formulaire avec les données existantes
+      setFormData(response.data);
     } catch (err) {
       setError('Failed to fetch user profile.');
     }
@@ -43,18 +79,49 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const fetchTravelers = async () => {
+    try {
+      const response = await axios.get('/showTravelers');
+      setTravelers(response.data);
+    } catch (err) {
+      setError('Failed to fetch travelers.');
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.surname) {
-      setError('Please fill in all required fields.');
-      return;
+  const fetchFidelityPrograms = async () => {
+    try {
+      const response = await axios.get('/showFidelityPrograms');
+      setFidelityPrograms(response.data);
+    } catch (err) {
+      setError('Failed to fetch fidelity programs.');
     }
+  };
 
+  // Nouvelle fonction pour récupérer les aéroports
+  const fetchAirports = async () => {
+    try {
+      const response = await axios.get('/showAirports');
+      setAirports(response.data);
+    } catch (err) {
+      setError('Failed to fetch airports.');
+    }
+  };
+
+  const handleTravelerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTraveler({ ...newTraveler, [e.target.name]: e.target.value });
+  };
+
+  const handleFidelityProgramChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewFidelityProgram({ ...newFidelityProgram, [e.target.name]: e.target.value });
+  };
+
+  // Nouvelle fonction pour ajouter un aéroport
+  const handleAirportChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewAirport({ ...newAirport, [e.target.name]: e.target.value });
+  };
+
+  const handleAddTraveler = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!csrfToken) {
       setError('CSRF token is missing.');
       return;
@@ -65,25 +132,47 @@ const UserProfile: React.FC = () => {
     setSuccess(null);
 
     try {
-      const response = await axios.post('/updateUserProfile', {
-        ...formData,
+      const response = await axios.post('/addTraveler', {
+        ...newTraveler,
         csrfToken,
       });
-      setSuccess('Profile updated successfully.');
-      setProfile({ ...profile, ...formData } as UserProfile);
+      setSuccess('Traveler added successfully.');
+      fetchTravelers(); // Rafraîchir la liste des voyageurs
     } catch (err) {
-      setError('Failed to update profile.');
+      setError('Failed to add traveler.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;  // Ajouter un spinner ici pour améliorer l'UX
-  }
+  // Nouvelle fonction pour ajouter un aéroport
+  const handleAddAirport = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!csrfToken) {
+      setError('CSRF token is missing.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await axios.post('/addAirport', {
+        ...newAirport,
+        csrfToken,
+      });
+      setSuccess('Airport added successfully.');
+      fetchAirports(); // Rafraîchir la liste des aéroports
+    } catch (err) {
+      setError('Failed to add airport.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!profile) {
-    return <div>Loading profile...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -92,15 +181,16 @@ const UserProfile: React.FC = () => {
       {error && <div style={{ color: 'red' }}>{error}</div>}
       {success && <div style={{ color: 'green' }}>{success}</div>}
 
-      <form onSubmit={handleSubmit}>
+      {/* Formulaire pour ajouter un voyageur */}
+      <h2>Add Traveler</h2>
+      <form onSubmit={handleAddTraveler}>
         <label>
           Name:
           <input
             type="text"
             name="name"
-            value={formData.name || ''}
-            onChange={handleChange}
-            aria-label="User's Name"
+            value={newTraveler.name || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
@@ -109,49 +199,146 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="surname"
-            value={formData.surname || ''}
-            onChange={handleChange}
-            aria-label="User's Surname"
+            value={newTraveler.surname || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Username:
+          Email:
           <input
-            type="text"
-            name="username"
-            value={formData.username || ''}
-            onChange={handleChange}
-            aria-label="User's Username"
+            type="email"
+            name="email"
+            value={newTraveler.email || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Site:
+          Birthdate:
           <input
-            type="text"
-            name="site"
-            value={formData.site || ''}
-            onChange={handleChange}
-            aria-label="User's Site"
+            type="date"
+            name="birthdate"
+            value={newTraveler.birthdate || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <label>
-          Local Airport:
+          Gender:
           <input
             type="text"
-            name="local_airport"
-            value={formData.local_airport || ''}
-            onChange={handleChange}
-            aria-label="User's Local Airport"
+            name="gender"
+            value={newTraveler.gender || ''}
+            onChange={handleTravelerChange}
+          />
+        </label>
+        <br />
+        <label>
+          Phone:
+          <input
+            type="tel"
+            name="phone"
+            value={newTraveler.phone || ''}
+            onChange={handleTravelerChange}
           />
         </label>
         <br />
         <button type="submit" disabled={loading}>
-          {loading ? 'Updating...' : 'Update Profile'}
+          {loading ? 'Adding...' : 'Add Traveler'}
         </button>
       </form>
+
+      {/* Affichage des voyageurs */}
+      <h2>My Travelers</h2>
+      <ul>
+        {travelers.map((traveler) => (
+          <li key={traveler.id}>
+            {traveler.name} {traveler.surname} - {traveler.email}
+          </li>
+        ))}
+      </ul>
+
+      {/* Formulaire pour ajouter un programme de fidélité */}
+      <h2>Add Fidelity Program</h2>
+      <form onSubmit={handleAddFidelityProgram}>
+        <label>
+          Program Name:
+          <input
+            type="text"
+            name="name"
+            value={newFidelityProgram.name || ''}
+            onChange={handleFidelityProgramChange}
+          />
+        </label>
+        <br />
+        <label>
+          Program Number:
+          <input
+            type="number"
+            name="programNumber"
+            value={newFidelityProgram.programNumber || ''}
+            onChange={handleFidelityProgramChange}
+          />
+        </label>
+        <br />
+        <label>
+          Traveler:
+          <select
+            value={selectedTravelerId || ''}
+            onChange={(e) => setSelectedTravelerId(Number(e.target.value))}
+          >
+            <option value="">Select Traveler</option>
+            {travelers.map((traveler) => (
+              <option key={traveler.id} value={traveler.id}>
+                {traveler.name} {traveler.surname}
+              </option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Adding...' : 'Add Fidelity Program'}
+        </button>
+      </form>
+
+      {/* Affichage des programmes de fidélité */}
+      <h2>My Fidelity Programs</h2>
+      <ul>
+        {fidelityPrograms.map((program) => (
+          <li key={program.id}>
+            {program.name} - {program.programNumber}
+          </li>
+        ))}
+      </ul>
+
+      {/* Formulaire pour ajouter un aéroport */}
+      <h2>Add Airport</h2>
+      <form onSubmit={handleAddAirport}>
+        <label>
+          Airport Name:
+          <input
+            type="text"
+            name="name"
+            value={newAirport.name || ''}
+            onChange={handleAirportChange}
+          />
+        </label>
+        <br />
+        <button type="submit" disabled={loading}>
+          {loading ? 'Adding...' : 'Add Airport'}
+        </button>
+      </form>
+
+      {/* Affichage des aéroports */}
+      <h2>My Airports</h2>
+      <ul>
+        {airports.map((airport) => (
+          <li key={airport.id}>
+            {airport.name}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
