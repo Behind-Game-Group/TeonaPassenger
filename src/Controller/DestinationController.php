@@ -176,3 +176,4 @@ class DestinationController extends AbstractController
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 }
+

@@ -102,3 +102,29 @@ app_modify_destination:
   path: /modifyDestination
   controller: App\Controller\DestinationController::modifyDestination
   methods: [POST, UPDATE]
+
+create_user_profile:
+  path: /user_profile
+  controller: App\Controller\UserProfileController::createUserProfile
+  methods: [POST, UPDATE]
+
+get_user_profile:
+  path: /user_profile/{id}
+  controller: App\Controller\UserProfileController::getUserProfile
+  methods: [POST, UPDATE]
+
+update_user_profile:
+  path: /user_profile/{id}
+  controller: App\Controller\UserProfileController::updateUserProfile
+  methods: [POST, UPDATE]
+
+delete_user_profile:
+  path: /user_profile/{id}
+  controller: App\Controller\UserProfileController::deleteUserProfile
+  methods: [POST, UPDATE]
+
+traveler_index:
+  path: /travelers
+  controller: App\Controller\TravelerController::deleteUserProfile
+  methods: [POST, UPDATE]
+

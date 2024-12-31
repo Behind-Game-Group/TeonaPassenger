@@ -1,134 +1,166 @@
 <?php
-// Airport
+
 namespace App\Controller;
 
 use App\Entity\Airport;
+use App\Entity\User;
 use App\Repository\AirportRepository;
-use App\Repository\UserProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AirportController extends AbstractController
 {
-    private AirportRepository $airportRepository;
-    private UserProfileRepository $userProfileRepository;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(
-        AirportRepository $airportRepository,
-        UserProfileRepository $userProfileRepository,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->airportRepository = $airportRepository;
-        $this->userProfileRepository = $userProfileRepository;
-        $this->entityManager = $entityManager;
-    }
-
-    #[Route('/airport', name: 'airport_index', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/showAirports', name: 'app_show_airports')]
+    public function showAirports(SerializerInterface $serializerInterface): JsonResponse
     {
-        $airports = $this->airportRepository->findAll();
-
-        return $this->json([
-            'airports' => $airports,
-        ]);
-    }
-
-    #[Route('/airport/{id}', name: 'airport_show', methods: ['GET'])]
-    public function show(int $id): Response
-    {
-        $airport = $this->airportRepository->find($id);
-
-        if (!$airport) {
-            return $this->json(['message' => 'Airport not found'], Response::HTTP_NOT_FOUND);
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+            $airports = $userProfile->getAirports();
+            $data = $serializerInterface->serialize($airports, 'json', ['groups' => ['airport:read']]);
+            return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
         }
 
-        return $this->json($airport);
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
-    #[Route('/airport/new', name: 'airport_new', methods: ['POST'])]
-    public function new(Request $request): Response
+    #[Route('/addAirport', name: 'app_add_airport')]
+    public function addAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        // Création d'un nouvel aéroport
-        $airport = new Airport();
-        $airport->setName($data['name'] ?? null);
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
 
-        // Associer à un profil utilisateur
-        $userProfileId = $data['userProfile_id'] ?? null;
-        if ($userProfileId) {
-            $userProfile = $this->userProfileRepository->find($userProfileId);
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
 
-            if (!$userProfile) {
-                throw new AccessDeniedException('UserProfile not found');
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+            $airport = new Airport();
+
+            $name = $data['name'] ?? null;
+            $location = $data['location'] ?? null;
+            if (!$name || !$location) {
+                return new JsonResponse(['error' => 'Name and location are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $airport->setUserProfileId($userProfile);
+            // Vérification si l'aéroport existe déjà
+            $existingAirport = $airportRepository->findOneBy(['name' => $name, 'userProfile_id' => $userProfile->getId()]);
+            if ($existingAirport) {
+                return new JsonResponse(['error' => 'This airport already exists'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $airport->setName($name);
+            $airport->setLocation($location);
+            $userProfile->addAirport($airport);
+            $em->persist($airport);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Airport added successfully'], Response::HTTP_OK);
         }
 
-        // Enregistrer l'aéroport
-        $this->entityManager->persist($airport);
-        $this->entityManager->flush();
-
-        return $this->json([
-            'message' => 'Airport created successfully!',
-            'airport' => $airport,
-        ], Response::HTTP_CREATED);
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
-    #[Route('/airport/{id}/edit', name: 'airport_edit', methods: ['PUT'])]
-    public function edit(int $id, Request $request): Response
+    #[Route('/deleteAirport', name: 'app_delete_airport')]
+    public function deleteAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
-        $airport = $this->airportRepository->find($id);
-
-        if (!$airport) {
-            return $this->json(['message' => 'Airport not found'], Response::HTTP_NOT_FOUND);
-        }
-
         $data = json_decode($request->getContent(), true);
 
-        // Mettre à jour les informations
-        $airport->setName($data['name'] ?? $airport->getName());
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
 
-        // Associer à un profil utilisateur si nécessaire
-        $userProfileId = $data['userProfile_id'] ?? null;
-        if ($userProfileId) {
-            $userProfile = $this->userProfileRepository->find($userProfileId);
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
 
-            if (!$userProfile) {
-                throw new AccessDeniedException('UserProfile not found');
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+
+            $id = $data['id'] ?? null;
+            if (!$id) {
+                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $airport->setUserProfileId($userProfile);
+            $airport = $airportRepository->find($id);
+            if (!$airport) {
+                return new JsonResponse(['error' => 'Airport not found'], JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            $userProfile->removeAirport($airport);
+            $em->remove($airport);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Airport deleted successfully'], Response::HTTP_OK);
         }
 
-        // Enregistrer les modifications
-        $this->entityManager->flush();
-
-        return $this->json([
-            'message' => 'Airport updated successfully!',
-            'airport' => $airport,
-        ]);
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
-    #[Route('/airport/{id}/delete', name: 'airport_delete', methods: ['DELETE'])]
-    public function delete(int $id): Response
+    #[Route('/modifyAirport', name: 'app_modify_airport')]
+    public function modifyAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
-        $airport = $this->airportRepository->find($id);
+        $data = json_decode($request->getContent(), true);
 
-        if (!$airport) {
-            return $this->json(['message' => 'Airport not found'], Response::HTTP_NOT_FOUND);
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Supprimer l'aéroport
-        $this->entityManager->remove($airport);
-        $this->entityManager->flush();
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
 
-        return $this->json(['message' => 'Airport deleted successfully!']);
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+
+            $id = $data['id'] ?? null;
+            if (!$id) {
+                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $airport = $airportRepository->find($id);
+            if (!$airport) {
+                return new JsonResponse(['error' => 'Airport not found'], JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            $name = $data['name'] ?? null;
+            $location = $data['location'] ?? null;
+            if (!$name || !$location) {
+                return new JsonResponse(['error' => 'Name and location are required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $airport->setName($name);
+            $airport->setLocation($location);
+
+            $em->persist($airport);
+            $em->flush();
+
+            return new JsonResponse(['message' => 'Airport updated successfully'], Response::HTTP_OK);
+        }
+
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 }
