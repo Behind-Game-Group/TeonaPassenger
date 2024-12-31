@@ -1,5 +1,5 @@
 <?php
-
+// Airport
 namespace App\Entity;
 
 use App\Repository\AirportRepository;

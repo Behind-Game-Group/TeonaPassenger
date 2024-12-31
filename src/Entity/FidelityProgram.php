@@ -1,5 +1,5 @@
 <?php
-
+// Fidélity
 namespace App\Entity;
 
 use App\Repository\FidelityProgramRepository;
