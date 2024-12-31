@@ -16,28 +16,33 @@ class AirportRepository extends ServiceEntityRepository
         parent::__construct($registry, Airport::class);
     }
 
-//    /**
-//     * @return Airport[] Returns an array of Airport objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Trouver tous les aéroports associés à un profil utilisateur
+     * @param int $userProfileId L'identifiant du profil utilisateur
+     * @return Airport[] Retourne un tableau d'aéroports associés à ce profil
+     */
+    public function findByUserProfile(int $userProfileId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.userProfile = :userProfileId')
+            ->setParameter('userProfileId', $userProfileId)
+            ->orderBy('a.name', 'ASC') // Tri par nom d'aéroport, vous pouvez ajuster selon les besoins
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Airport
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Trouver un aéroport par son nom
+     * @param string $name Le nom de l'aéroport
+     * @return Airport|null Retourne un aéroport si trouvé, ou null si non trouvé
+     */
+    public function findOneByName(string $name): ?Airport
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

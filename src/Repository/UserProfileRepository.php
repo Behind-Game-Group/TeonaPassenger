@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\UserProfile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<UserProfile>
@@ -16,28 +17,41 @@ class UserProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, UserProfile::class);
     }
 
-//    /**
-//     * @return UserProfile[] Returns an array of UserProfile objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Mise à jour d'un profil utilisateur.
+     *
+     * @param UserProfile $userProfile
+     * @param array $newData
+     * @return UserProfile
+     */
+    public function updateUserProfile(UserProfile $userProfile, array $newData): UserProfile
+    {
+        // Met à jour chaque champ si les nouvelles données sont présentes
+        if (isset($newData['name'])) {
+            $userProfile->setName($newData['name']);
+        }
+        if (isset($newData['surname'])) {
+            $userProfile->setSurname($newData['surname']);
+        }
+        if (isset($newData['username'])) {
+            $userProfile->setUsername($newData['username']);
+        }
+        if (isset($newData['avatar'])) {
+            $userProfile->setAvatar($newData['avatar']);
+        }
+        if (isset($newData['site'])) {
+            $userProfile->setSite($newData['site']);
+        }
+        if (isset($newData['local_airport'])) {
+            $userProfile->setLocalAirport($newData['local_airport']);
+        }
+        
+        // Mise à jour des timestamps (si nécessaires)
+        $userProfile->setUpdateTime(new \DateTime());
 
-//    public function findOneBySomeField($value): ?UserProfile
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        // Persiste et sauvegarde les changements
+        $this->_em->flush();
+
+        return $userProfile;
+    }
 }
