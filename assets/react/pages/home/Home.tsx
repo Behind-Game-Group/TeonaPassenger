@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import {
   FaPlane,
-  FaHotel,
   FaCar,
   FaShip,
   FaEnvelope,
