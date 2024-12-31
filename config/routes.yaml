@@ -20,6 +20,13 @@ app_get_current_user:
   controller: 'App\Controller\IndexController::getCurrentUser'
   methods: GET
 
+
+
+app_get_current_user:
+  path: "/getCurrentUser"
+  controller: 'App\Controller\IndexController::getCurrentUser'
+  methods: GET
+
 app_register_credentials:
   path: "/registerCredentials"
   controller: 'App\Controller\AuthController::registerCredentials'

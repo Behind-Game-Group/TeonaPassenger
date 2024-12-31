@@ -65,7 +65,7 @@ class AirportController extends AbstractController
             }
 
             $airport->setName($name);
-            $airport->setLocation($location);
+            // $airport->setLocation($location);
             $userProfile->addAirport($airport);
             $em->persist($airport);
             $em->flush();
@@ -116,51 +116,4 @@ class AirportController extends AbstractController
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 
-    #[Route('/modifyAirport', name: 'app_modify_airport')]
-    public function modifyAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-
-        // Vérification de la présence du token CSRF dans la requête
-        if (empty($data['csrfToken'])) {
-            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
-        }
-
-        // Validation du token CSRF
-        $csrfToken = new CsrfToken('default', $data['csrfToken']);
-        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
-            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
-        }
-
-        $user = $this->getUser();
-        if ($user instanceof User) {
-            $userProfile = $user->getUserProfile();
-
-            $id = $data['id'] ?? null;
-            if (!$id) {
-                return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-
-            $airport = $airportRepository->find($id);
-            if (!$airport) {
-                return new JsonResponse(['error' => 'Airport not found'], JsonResponse::HTTP_NOT_FOUND);
-            }
-
-            $name = $data['name'] ?? null;
-            $location = $data['location'] ?? null;
-            if (!$name || !$location) {
-                return new JsonResponse(['error' => 'Name and location are required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-
-            $airport->setName($name);
-            $airport->setLocation($location);
-
-            $em->persist($airport);
-            $em->flush();
-
-            return new JsonResponse(['message' => 'Airport updated successfully'], Response::HTTP_OK);
-        }
-
-        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
-    }
 }

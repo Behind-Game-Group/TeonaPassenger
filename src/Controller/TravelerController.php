@@ -64,7 +64,7 @@ class TravelerController extends AbstractController
             }
 
             $traveler->setName($name);
-            $traveler->setEmail($email);
+            // $traveler->setEmail($email);
             $userProfile->addTraveler($traveler); // Associe ce voyageur au profil utilisateur
             $em->persist($traveler);
             $em->flush();
