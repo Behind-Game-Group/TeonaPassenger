@@ -50,7 +50,7 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
           className="absolute top-[8.7rem] right-[50px] rounded-full p-2 bg-customOrange shadow-md text-gray-800 hover:brightness-90"
         >
-          🖌️
+          <img src="/img/Pencil.png" alt="Pencil" className="w-4" />
         </button>
         {/* Palette de couleurs */}
         {isColorPickerVisible && (

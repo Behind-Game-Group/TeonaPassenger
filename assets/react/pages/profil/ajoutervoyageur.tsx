@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
-const Preferences = () => {
+const AddVoyageur = () => {
   // State utilisateur
   const [user, setUser] = useState({
     name: "Martin",
@@ -176,4 +176,4 @@ const Preferences = () => {
   );
 };
 
-export default Preferences;
+export default AddVoyageur;
