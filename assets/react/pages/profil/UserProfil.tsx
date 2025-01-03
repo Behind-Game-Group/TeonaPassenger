@@ -139,13 +139,14 @@ const UserProfile: React.FC = () => {
     try {
       await postMethod('/deleteFidelityProgram', { id, csrfToken });
       setSuccess('Fidelity Program deleted successfully.');
-      fetchFidelityPrograms(); // Refresh the list after deletion
+      fetchFidelityPrograms(); // Rafraîchir la liste après suppression
     } catch (err) {
       setError('Failed to delete fidelity program.');
     } finally {
       setLoading(false);
     }
   };
+  
   
 
   // Nouvelle fonction pour ajouter un aéroport
@@ -514,26 +515,22 @@ const UserProfile: React.FC = () => {
         </button>
       </form>
 
-      {/* Affichage des programmes de fidélité */}
-      <h2>My Fidelity Programs</h2>
-      <ul>
-        {fidelityPrograms.map((programIndex, groupIndex) => (
-          Array.isArray(programIndex) && programIndex.length > 0 ? (
-            <ul key={groupIndex}>
-              {programIndex.map((program) => (
-                <li key={program.id}>
-                  {program.name} - {program.programNumber}
-                  <button 
+{/* Affichage des programmes de fidélité */}
+<h2>My Fidelity Programs</h2>
+<ul>
+  {fidelityPrograms.map((program) => (
+    <li key={program.id}>
+      {program.name} - {program.programNumber}
+      <button 
         onClick={() => handleDeleteFidelityProgram(program.id)} 
         style={{ marginLeft: '10px', color: 'red' }}
       >
         Delete
-                </li>
-              ))}
-            </ul>
-          ) : null
-        ))}
-      </ul>
+      </button>
+    </li>
+  ))}
+</ul>
+
       <br />
       <br />
 
