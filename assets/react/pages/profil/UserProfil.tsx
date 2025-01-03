@@ -160,6 +160,29 @@ const UserProfile: React.FC = () => {
     }
   };
 
+  const handleDeleteTraveler = async (id: number) => {
+    if (!csrfToken) {
+      setError('CSRF token is missing.');
+      return;
+    }
+  
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+  
+    try {
+      // Remplacez l'URL par le bon endpoint côté backend pour supprimer un voyageur
+      await postMethod('/deleteTraveler', { id, csrfToken });
+      setSuccess('Traveler deleted successfully.');
+      fetchTravelers(); // Rafraîchir la liste des voyageurs après suppression
+    } catch (err) {
+      setError('Failed to delete traveler.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   // Nouvelle fonction pour ajouter un aéroport
   const handleAddAirport = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -240,6 +263,8 @@ const UserProfile: React.FC = () => {
       setLoading(false);
     }
   };
+
+  
 
   if (!profile) {
     return <div>Loading...</div>;
@@ -378,12 +403,24 @@ const UserProfile: React.FC = () => {
           {loading ? 'Adding...' : 'Add Traveler'}
         </button>
       </form>
+
+
+
+      
+
+
       {/* Affichage des voyageurs */}
       <h2>My Travelers</h2>
       <ul>
         {travelers.map((traveler) => (
           <li key={traveler.id}>
             {traveler.name} {traveler.surname} - {traveler.email} - {traveler.birthdate}
+            <button 
+        onClick={() => handleDeleteTraveler(traveler.id)} 
+        style={{ marginLeft: '10px', color: 'red' }}
+      >
+        Supprimer
+      </button>
           </li>
         ))}
       </ul>

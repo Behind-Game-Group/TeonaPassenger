@@ -4,7 +4,7 @@ import axios, {AxiosError} from 'axios';
 // Créer une instance Axios avec une configuration de base
 export const instanceFile = () => {
   return axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'https://127.0.0.1:8000/',
     timeout: 10000,
     headers: {
       Accept: 'application/json',
@@ -15,7 +15,7 @@ export const instanceFile = () => {
 
 export const instance = () => {
   return axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'https://127.0.0.1:8000/',
     timeout: 10000,
     headers: {
       Accept: 'application/json',
