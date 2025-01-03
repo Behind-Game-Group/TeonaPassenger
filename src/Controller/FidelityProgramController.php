@@ -73,7 +73,7 @@ class FidelityProgramController extends AbstractController
             }
 
             // Check if the fidelity program already exists
-            $existingFidelityProgram = $fidelityProgramRepository->findOneBy(['name' => $name, 'userProfile_id' => $userProfile->getId()]);
+            $existingFidelityProgram = $fidelityProgramRepository->findOneBy(['name' => $name, 'traveler_id' => $traveler->getId()]);
             if ($existingFidelityProgram) {
                 return new JsonResponse(['error' => 'This fidelity program already exists'], JsonResponse::HTTP_BAD_REQUEST);
             }

@@ -61,6 +61,15 @@ const UserProfile: React.FC = () => {
     fetchAirports(); // Chargement des aéroports
   }, []);
 
+  // Fonction pour formater une date au format 'YYYY-MM-DD'
+  const formatDateForInput = (date: string) => {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;  // Retourne au format 'YYYY-MM-DD'
+  };
+
   const fetchUserProfile = async () => {
     try {
       const response = await getMethod('/showUserProfile');
@@ -74,7 +83,15 @@ const UserProfile: React.FC = () => {
   const fetchTravelers = async () => {
     try {
       const response = await getMethod('/showTravelers');
-      setTravelers(response);
+      if (response) {
+        // Formater les dates avant de les assigner à l'état
+        const formattedTravelers = response.map((traveler: Traveler) => ({
+            ...traveler,
+            birthdate: formatDateForInput(traveler.birthdate),
+
+        }));
+        setTravelers(formattedTravelers);
+    }
     } catch (err) {
       setError('Failed to fetch travelers.');
     }
@@ -84,6 +101,7 @@ const UserProfile: React.FC = () => {
     try {
       const response = await getMethod('/showFidelityPrograms');
       setFidelityPrograms(response);
+      console.log(response);
     } catch (err) {
       setError('Failed to fetch fidelity programs.');
     }
@@ -94,6 +112,7 @@ const UserProfile: React.FC = () => {
     try {
       const response = await getMethod('/showAirports');
       setAirports(response);
+      console.log(response);
     } catch (err) {
       setError('Failed to fetch airports.');
     }
@@ -181,6 +200,7 @@ const UserProfile: React.FC = () => {
     try {
       const response = await postMethod('/addFidelityProgram', {
         ...newFidelityProgram,
+        id: selectedTravelerId,
         csrfToken
       });
       setSuccess('Fidelity Program added successfully.');
@@ -237,8 +257,9 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="name"
-            value={newTraveler.name || ''}
-            onChange={handleTravelerChange}
+            value={formData.name || ''}
+            onChange={handleChange}
+            aria-label="User's Name"
           />
         </label>
         <br />
@@ -247,53 +268,47 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="surname"
-            value={newTraveler.surname || ''}
-            onChange={handleTravelerChange}
+            value={formData.surname || ''}
+            onChange={handleChange}
+            aria-label="User's Surname"
           />
         </label>
         <br />
         <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={newTraveler.email || ''}
-            onChange={handleTravelerChange}
-          />
-        </label>
-        <br />
-        <label>
-          Birthdate:
-          <input
-            type="date"
-            name="birthdate"
-            value={newTraveler.birthdate || ''}
-            onChange={handleTravelerChange}
-          />
-        </label>
-        <br />
-        <label>
-          Gender:
+          Username:
           <input
             type="text"
-            name="gender"
-            value={newTraveler.gender || ''}
-            onChange={handleTravelerChange}
+            name="username"
+            value={formData.username || ''}
+            onChange={handleChange}
+            aria-label="User's Username"
           />
         </label>
         <br />
         <label>
-          Phone:
+          Site:
           <input
-            type="tel"
-            name="phone"
-            value={newTraveler.phone || ''}
-            onChange={handleTravelerChange}
+            type="text"
+            name="site"
+            value={formData.site || ''}
+            onChange={handleChange}
+            aria-label="User's Site"
+          />
+        </label>
+        <br />
+        <label>
+          Local Airport:
+          <input
+            type="text"
+            name="local_airport"
+            value={formData.local_airport || ''}
+            onChange={handleChange}
+            aria-label="User's Local Airport"
           />
         </label>
         <br />
         <button type="submit" disabled={loading}>
-          {loading ? 'Adding...' : 'Add Traveler'}
+          {loading ? 'Updating...' : 'Update Profile'}
         </button>
       </form>
       {/* Formulaire pour ajouter un voyageur */}
@@ -368,7 +383,7 @@ const UserProfile: React.FC = () => {
       <ul>
         {travelers.map((traveler) => (
           <li key={traveler.id}>
-            {traveler.name} {traveler.surname} - {traveler.email}
+            {traveler.name} {traveler.surname} - {traveler.email} - {traveler.birthdate}
           </li>
         ))}
       </ul>
@@ -421,10 +436,16 @@ const UserProfile: React.FC = () => {
       {/* Affichage des programmes de fidélité */}
       <h2>My Fidelity Programs</h2>
       <ul>
-        {fidelityPrograms.map((program) => (
-          <li key={program.id}>
-            {program.name} - {program.programNumber}
-          </li>
+        {fidelityPrograms.map((programIndex, groupIndex) => (
+          Array.isArray(programIndex) && programIndex.length > 0 ? (
+            <ul key={groupIndex}>
+              {programIndex.map((program) => (
+                <li key={program.id}>
+                  {program.name} - {program.programNumber}
+                </li>
+              ))}
+            </ul>
+          ) : null
         ))}
       </ul>
       <br />

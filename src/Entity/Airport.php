@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AirportRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AirportRepository::class)]
 class Airport
@@ -11,9 +12,11 @@ class Airport
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['airport:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['airport:read'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'airports')]

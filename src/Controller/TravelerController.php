@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Traveler;
 use App\Entity\User;
 use App\Repository\TravelerRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -52,6 +53,7 @@ class TravelerController extends AbstractController
             $traveler = new Traveler();
 
             $name = $data['name'] ?? null;
+            $surname = $data['surname'] ?? null;
             $email = $data['email'] ?? null;
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
@@ -64,14 +66,16 @@ class TravelerController extends AbstractController
             }
 
             // Vérifie si le voyageur existe déjà
-            $existingTraveler = $travelerRepository->findOneBy(['email' => $email, 'userProfile' => $userProfile]);
+            $existingTraveler = $travelerRepository->findOneBy(['email' => $email, 'userProfile_id' => $userProfile]);
             if ($existingTraveler) {
                 return new JsonResponse(['error' => 'This traveler already exists'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             $traveler->setName($name);
             $traveler->setEmail($email);
-            $traveler->setBirthdate($birthdate);
+            $traveler->setSurname($surname);
+            $verifbirthdate = DateTime::createFromFormat('Y-m-d', $data['birthdate']);
+            $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
             $traveler->setPhone($phone);
