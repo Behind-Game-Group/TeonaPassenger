@@ -6,6 +6,7 @@ import UserProvider from './context/UserContext';
 import Profil from './pages/profil/Profil';
 import Resultat from './pages/Résultat/Resultat';
 import Parametres from './pages/profil/parametres';
+import Preferences from './pages/profil/preferences';
 
 
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/:category" element={<Home />} />
               <Route path="/profil" element={<Profil />} />
               <Route path="/profil/parametres.tsx" element={<Parametres/>} />
+              <Route path="/profil/preferences.tsx" element={<Preferences/>} />
               <Route path="/resultat" element={<Resultat />} />
               <Route path="/resultat/:city" element={<Resultat />} />
               </Routes>

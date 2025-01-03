@@ -64,8 +64,14 @@ class IndexController extends AbstractController
     }
 
     #[Route('/profil/parametres.tsx', name: 'app_parametres')]
-    public function profilbis():Response
+    public function parametres():Response
     {
         return $this->render('profil/parametres.html.twig');
+    }
+
+    #[Route('/profil/preferences.tsx', name: 'app_preferences')]
+    public function preferences():Response
+    {
+        return $this->render('profil/preferences.html.twig');
     }
 }

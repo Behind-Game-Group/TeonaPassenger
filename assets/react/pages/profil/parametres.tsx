@@ -1,29 +1,55 @@
 "use client";
 
 import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
 const HomePage = () => {
+
+ // State utilisateur
+ const [user, setUser] = useState({
+  name: "Martin",
+  email: "martinvallee01@gmail.com",
+  airport: "Batumi, Géorgie",
+});
+
+// État pour savoir si on est en mode édition ou non
+const [isEditing, setIsEditing] = useState({
+  name: false,
+  email: false,
+});
+
+// Gestion de la modification d'un champ
+const handleUpdateField = (field: keyof typeof user, value: string) => {
+  setUser((prev) => ({ ...prev, [field]: value }));
+};
+
+// Basculer le mode édition
+const toggleEdit = (field: keyof typeof isEditing) => {
+  setIsEditing((prev) => ({ ...prev, [field]: !prev[field] }));
+};
+
+const saveUserData = async () => {
+  try {
+    const response = await axios.post("/api/update-user", user);
+
+    if (response.status === 200) {
+      console.log("Données sauvegardées avec succès !");
+    } else {
+      throw new Error("Erreur lors de la sauvegarde des données");
+    }
+  } catch (error) {
+    console.error("Erreur :", error);
+    alert("Une erreur est survenue lors de la sauvegarde.");
+  }
+};
+
+
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
-        <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour Martin</h1>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="font-semibold">Adresse e-mail :</p>
-              <p className="mt-1">martinvallee01@gmail.com</p>
-            </div>
-            <div>
-              <p className="font-semibold">Aéroport local :</p>
-              <p className="mt-1 underline">Batumi, Géorgie</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-center w-32 h-32 rounded-full bg-blue-500 text-white text-3xl font-bold">
-          M
-        </div>
-      </div>
+      <HeaderProfil />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -33,7 +59,7 @@ const HomePage = () => {
         <a href="/profil/parametres.tsx" className="hover:underline">
           Paramètres généraux
         </a>
-        <a href="#" className="hover:underline">
+        <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
         </a>
         <a href="#" className="hover:underline">
@@ -54,13 +80,41 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-6 mt-4">
             <div>
               <p className="font-semibold">Nom :</p>
-              <p className="text-gray-700">Manuel</p>
-              <button className="text-orange-600 hover:underline mt-2">Modifier</button>
+              {isEditing.name ? (
+                <input
+                  type="text"
+                  value={user.name}
+                  onChange={(e) => handleUpdateField("name", e.target.value)}
+                  className="border rounded p-2 mt-2"
+                />
+              ) : (
+                <p className="text-gray-700">{user.name}</p>
+              )}
+              <button
+                onClick={() => toggleEdit("name")}
+                className="text-orange-600 hover:underline mt-2"
+              >
+                {isEditing.name ? "Enregistrer" : "Modifier"}
+              </button>
             </div>
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
-              <p className="text-gray-700">martinvallee01@gmail.com</p>
-              <button className="text-orange-600 hover:underline mt-2">Modifier</button>
+              {isEditing.email ? (
+                <input
+                  type="email"
+                  value={user.email}
+                  onChange={(e) => handleUpdateField("email", e.target.value)}
+                  className="border rounded p-2 mt-2"
+                />
+              ) : (
+                <p className="text-gray-700">{user.email}</p>
+              )}
+              <button
+                onClick={() => toggleEdit("email")}
+                className="text-orange-600 hover:underline mt-2"
+              >
+                {isEditing.email ? "Enregistrer" : "Modifier"}
+              </button>
             </div>
           </div>
         </div>

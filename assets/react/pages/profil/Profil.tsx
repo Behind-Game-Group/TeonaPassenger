@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
+import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
 interface Search {
   route: string;
@@ -15,6 +17,22 @@ const HomePage = () => {
     { route: "TBS → Tbilisi", date: "jeu. 13/12", details: "1 voyageur, Affaires" },
   ]);
   const [selectedSearch, setSelectedSearch] = useState<Search | null>(null);
+
+  // Couleur du cercle
+    const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
+    const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
+  
+    // Palette de couleurs
+    const colorPalette = [
+      "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#9333EA", "#3B82F6",
+      "#34D399", "#FBBF24", "#DC2626", "#8B5CF6",
+    ];
+  
+    // Fonction pour changer la couleur
+    const handleColorChange = (color: string) => {
+      setCircleColor(color);
+      setIsColorPickerVisible(false); // Cacher la palette après sélection
+    };
 
   const handleViewDetails = (search: Search) => {
     setSelectedSearch(search); // Ouvre la modal avec les détails
@@ -31,27 +49,25 @@ const HomePage = () => {
     setSelectedSearch(null); // Ferme la modal
   };
 
+  const saveUserData = async () => {
+    try {
+      const response = await axios.post("/api/update-user", searchHistory);
+  
+      if (response.status === 200) {
+        console.log("Données sauvegardées avec succès !");
+      } else {
+        throw new Error("Erreur lors de la sauvegarde des données");
+      }
+    } catch (error) {
+      console.error("Erreur :", error);
+      alert("Une erreur est survenue lors de la sauvegarde.");
+    }
+  };
+
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header */}
-      <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
-        <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour Martin</h1>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <p className="font-semibold">Adresse e-mail :</p>
-              <p className="mt-1">martinvallee01@gmail.com</p>
-            </div>
-            <div>
-              <p className="font-semibold">Aéroport local :</p>
-              <p className="mt-1 underline">Batumi, Géorgie</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-center w-32 h-32 rounded-full bg-blue-500 text-white text-3xl font-bold">
-          M
-        </div>
-      </div>
+      <HeaderProfil />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -61,7 +77,7 @@ const HomePage = () => {
         <a href="/profil/parametres.tsx" className="hover:underline">
           Paramètres généraux
         </a>
-        <a href="#" className="hover:underline">
+        <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
         </a>
         <a href="#" className="hover:underline">
