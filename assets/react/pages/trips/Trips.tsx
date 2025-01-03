@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { postMethod, getMethod, deleteMethod, putMethod } from '../../services/axiosInstance';
 import { useUserContext } from '../../context/UserContext';
 
+// Définition des types des données utilisateur
 type Trip = {
     id: number;
     destination: string;

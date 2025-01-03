@@ -47,7 +47,7 @@ class AuthController extends AbstractController
     #[Route('/loginCreddentials', name: 'app_login_credentials', methods: ['POST'])]
     public function loginCreddentials(): JsonResponse
     {
-        // Symfony déclenchera automatiquement le SecurityControllerAuthenticator sur cette route.
+        
         return new JsonResponse(['message' => 'You should never see this!'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 

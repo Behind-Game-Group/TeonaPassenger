@@ -80,9 +80,9 @@ class ExpeditorController extends AbstractController
             $userProfile->addAuthorizedExpeditor($expeditor);
             $expeditorRepository->save($expeditor, true);
 
-            return new JsonResponse(['message' => 'User added to expeditors'], 201);  // Utilisation de 'message' pour une réponse réussie
+            return new JsonResponse(['message' => 'User added to expeditors'], 201);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Internal server error: ' . $e->getMessage()], 500);  // Retour d'une erreur générique
+            return new JsonResponse(['error' => 'Internal server error: ' . $e->getMessage()], 500); 
         }
     }
 
@@ -93,7 +93,6 @@ class ExpeditorController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
 
-            // Vérification de la présence du token CSRF dans la requête
             if (empty($data['csrfToken'])) {
                 return new JsonResponse(['error' => 'You are not logged in!'], Response::HTTP_BAD_REQUEST);
             }

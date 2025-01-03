@@ -32,8 +32,6 @@ function ProfileDisplay() {
 
     const {csrfToken} = useUserContext();
 
-    // Handlers pour chaque champ de formulaire
-
     const handleEmailChangeExpeditor = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmailExpeditor(e.target.value);
     };
@@ -61,10 +59,10 @@ function ProfileDisplay() {
             const response = await postMethod(url, data);
 
             if (response) {
-                // Vérifier si la réponse contient un message
+
                 setExpeditorSuccessMessage(response.message || 'Opération réussie');
-                setExpeditorErrorMessage('');  // On réinitialise l'erreur en cas de succès
-                fetchExpeditors(); // Recharge la liste des expéditeurs
+                setExpeditorErrorMessage('');  
+                fetchExpeditors(); 
             } else {
                 setExpeditorErrorMessage('Une erreur inattendue est survenue.');
             }
@@ -72,7 +70,7 @@ function ProfileDisplay() {
             console.error('Erreur Axios : ', error);
 
             if (error.response) {
-                // Vérification du type d'erreur : on peut renvoyer le message d'erreur du backend
+                
                 setExpeditorErrorMessage(error.response.data.error || 'Une erreur est survenue.');
             } else {
                 setExpeditorErrorMessage('Erreur réseau. Veuillez réessayer.');
@@ -88,13 +86,12 @@ function ProfileDisplay() {
             const response = await getMethod(url);
             console.log('Réponse de l’API :', response);
 
-            // Si la réponse contient un tableau, mettez à jour l'état
             if (response) {
                 setExpeditors(response);
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des expéditeurs :', error);
-            setExpeditors([]); // Nettoyez les données en cas d'erreur
+            setExpeditors([]); 
         }
     };
 
@@ -107,7 +104,7 @@ function ProfileDisplay() {
         const data = { email: emailToDelete, csrfToken  };
 
         try {
-            const response = await deleteMethod(url, data); // Envoyer l'email dans le corps
+            const response = await deleteMethod(url, data); 
 
             if (response.status === 200) {
                 setExpeditors((prevExpeditors) =>
@@ -136,7 +133,6 @@ function ProfileDisplay() {
         setSharedTripSuccessMessage('');
         setSharedTripErrorMessage('');
 
-        // Validation côté client
         if (emailSharedTrip.trim() === '') {
             setSharedTripErrorMessage('Veuillez entrer un email valide.');
             return;
@@ -158,9 +154,8 @@ function ProfileDisplay() {
         try {
             const response = await postMethod(url, data);
 
-            // Succès
             if (response && response.message) {
-                setSharedTripSuccessMessage(response.message); // Assume que `response.message` existe
+                setSharedTripSuccessMessage(response.message); 
                 fetchSharedTrips();
             } else {
                 setSharedTripErrorMessage('Une erreur inattendue est survenue.');
@@ -168,15 +163,14 @@ function ProfileDisplay() {
         } catch (error: any) {
             console.error('Erreur détectée:', error);
 
-            // Gestion des erreurs du backend
             if (error.response) {
-                // Erreur avec une réponse du serveur
+                
                 setSharedTripErrorMessage(error.response.data.error || 'Erreur inconnue du serveur.');
             } else if (error.request) {
-                // Erreur réseau
+            
                 setSharedTripErrorMessage('Erreur réseau. Veuillez vérifier votre connexion.');
             } else {
-                // Autre type d'erreur
+                
                 setSharedTripErrorMessage('Une erreur inattendue est survenue.');
             }
         }
@@ -190,12 +184,11 @@ function ProfileDisplay() {
             const response = await getMethod(url);
             console.log('Réponse de l’API :', response);
 
-            // Si la réponse contient un tableau, mettez à jour l'état
             if (response) {
-                // Formater les données avant de les assigner à l'état
+                
                 const formattedSharedTrips = response.map((sharedTrip: SharedTrip) => ({
                     ...sharedTrip,
-                    isEditable: sharedTrip.isEditable, // Conserve la valeur booléenne telle quelle
+                    isEditable: sharedTrip.isEditable, 
                 }));
                 setSharedTrips(formattedSharedTrips);
 
@@ -217,7 +210,7 @@ function ProfileDisplay() {
         const data = { email: emailToDelete, csrfToken };
 
         try {
-            const response = await deleteMethod(url, data); // Envoyer l'email dans le corps
+            const response = await deleteMethod(url, data);
 
             if (response.status === 200) {
                 setSharedTrips((prevSharedTrips) =>
@@ -281,7 +274,7 @@ function ProfileDisplay() {
                             <li key={expeditor.id} className='mt-2'>
                                 {expeditor.email}
                                 <button
-                                    onClick={() => handleDeleteExpeditor(expeditor.email)} // Passage de l'email spécifique à supprimer
+                                    onClick={() => handleDeleteExpeditor(expeditor.email)}
                                     className="ml-2 text-red-500 hover:text-red-700"
                                 >
                                     Delete
@@ -355,7 +348,7 @@ function ProfileDisplay() {
                                 <li key={sharedTrip.id} className='mt-2'>
                                     {sharedTrip.email} - {sharedTrip.isEditable == true ? 'Peut éditer' : 'Ne peut pas éditer'}
                                     <button
-                                        onClick={() => handleDeleteSharedTrip(sharedTrip.email)} // Passage de l'email spécifique à supprimer
+                                        onClick={() => handleDeleteSharedTrip(sharedTrip.email)}
                                         className="ml-2 text-red-500 hover:text-red-700"
                                     >
                                         Supprimer
