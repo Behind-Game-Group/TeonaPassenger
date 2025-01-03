@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
-const HomePage = () => {
+const Parametres = () => {
 
  // State utilisateur
  const [user, setUser] = useState({
@@ -49,7 +49,7 @@ const saveUserData = async () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil />
+      <HeaderProfil user={user} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -152,4 +152,4 @@ const saveUserData = async () => {
   );
 };
 
-export default HomePage;
+export default Parametres;

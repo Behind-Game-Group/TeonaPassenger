@@ -10,7 +10,14 @@ interface Search {
   details: string;
 }
 
+
 const HomePage = () => {
+  const [user, setUser] = useState({
+      name: "Martin",
+      email: "martinvallee01@gmail.com",
+      airport: "Batumi, Géorgie",
+      OtherAirport: "Charles de Gaulle, Paris",
+    });
   const [searchHistory, setSearchHistory] = useState<Search[]>([
     { route: "TBS → Batumi", date: "mer. 11/12", details: "1 voyageur, Éco" },
     { route: "SOF → Sofia", date: "mer. 12/12", details: "2 voyageurs, Éco" },
@@ -67,7 +74,7 @@ const HomePage = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header */}
-      <HeaderProfil />
+      <HeaderProfil user={user}/>
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
