@@ -43,7 +43,7 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
             </div>
           </div>
         </div>
-        <div className="relative flex items-center justify-center w-32 h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
+        <div className="relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
           {user.name.charAt(0)}
         </div>
         <button
@@ -54,7 +54,7 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
         </button>
         {/* Palette de couleurs */}
         {isColorPickerVisible && (
-          <div className="absolute top-[10rem] right-[30px] bg-white p-2 border rounded shadow-lg">
+          <div className="absolute top-[11rem] right-[30px] bg-white p-2 border rounded shadow-lg">
             <div className="grid grid-cols-5 gap-2">
               {colorPalette.map((color, index) => (
                 <div

@@ -10,7 +10,6 @@ interface Search {
   details: string;
 }
 
-
 const HomePage = () => {
   const [user, setUser] = useState({
       name: "Martin",
@@ -86,6 +85,9 @@ const HomePage = () => {
         </a>
         <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
+        </a>
+        <a href="#" className="hover:underline">
+          Voyageurs
         </a>
         <a href="#" className="hover:underline">
           Infos de paiement

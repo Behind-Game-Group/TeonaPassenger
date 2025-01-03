@@ -91,6 +91,9 @@ const Preferences = () => {
         <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
         </a>
+        <a href="/profil/voyageurs.tsx" className="hover:underline">
+          Voyageurs
+        </a>
         <a href="#" className="hover:underline">
           Infos de paiement
         </a>

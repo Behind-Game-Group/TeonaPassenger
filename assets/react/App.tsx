@@ -7,6 +7,8 @@ import Profil from './pages/profil/Profil';
 import Resultat from './pages/Résultat/Resultat';
 import Parametres from './pages/profil/parametres';
 import Preferences from './pages/profil/preferences';
+import Voyageurs from './pages/profil/voyageurs';
+import AjouterVoyageur from './pages/profil/ajoutervoyageur';
 
 
 
@@ -22,6 +24,8 @@ function App() {
               <Route path="/profil" element={<Profil />} />
               <Route path="/profil/parametres.tsx" element={<Parametres/>} />
               <Route path="/profil/preferences.tsx" element={<Preferences/>} />
+              <Route path="/profil/voyageurs.tsx" element={<Voyageurs/>} />
+              <Route path="/profil/ajoutervoyageur.tsx" element={<AjouterVoyageur/>} />
               <Route path="/resultat" element={<Resultat />} />
               <Route path="/resultat/:city" element={<Resultat />} />
               </Routes>

@@ -63,6 +63,9 @@ const saveUserData = async () => {
           Préférences
         </a>
         <a href="#" className="hover:underline">
+          Voyageurs
+        </a>
+        <a href="#" className="hover:underline">
           Infos de paiement
         </a>
         <a href="#" className="hover:underline">
