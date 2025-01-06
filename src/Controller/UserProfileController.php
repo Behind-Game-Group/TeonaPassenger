@@ -48,10 +48,20 @@ class UserProfileController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            $userProfile->setName($data['name'] ?? $userProfile->getName());
-            $userProfile->setSurname($data['surname'] ?? $userProfile->getSurname());
-            $userProfile->setUsername($data['username'] ?? $userProfile->getUsername());
-            $userProfile->setSite($data['site'] ?? $userProfile->getSite());
+
+            $name = $data['name'] ?? null;
+            $surname = $data['surname'] ?? null;
+            $username = $data['username'] ?? null;
+            $site = $data['site'] ?? null;
+
+            if (!$name || !$surname || !$username || !$site) {
+                return new JsonResponse(['error' => 'Name, surname, username and site are required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $userProfile->setName($name);
+            $userProfile->setSurname($surname);
+            $userProfile->setUsername($username);
+            $userProfile->setSite($site);
             $userProfile->setLocalAirport($data['local_airport'] ?? $userProfile->getLocalAirport());
             $userProfile->setUpdateTime(new DateTimeImmutable());
             $em->persist($userProfile);

@@ -303,7 +303,7 @@ const UserProfile: React.FC = () => {
       setSuccess('Profile updated successfully.');
       setProfile({ ...profile, ...formData } as UserProfile);
     } catch (err) {
-      setError('Failed to add traveler.');
+      setError('Failed to update profile.');
     } finally {
       setLoading(false);
     }
@@ -519,15 +519,19 @@ const UserProfile: React.FC = () => {
 <h2>My Fidelity Programs</h2>
 <ul>
   {fidelityPrograms.map((program) => (
-    <li key={program.id}>
-      {program.name} - {program.programNumber}
-      <button 
-        onClick={() => handleDeleteFidelityProgram(program.id)} 
-        style={{ marginLeft: '10px', color: 'red' }}
-      >
-        Delete
-      </button>
-    </li>
+    Array.isArray(program) ? (
+      program.map((program) => (
+        <li key={program.id}>
+          {program.name} - {program.programNumber}
+          <button
+            onClick={() => handleDeleteFidelityProgram(program.id)}
+            style={{ marginLeft: '10px', color: 'red' }}
+          >
+            Delete
+          </button>
+        </li>
+      ))
+    ) : null
   ))}
 </ul>
 

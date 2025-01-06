@@ -108,16 +108,7 @@ class FidelityProgramController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
-            $traveler_id = $data['traveler_id'] ?? null;
-            if (!$traveler_id) {
-                return new JsonResponse(['error' => 'Traveler id is required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-            $traveler = $travelerRepository->find($traveler_id);
-            if (!$traveler) {
-                return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
-            }
-
-            $program_id = $data['program_id'] ?? null;
+            $program_id = $data['id'] ?? null;
             if (!$program_id) {
                 return new JsonResponse(['error' => 'Program id is required'], JsonResponse::HTTP_BAD_REQUEST);
             }
@@ -126,66 +117,12 @@ class FidelityProgramController extends AbstractController
                 return new JsonResponse(['error' => 'Program not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
+            $traveler = $program->getTravelerId();
             $traveler->removeFidelityProgram($program);
             $em->remove($program);
             $em->flush();
 
             return new JsonResponse(['message' => 'Fidelity program deleted successfully'], Response::HTTP_OK);
-        }
-
-        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
-    }
-
-    #[Route('/modifyFidelityProgram', name: 'app_modify_fidelity_program')]
-    public function modifyFidelityProgram(EntityManagerInterface $em, Request $request, FidelityProgramRepository $fidelityProgramRepository, CsrfTokenManagerInterface $csrfTokenManager, TravelerRepository $travelerRepository): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-
-        // Vérification de la présence du token CSRF dans la requête
-        if (empty($data['csrfToken'])) {
-            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
-        }
-
-        // Validation du token CSRF
-        $csrfToken = new CsrfToken('default', $data['csrfToken']);
-        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
-            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
-        }
-
-        $user = $this->getUser();
-        if ($user instanceof User) {
-            $traveler_id = $data['traveler_id'] ?? null;
-            if (!$traveler_id) {
-                return new JsonResponse(['error' => 'Traveler id is required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-            $traveler = $travelerRepository->find($traveler_id);
-            if (!$traveler) {
-                return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
-            }
-
-            $program_id = $data['program_id'] ?? null;
-            if (!$program_id) {
-                return new JsonResponse(['error' => 'Program id is required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-
-            $fidelityProgram = $fidelityProgramRepository->find($program_id);
-            if (!$fidelityProgram) {
-                return new JsonResponse(['error' => 'Fidelity program not found'], JsonResponse::HTTP_NOT_FOUND);
-            }
-
-            $name = $data['name'] ?? null;
-            $programNumber = $data['programNumber'] ?? null;
-            if (!$name || !$programNumber) {
-                return new JsonResponse(['error' => 'Name and description are required'], JsonResponse::HTTP_BAD_REQUEST);
-            }
-
-            $fidelityProgram->setName($name);
-            $fidelityProgram->setProgramNumber($programNumber);
-
-            $em->persist($fidelityProgram);
-            $em->flush();
-
-            return new JsonResponse(['message' => 'Fidelity program updated successfully'], Response::HTTP_OK);
         }
 
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
