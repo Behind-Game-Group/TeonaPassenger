@@ -141,7 +141,7 @@ const Voyageur = () => {
             </div>
           <div className="grid grid-cols-2 gap-6 mt-4">
             <div>
-              <p className="font-semibold">Prénom :</p>
+              <p className="font-semibold">Prénom</p>
               {isEditing.name ? (
                 <input
                   type="text"
@@ -160,7 +160,7 @@ const Voyageur = () => {
               </button>
             </div>
             <div>
-              <p className="font-semibold">Second prénom :</p>
+              <p className="font-semibold">Second prénom</p>
               {isEditing.secondname ? (
                 <input
                   type="secondname"
@@ -181,7 +181,7 @@ const Voyageur = () => {
               </button>
             </div>
             <div>
-              <p className="font-semibold">Nom :</p>
+              <p className="font-semibold">Nom</p>
               {isEditing.lastname ? (
                 <input
                   type="lastname"
@@ -202,7 +202,7 @@ const Voyageur = () => {
               </button>
             </div>
             <div>
-              <p className="font-semibold">Date de naissance :</p>
+              <p className="font-semibold">Date de naissance</p>
               {isEditing.birthday ? (
                 <input
                   type="birthday"
@@ -223,7 +223,7 @@ const Voyageur = () => {
               </button>
             </div>
             <div>
-              <p className="font-semibold">Sexe :</p>
+              <p className="font-semibold">Sexe</p>
               {isEditing.sexe ? (
                 <input
                   type="sexe"
@@ -242,7 +242,7 @@ const Voyageur = () => {
               </button>
             </div>
             <div>
-              <p className="font-semibold">Téléphone :</p>
+              <p className="font-semibold">Téléphone</p>
               {isEditing.tel ? (
                 <input
                   type="tel"

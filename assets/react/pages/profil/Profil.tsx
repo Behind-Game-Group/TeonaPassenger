@@ -71,7 +71,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
+    <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-20 z-10">
       {/* Header */}
       <HeaderProfil user={user}/>
 
@@ -86,7 +86,7 @@ const HomePage = () => {
         <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
         </a>
-        <a href="#" className="hover:underline">
+        <a href="/profil/voyageurs.tsx" className="hover:underline">
           Voyageurs
         </a>
         <a href="#" className="hover:underline">

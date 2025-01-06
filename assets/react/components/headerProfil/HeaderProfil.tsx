@@ -32,7 +32,7 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
       <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
           <h1 className="text-2xl font-bold">Bonjour {user.name}</h1>
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
               <p className="mt-1">{user.email}</p>
@@ -54,13 +54,14 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
         </button>
         {/* Palette de couleurs */}
         {isColorPickerVisible && (
-          <div className="absolute top-[11rem] right-[30px] bg-white p-2 border rounded shadow-lg">
+          <div className="absolute top-[11rem] right-[30px] bg-customOrange p-2 rounded shadow-lg">
+              <h2 className="text-black pb-1 ">Couleur de votre profil :</h2>
             <div className="grid grid-cols-5 gap-2">
               {colorPalette.map((color, index) => (
                 <div
                   key={index}
                   onClick={() => handleColorChange(color)}
-                  className="w-8 h-8 rounded-full cursor-pointer"
+                  className="w-8 h-8 border-[0.5px] border-white rounded-full cursor-pointer"
                   style={{ backgroundColor: color }}
                 />
               ))}

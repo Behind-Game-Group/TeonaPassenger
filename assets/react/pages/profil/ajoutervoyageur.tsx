@@ -52,8 +52,8 @@ const AddVoyageur = () => {
     birthday: "",
     sexe: "",
     tel: "",
-    airport: "",
-    OtherAirport: "",
+    DHS: "",
+    KTN: "",
   });
 
   // Mapping des intitulés des champs
@@ -62,10 +62,10 @@ const AddVoyageur = () => {
     secondname: "Deuxième prénom",
     lastname: "Nom de famille",
     birthday: "Date de naissance",
-    sexe: "Sexe",
+    sexe: " ",
     tel: "Numéro de téléphone",
-    airport: "Aéroport préféré",
-    OtherAirport: "Autre aéroport",
+    DHS: "Numéro de recours DHS",
+    KTN: "Numéro de voyageur (KTN)",
   };
 
   // Mapping des placeholders
@@ -76,8 +76,8 @@ const AddVoyageur = () => {
     birthday: "JJ/MM/AAAA",
     sexe: "Sélectionnez votre sexe",
     tel: "Entrez votre numéro de téléphone",
-    airport: "Entrez l’aéroport préféré",
-    OtherAirport: "Entrez un autre aéroport",
+    DHS: "Entrez votre numéro de recours DHS",
+    KTN: "Entrez votre numéro de voyageur (KTN)",
   };
 
   // Fonction pour gérer la modification d'un champ
@@ -119,7 +119,7 @@ const AddVoyageur = () => {
         <a href="/profil/preferences.tsx" className="hover:underline">
           Préférences
         </a>
-        <a href="#" className="hover:underline">
+        <a href="/profil/voyageurs.tsx" className="hover:underline">
           Voyageurs
         </a>
         <a href="#" className="hover:underline">
@@ -144,7 +144,11 @@ const AddVoyageur = () => {
           </p>
           <div
             className="relative flex mt-2 items-center justify-center rounded-full text-white text-3xl font-bold"
-            style={{ backgroundColor: circleColor, width: "80px", height: "80px" }}
+            style={{
+              backgroundColor: circleColor,
+              width: "80px",
+              height: "80px",
+            }}
           >
             {newField.name.charAt(0) || user.name.charAt(0)}
           </div>
@@ -152,14 +156,40 @@ const AddVoyageur = () => {
           <div className="grid grid-cols-2 gap-6 mt-4">
             {Object.keys(newField).map((key) => (
               <div key={key}>
-                <p className="font-semibold">{fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1)} :</p>
-                <input
-                  type="text"
-                  value={newField[key as keyof typeof newField]}
-                  onChange={(e) => handleFieldChange(key as keyof typeof newField, e.target.value)}
-                  placeholder={fieldPlaceholders[key] || "Entrez une valeur"}
-                  className="border rounded p-2 mt-2 w-72"
-                />
+                <p className="font-semibold">
+                  {fieldLabels[key] ||
+                    key.charAt(0).toUpperCase() + key.slice(1)}{" "}
+                  
+                </p>
+                {key === "sexe" ? (
+                  <select
+                    value={newField[key as keyof typeof newField]}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        key as keyof typeof newField,
+                        e.target.value
+                      )
+                    }
+                    className="border rounded p-2 mt-2 w-[19rem]"
+                  >
+                    <option value="">Sexe *</option>
+                    <option value="Masculin">Masculin</option>
+                    <option value="Féminin">Féminin</option>
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={newField[key as keyof typeof newField]}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        key as keyof typeof newField,
+                        e.target.value
+                      )
+                    }
+                    placeholder={fieldPlaceholders[key] || "Entrez une valeur"}
+                    className="border rounded p-2 mt-2 w-[19rem]"
+                  />
+                )}
               </div>
             ))}
           </div>
