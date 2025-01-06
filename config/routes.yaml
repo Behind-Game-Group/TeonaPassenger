@@ -15,6 +15,20 @@ app_vols:
   path: "/vols/page"
   controller: 'App\Controller\IndexController::vols'
 
+app_favorite:
+  path: "/favorite"
+  controller: 'App\Controller\IndexController::favorite'
+
+app_shared_trips:
+  path: "/sharedtrips"
+  controller: 'App\Controller\IndexController::sharedTrips'
+  methods: GET
+
+app_trips:
+  path: "/trips"
+  controller: 'App\Controller\IndexController::Trips'
+  methods: GET
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -162,3 +176,53 @@ app_update_user_profile:
   path: /updateUserProfile
   controller: App\Controller\UserProfileController::updateUserProfile
   methods: [POST, UPDATE]
+
+app_display_expeditors:
+  path: "/expeditors"
+  controller: 'App\Controller\ExpeditorController::displayExpeditors'
+  methods: GET
+
+app_add_expeditor:
+  path: "/expeditors"
+  controller: 'App\Controller\ExpeditorController::addExpeditor'
+  methods: POST
+
+app_remove_expeditor:
+  path: "/expeditor"
+  controller: 'App\Controller\ExpeditorController::removeExpeditor'
+  methods: DELETE
+
+app_get_trips:
+  path: "/trips/display"
+  controller: 'App\Controller\TripsController::getTrips'
+  methods: GET
+
+app_delete_trip:
+  path: "/trip"
+  controller: 'App\Controller\TripsController::deleteTrip'
+  methods: DELETE
+
+app_edit_trip:
+  path: "/trip/{id}"
+  controller: 'App\Controller\TripsController::editTrip'
+  methods: PUT
+
+app_shared_trips_add:
+  path: "/sharedtrips/add"
+  controller: 'App\Controller\SharedTripsController::addSharedTrips'
+  methods: POST
+
+app_display_shared_trips:
+  path: "/sharedtrips/display"
+  controller: 'App\Controller\SharedTripsController::displaySharedTrips'
+  methods: GET
+
+app_delete_shared_trip:
+  path: "/sharedtrips/delete"
+  controller: 'App\Controller\SharedTripsController::deleteSharedTrip'
+  methods: DELETE
+
+app_add_trip:
+  path: "/trip/add"
+  controller: 'App\Controller\TripsController::addTrip'
+  methods: POST

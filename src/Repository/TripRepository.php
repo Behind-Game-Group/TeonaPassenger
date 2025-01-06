@@ -16,6 +16,20 @@ class TripRepository extends ServiceEntityRepository
         parent::__construct($registry, Trip::class);
     }
 
+    public function save(Trip $trip, ?bool $isSaved = true): void
+    {
+        $this->getEntityManager()->persist($trip);
+
+        if ($isSaved) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Trip $trip): void
+    {
+        $this->getEntityManager()->remove($trip);
+        $this->getEntityManager()->flush();
+    }
 //    /**
 //     * @return Trip[] Returns an array of Trip objects
 //     */

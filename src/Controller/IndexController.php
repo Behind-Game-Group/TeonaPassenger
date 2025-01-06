@@ -36,8 +36,32 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/favorite', name: 'app_favorite')]
+    public function favorite(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/vols/page', name: 'app_profil')]
     public function vols(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/sharedtrips', name: 'app_shared_trips', methods: ['GET'])]
+    public function sharedTrips(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/trips', name: 'app_trips', methods: ['GET'])]
+    public function Trips(): Response
     {
         return $this->render('index/index.html.twig', [
             'sitename' => 'Teona Passenger',

@@ -4,20 +4,24 @@ namespace App\Entity;
 
 use App\Repository\SharedTripRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SharedTripRepository::class)]
 class SharedTrip
 {
+    #[Groups('sharedTrip:read')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('sharedTrip:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    #[Groups('sharedTrip:read')]
     #[ORM\Column]
-    private ?bool $isShared = null;
+    private ?bool $isEditable = null;
 
     #[ORM\ManyToOne(inversedBy: 'sharedTrips')]
     #[ORM\JoinColumn(nullable: false)]
@@ -40,14 +44,14 @@ class SharedTrip
         return $this;
     }
 
-    public function isShared(): ?bool
+    public function isEditable(): ?bool
     {
-        return $this->isShared;
+        return $this->isEditable;
     }
 
-    public function setShared(bool $isShared): static
+    public function setIsEditable(bool $isEditable): static
     {
-        $this->isShared = $isShared;
+        $this->isEditable = $isEditable;
 
         return $this;
     }
