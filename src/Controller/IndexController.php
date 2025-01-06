@@ -95,24 +95,10 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/vols', name: 'app_vols')]
-    public function vols(): Response
-    {
-        return $this->render('vols/vols.html.twig', [
-            'test' => 'test'
-        ]);
-    }
-
     #[Route('/hebergement', name: 'app_hebergement')]
     public function hebergement(): Response
     {
         return $this->render('hebergement/hebergement.html.twig');
-    }
-
-    #[Route('/profil', name: 'app_profil')]
-    public function profil(): Response
-    {
-        return $this->render('profil/profil.html.twig');
     }
 
     #[Route('/profil/parametres.tsx', name: 'app_parametres')]
