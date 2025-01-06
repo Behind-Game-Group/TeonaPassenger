@@ -153,11 +153,6 @@ app_delete_fidelity_program:
   controller: App\Controller\FidelityProgramController::deleteFidelityProgram
   methods: [POST, DELETE]
 
-app_modify_fidelity_program:
-  path: /modifyFidelityProgram
-  controller: App\Controller\FidelityProgramController::modifyFidelityProgram
-  methods: [POST, UPDATE]
-
 app_show_user_profile:
   path: /showUserProfile
   controller: App\Controller\UserProfileController::showUserProfile

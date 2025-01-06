@@ -169,7 +169,8 @@ class TravelerController extends AbstractController
 
             $traveler->setName($name);
             $traveler->setEmail($email);
-            $traveler->setBirthdate($birthdate);
+            $verifbirthdate = DateTime::createFromFormat('Y-m-d', $birthdate);
+            $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
             $traveler->setPhone($phone);
