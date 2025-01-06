@@ -9,8 +9,11 @@ import Parametres from './pages/profil/parametres';
 import Preferences from './pages/profil/preferences';
 import Voyageurs from './pages/profil/voyageurs';
 import AjouterVoyageur from './pages/profil/ajoutervoyageur';
-
-
+import Favorite from './pages/profil/Favorite';
+import UserProfil from './pages/profil/UserProfil';
+import ProfileDisplay from './pages/profil/Profil';
+import SharedTrips from './pages/sharedtrips/Sharedtrips';
+import Trips from './pages/trips/Trips';
 
 function App() {
   return (
@@ -28,6 +31,12 @@ function App() {
               <Route path="/profil/ajoutervoyageur.tsx" element={<AjouterVoyageur/>} />
               <Route path="/resultat" element={<Resultat />} />
               <Route path="/resultat/:city" element={<Resultat />} />
+              <Route path='/profil' element={<ProfileDisplay />} />
+              <Route path='/favorite' element={<Favorite />} />
+              <Route path="/sharedtrips" element={<SharedTrips />} />
+              <Route path="/trips" element={<Trips />} />
+              {/* Ajout de la route */}
+              <Route path='/UserProfil' element={<UserProfil />} />
               </Routes>
           </Layout>
         </>

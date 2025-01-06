@@ -15,6 +15,7 @@ security:
     main:
       custom_authenticators:
         - App\Security\SecurityControllerAuthenticator
+        - App\Security\GoogleAuthenticator
       logout:
         path: logout_route
         target: /

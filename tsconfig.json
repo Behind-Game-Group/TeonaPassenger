@@ -10,5 +10,5 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["assets/**/*", "assets/react/pages/home", "assets/react/components"]
+  "include": ["assets/**/*"]
 }

@@ -1,10 +1,11 @@
 import axios, {AxiosError} from 'axios';
 
+
 // Créer une instance Axios avec une configuration de base
 export const instanceFile = () => {
   return axios.create({
     baseURL: 'https://127.0.0.1:8000/',
-    timeout: 1000,
+    timeout: 10000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'multipart/form-data',
@@ -15,7 +16,7 @@ export const instanceFile = () => {
 export const instance = () => {
   return axios.create({
     baseURL: 'https://127.0.0.1:8000/',
-    timeout: 1000,
+    timeout: 10000,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -97,4 +98,41 @@ export const postFileMethod = async (url: string, formData: FormData) => {
   const apiInstance = instanceFile();
   const response = await apiInstance.post(url, formData);
   return response.data;
+};
+
+
+//DELETE
+export const deleteMethod = async (url: string, data: any) => {
+  return axios.delete(url, {
+    data, // Ajout explicite des données dans la requête DELETE
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+
+//PUT
+export const putMethod = async (url: string, data: Record<string, unknown> = {}) => {
+  const apiInstance = instance();
+  try {
+    const response = await apiInstance.put(url, data);
+    return response.data; // Retourne les données de la réponse
+  } catch (error) {
+    if (
+      axios.isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      console.warn(error.response.data.message); // Affiche le message d'erreur provenant du back
+      throw error;
+    } else if (axios.isAxiosError(error) && error.code === 'ECONNABORTED') {
+      // erreur de timeout
+      console.warn('La requête a expiré. Veuillez réessayer plus tard.');
+      throw new Error('Timeout de la requête dépassé');
+    } else {
+      console.warn('Une erreur est survenue. Veuillez réessayer.');
+      throw error;
+    }
+  }
 };

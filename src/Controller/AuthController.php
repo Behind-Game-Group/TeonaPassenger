@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserProfile;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class AuthController extends AbstractController
 {
@@ -27,7 +31,12 @@ class AuthController extends AbstractController
 
         $user = new User();
         $user->setEmail($email);
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($passwordHasher->hashPassword($user, $password));
+
+        $userprofile = new UserProfile();
+        $userprofile->setCreateTime(new DateTimeImmutable());
+        $user->setUserProfile($userprofile);
 
         $em->persist($user);
         $em->flush();

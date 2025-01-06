@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class IndexController extends AbstractController
 {
@@ -18,13 +19,64 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/profil', name: 'app_profil')]
+    public function profil(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    // Ajout de la route
+    #[Route('/userprofil', name: 'app_userprofil')]
+    public function userprofil(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/favorite', name: 'app_favorite')]
+    public function favorite(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/vols/page', name: 'app_profil')]
+    public function vols(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/sharedtrips', name: 'app_shared_trips', methods: ['GET'])]
+    public function sharedTrips(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/trips', name: 'app_trips', methods: ['GET'])]
+    public function Trips(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
-    public function getCurrentUser(): JsonResponse
+    public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
         $user = $this->getUser();
+        $csrfToken = $csrfTokenManager->getToken('default')->getValue();
         if ($user instanceof User) {
             return new JsonResponse([
                 'user' => [
+                    'csrfToken' => $csrfToken, 
                     'id' => $user->getId(),
                     'email' => $user->getEmail(),
                     'roles' => $user->getRoles(),
