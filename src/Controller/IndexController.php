@@ -6,7 +6,7 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class IndexController extends AbstractController
@@ -27,9 +27,8 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // Ajout de la route
     #[Route('/userprofil', name: 'app_userprofil')]
-    public function userprofil(): Response
+    public function userProfil(): Response
     {
         return $this->render('index/index.html.twig', [
             'sitename' => 'Teona Passenger',
@@ -44,7 +43,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/vols/page', name: 'app_profil')]
+    #[Route('/vols/page', name: 'app_vols')]
     public function vols(): Response
     {
         return $this->render('index/index.html.twig', [
@@ -61,7 +60,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/trips', name: 'app_trips', methods: ['GET'])]
-    public function Trips(): Response
+    public function trips(): Response
     {
         return $this->render('index/index.html.twig', [
             'sitename' => 'Teona Passenger',
@@ -72,26 +71,31 @@ class IndexController extends AbstractController
     public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
         $user = $this->getUser();
-        $csrfToken = $csrfTokenManager->getToken('default')->getValue();
-        if ($user instanceof User) {
-            return new JsonResponse([
-                'user' => [
-                    'csrfToken' => $csrfToken, 
-                    'id' => $user->getId(),
-                    'email' => $user->getEmail(),
-                    'roles' => $user->getRoles(),
-                ],
-            ]);
+
+        if (!$user instanceof User) {
+            return $this->json([
+                'success' => false,
+                'message' => 'User not authenticated',
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+        $csrfToken = $csrfTokenManager->getToken('default')->getValue();
+        return $this->json([
+            'success' => true,
+            'user' => [
+                'csrfToken' => $csrfToken,
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'roles' => $user->getRoles(),
+            ],
+        ]);
     }
 
-    #[Route('/assets/react/pages/Résultat/Resultat.tsx', name:'resultats')]
-    public function resultat():Response
+    #[Route('/resultat', name: 'app_resultats')]
+    public function resultat(): Response
     {
         return $this->render('resultat/resultat.html.twig', [
-            'test' => 'test'
+            'test' => 'test',
         ]);
     }
 
@@ -101,26 +105,26 @@ class IndexController extends AbstractController
         return $this->render('hebergement/hebergement.html.twig');
     }
 
-    #[Route('/profil/parametres.tsx', name: 'app_parametres')]
-    public function parametres():Response
+    #[Route('/profil/parametres', name: 'app_parametres')]
+    public function parametres(): Response
     {
         return $this->render('profil/parametres.html.twig');
     }
 
-    #[Route('/profil/preferences.tsx', name: 'app_preferences')]
-    public function preferences():Response
+    #[Route('/profil/preferences', name: 'app_preferences')]
+    public function preferences(): Response
     {
         return $this->render('profil/preferences.html.twig');
     }
 
-    #[Route('/profil/voyageurs.tsx', name: 'app_voyageurs')]
-    public function voyageurs():Response
+    #[Route('/profil/voyageurs', name: 'app_voyageurs')]
+    public function voyageurs(): Response
     {
         return $this->render('profil/voyageurs.html.twig');
     }
 
-    #[Route('/profil/ajoutervoyageur.tsx', name: 'app_ajoutervoyageur')]
-    public function ajoutervoyageur():Response
+    #[Route('/profil/ajoutervoyageur', name: 'app_ajoutervoyageur')]
+    public function ajouterVoyageur(): Response
     {
         return $this->render('profil/ajoutervoyageur.html.twig');
     }

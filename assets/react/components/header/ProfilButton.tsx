@@ -20,7 +20,7 @@ export default function ProfilButton() {
             >
                 <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
             </Link>
-            <text className='absolute right-8 text-black'>Bienvenu, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
+            <text className='absolute right-8 text-black'>Bienvenue, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
             <a
                 href="/logout"
                 className="absolute w-[100%] h-auto text-red-500 flex flex-row items-center justify-center gap-2 top-[100px] hover:brightness-95"
