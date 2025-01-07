@@ -105,25 +105,25 @@ class IndexController extends AbstractController
         return $this->render('hebergement/hebergement.html.twig');
     }
 
-    #[Route('/profil/parametres', name: 'app_parametres')]
+    #[Route('/profil/parametres.tsx', name: 'app_parametres')]
     public function parametres(): Response
     {
         return $this->render('profil/parametres.html.twig');
     }
 
-    #[Route('/profil/preferences', name: 'app_preferences')]
+    #[Route('/profil/preferences.tsx', name: 'app_preferences')]
     public function preferences(): Response
     {
         return $this->render('profil/preferences.html.twig');
     }
 
-    #[Route('/profil/voyageurs', name: 'app_voyageurs')]
+    #[Route('/profil/voyageurs.tsx', name: 'app_voyageurs')]
     public function voyageurs(): Response
     {
         return $this->render('profil/voyageurs.html.twig');
     }
 
-    #[Route('/profil/ajoutervoyageur', name: 'app_ajoutervoyageur')]
+    #[Route('/profil/ajoutervoyageur.tsx', name: 'app_ajoutervoyageur')]
     public function ajouterVoyageur(): Response
     {
         return $this->render('profil/ajoutervoyageur.html.twig');
