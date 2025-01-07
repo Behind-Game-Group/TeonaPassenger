@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250106111258 extends AbstractMigration
+final class Version20250107085613 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -34,6 +34,7 @@ final class Version20250106111258 extends AbstractMigration
         $this->addSql('CREATE TABLE trip (id INT AUTO_INCREMENT NOT NULL, user_profile_id_id INT NOT NULL, destination VARCHAR(255) DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, departure_date DATETIME DEFAULT NULL, arrival_date DATETIME DEFAULT NULL, consultation TINYINT(1) DEFAULT NULL, INDEX IDX_7656F53B661EACD5 (user_profile_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, google_id VARCHAR(255) DEFAULT NULL, apple_id VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user_profile (id INT AUTO_INCREMENT NOT NULL, user_id_id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, surname VARCHAR(255) DEFAULT NULL, username VARCHAR(255) DEFAULT NULL, avatar VARCHAR(255) DEFAULT NULL, site VARCHAR(255) DEFAULT NULL, local_airport VARCHAR(255) DEFAULT NULL, create_time DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', update_time DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_D95AB4059D86650F (user_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE webauthn_credentials (id BINARY(16) NOT NULL COMMENT \'(DC2Type:uuid)\', public_key_credential_id VARCHAR(255) NOT NULL, credential_data JSON NOT NULL, UNIQUE INDEX UNIQ_DFEA849072A8BD77 (public_key_credential_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE airport ADD CONSTRAINT FK_7E91F7C2661EACD5 FOREIGN KEY (user_profile_id_id) REFERENCES user_profile (id)');
         $this->addSql('ALTER TABLE authorized_expeditor ADD CONSTRAINT FK_F6F2154661EACD5 FOREIGN KEY (user_profile_id_id) REFERENCES user_profile (id)');
@@ -78,6 +79,7 @@ final class Version20250106111258 extends AbstractMigration
         $this->addSql('DROP TABLE trip');
         $this->addSql('DROP TABLE user');
         $this->addSql('DROP TABLE user_profile');
+        $this->addSql('DROP TABLE webauthn_credentials');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }

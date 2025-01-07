@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { postMethod, getMethod, deleteMethod, putMethod } from '../../services/axiosInstance';
 import { useUserContext } from '../../context/UserContext';
+import { getRegisterOptions } from '../../services/webauthn';
 
 type Expeditor = {
     id: number,
@@ -58,7 +59,7 @@ function ProfileDisplay() {
     const [isEditable, setIsEditable] = useState<'isEditableOption1' | 'isEditableOption2' | null>(null);
     const [sharedTrips, setSharedTrips] = useState<SharedTrip[]>([]);
 
-    const {csrfToken} = useUserContext();
+    const { csrfToken } = useUserContext();
 
     // Handlers pour chaque champ de formulaire
     const handleDestinationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +95,7 @@ function ProfileDisplay() {
 
     const handleChoiceChangeSharedTrip = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if(value === 'isEditableOption1' || value === 'isEditableOption2') {
+        if (value === 'isEditableOption1' || value === 'isEditableOption2') {
             setIsEditable(value);
         }
     };
@@ -154,7 +155,7 @@ function ProfileDisplay() {
 
     const handleDeleteExpeditor = async (emailToDelete: string) => {
         const url = '/expeditor';
-        const data = { email: emailToDelete, csrfToken  };
+        const data = { email: emailToDelete, csrfToken };
 
         try {
             const response = await deleteMethod(url, data); // Envoyer l'email dans le corps
@@ -204,8 +205,8 @@ function ProfileDisplay() {
             destination,
             departureDate,
             arrivalDate,
-            isConsultable: isConsultable === 'isConsultableOption1' ? 'isConsultableOption1' : 'isConsultableOption2', 
-            csrfToken 
+            isConsultable: isConsultable === 'isConsultableOption1' ? 'isConsultableOption1' : 'isConsultableOption2',
+            csrfToken
         };
 
         setIsSubmitting(true);  // Marquer la soumission en cours
@@ -252,10 +253,10 @@ function ProfileDisplay() {
                     ...trip,
                     departureDate: formatDateForInput(trip.departureDate),
                     arrivalDate: formatDateForInput(trip.arrivalDate),
-                    
+
                 }));
                 setTrips(formattedTrips);
-                
+
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des voyages:', error);
@@ -265,7 +266,7 @@ function ProfileDisplay() {
 
     const handleDeleteTrip = async (id: number) => {
         const url = '/trip';
-        const data = { id, csrfToken  };
+        const data = { id, csrfToken };
 
         try {
             const response = await deleteMethod(url, data);
@@ -341,8 +342,8 @@ function ProfileDisplay() {
 
         const data = {
             email: emailSharedTrip,
-            isEditable, 
-            csrfToken 
+            isEditable,
+            csrfToken
         };
 
         const url = '/sharedtrips/add';
@@ -372,7 +373,7 @@ function ProfileDisplay() {
                 setSharedTripErrorMessage('Une erreur inattendue est survenue.');
             }
         }
-        
+
     };
 
     const fetchSharedTrips = async () => {
@@ -392,7 +393,7 @@ function ProfileDisplay() {
                 setSharedTrips(formattedSharedTrips);
 
                 console.log('sharedTrips:', response);
-                
+
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des voyages:', error);
@@ -432,8 +433,106 @@ function ProfileDisplay() {
         }
     };
 
+// Inscription via WebAuthn (Windows Hello ou autre authentificateur)
+async function registerWebAuthn() {
+    try {
+        const options = await getRegisterOptions(); // Obtenez les options d'enregistrement WebAuthn depuis le backend
+        console.log("Options d'enregistrement WebAuthn :", options);
+
+        // Vérifier la structure de options et du challenge
+        if (!options || !options.publicKey || !options.publicKey.challenge) {
+            throw new Error("Le challenge est manquant");
+        }
+
+        console.log("Challenge avant vérification du type :", options.publicKey.challenge);
+
+        // Vérifier si le challenge est un ArrayBuffer ou une chaîne base64
+        if (!(options.publicKey.challenge instanceof ArrayBuffer)) {
+            console.log("Challenge n'est pas un ArrayBuffer, il semble être une chaîne base64 ou autre");
+
+            // Nettoyage de la chaîne base64 pour enlever les caractères invalides
+            const challengeBase64 = cleanBase64String(options.publicKey.challenge);
+            
+            // Convertir la chaîne base64 en ArrayBuffer
+            const challengeBuffer = base64ToArrayBuffer(challengeBase64);
+            options.publicKey.challenge = challengeBuffer; // Remplacer par l'ArrayBuffer converti
+        }
+
+        console.log("Challenge après conversion :", options.publicKey.challenge);
+
+        // Vérifier si la propriété `user` et `user.id` sont définies avant de tenter d'y accéder
+        if (options.publicKey.user && options.publicKey.user.id) {
+            const userIdBase64 = options.publicKey.user.id; // L'ID utilisateur en base64
+            const decodedUserId = decodeBase64(userIdBase64); // Décoder l'ID utilisateur en base64
+
+            if (decodedUserId !== null) {
+                console.log("ID utilisateur décodé:", decodedUserId);
+            } else {
+                console.log("Erreur lors du décodage de l'ID utilisateur");
+            }
+        } else {
+            console.log("Propriété user ou user.id manquante dans les options WebAuthn");
+        }
+
+        // Créer l'authentifiant WebAuthn
+        const credential = await navigator.credentials.create({
+            publicKey: options.publicKey,
+        });
+        console.log("Clé WebAuthn créée :", credential);
+
+        // Envoyer la réponse au serveur pour finaliser l'enregistrement
+        const response = await postMethod('/webauthn/register/finish', {
+            credential: credential,
+        });
+
+        if (response) {
+            alert("Inscription WebAuthn réussie!");
+        }
+    } catch (err) {
+        console.error("Erreur lors de l'inscription WebAuthn :", err);
+        alert("Erreur lors de l'inscription WebAuthn.");
+    }
+}
+
+// Fonction pour nettoyer la chaîne base64
+function cleanBase64String(base64: string): string {
+    // Enlever les espaces et les retours à la ligne
+    let cleaned = base64.replace(/[^A-Za-z0-9+/=]/g, "");
+    // Ajouter le padding de fin (caractères "=")
+    while (cleaned.length % 4 !== 0) {
+        cleaned += "=";
+    }
+    return cleaned;
+}
+
+// Fonction pour convertir base64 en ArrayBuffer
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+    const binaryString = atob(base64); // Décoder base64 en chaîne binaire
+    const length = binaryString.length;
+    const arrayBuffer = new ArrayBuffer(length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i); // Remplir l'ArrayBuffer avec les données binaires
+    }
+
+    return arrayBuffer;
+}
+
+function decodeBase64(encodedString: string) {
+    try {
+        return atob(encodedString); // Décoder l'ID utilisateur base64
+    } catch (e) {
+        console.error("Erreur lors du décodage base64:", e);
+        return null; // Retourner null en cas d'erreur
+    }
+}
+
     return (
         <div className='flex flex-col items-center justify-around'>
+            {/* WebAuthn buttons */}
+            <button onClick={registerWebAuthn} className='bg-orange-200'>Ajouter une clé WebAuthn</button>
+            <br />
             <div className='border-2 border-black p-4 rounded-lg'>
                 <h1 className='text-3xl font-bold'>Ajouter un expéditeur</h1>
                 <section className='flex flex-col items-center justify-around gap-4'>
@@ -623,7 +722,7 @@ function ProfileDisplay() {
                         />
                         <h2 className='text-xl font-bold'>Peut éditer</h2>
                         <div className="flex items-center gap-4">
-                            
+
                             <label htmlFor="isEditableOption1">Oui</label>
                             <input
                                 type="radio"
