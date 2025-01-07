@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserProfile;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class AuthController extends AbstractController
 {
@@ -44,8 +42,8 @@ class AuthController extends AbstractController
         return new JsonResponse(['message' => 'User registered successfully'], 201);
     }
 
-    #[Route('/loginCreddentials', name: 'app_login_credentials', methods: ['POST'])]
-    public function loginCreddentials(): JsonResponse
+    #[Route('/loginCredentials', name: 'app_login_credentials', methods: ['POST'])]
+    public function loginCredentials(): JsonResponse
     {
         // Symfony déclenchera automatiquement le SecurityControllerAuthenticator sur cette route.
         return new JsonResponse(['message' => 'You should never see this!'], Response::HTTP_INTERNAL_SERVER_ERROR);

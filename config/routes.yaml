@@ -42,7 +42,17 @@ app_register_credentials:
 app_login_credentials:
   path: "/loginCredentials"
   controller: 'App\Controller\AuthController::loginCredentials'
-  methods: POST
+  methods: [GET, POST]
+
+webauthn_register_options:
+  path: "/webauthn/register/options"
+  controller: 'App\Controller\WebAuthnController::generateRegisterOptions'
+  methods: [POST, GET]
+
+webauthn_login_options:
+  path: "/webauthn/login/options"
+  controller: 'App\Controller\WebAuthnController::generateLoginOptions'
+  methods: [POST, GET]
 
 logout_route:
   path: /logout
