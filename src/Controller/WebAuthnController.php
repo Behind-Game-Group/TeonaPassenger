@@ -23,7 +23,7 @@ class WebAuthnController extends AbstractController
     public function generateRegisterOptions(UserInterface $userInterface): JsonResponse
     {
         // Crée une entité représentant l'application WebAuthn, contenant le nom de l'application.
-        $rpEntity = new PublicKeyCredentialRpEntity('Teona Passenger');
+        $rpEntity = new PublicKeyCredentialRpEntity('Teona Passenger', 'localhost');
 
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
@@ -44,6 +44,7 @@ class WebAuthnController extends AbstractController
 
         // Créer les options de création de la clé publique WebAuthn
         $authenticatorSelection = new AuthenticatorSelectionCriteria(
+            authenticatorAttachment: "platform", // ou "platform", selon le cas
             residentKey: AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_DISCOURAGED, // Ne nécessite pas de clé résidente
             userVerification: AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_REQUIRED // Vérification de l'utilisateur requise
         );
@@ -53,10 +54,14 @@ class WebAuthnController extends AbstractController
             rp: $rpEntity, // Entité représentant l'application WebAuthn
             user: $userEntity, // Entité représentant l'utilisateur
             challenge: random_bytes(32), // Génère un challenge aléatoire pour la sécurité de l'enregistrement
-            pubKeyCredParams: [new PublicKeyCredentialParameters(PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY, -7)], // Paramètres de la clé publique (algorithme utilisé)
+            pubKeyCredParams: [
+                new PublicKeyCredentialParameters(PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY, -7), // ES256 (Elliptic Curve, recommandé)
+                new PublicKeyCredentialParameters(PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY, -257) // RS256 (RSA, compatibilité)
+            ], 
             timeout: 60000, // Délai d'attente (60 secondes) pour la réponse de l'authentificateur
             authenticatorSelection: $authenticatorSelection // Sélection de l'authentificateur
         );
+        
 
         // Retourner les options de création d'identifiants WebAuthn sous forme de réponse JSON
         return $this->json(['publicKey' => $publicKeyCredentialCreationOptions]);

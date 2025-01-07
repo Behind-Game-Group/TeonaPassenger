@@ -1,22 +1,22 @@
 webauthn:
-    creation_profiles:
-        default:
-            rp:
-                name: "Teona Passenger"
-                id: "localhost"  # ⚠️ Remplace par ton domaine en production
-            challenge_length: 32
-            attestation_conveyance: "none"
-            authenticator_selection_criteria:
-                resident_key: "preferred"
-                require_resident_key: false
-                user_verification: "required"  # Windows Hello nécessite la vérification de l'utilisateur
-            public_key_credential_parameters:
-                - -7   # ES256 (Elliptic Curve, recommandé)
-                - -257 # RS256 (RSA, compatibilité)
-    request_profiles:
-        default:
-            challenge_length: 32
-            timeout: 60000
-            user_verification: "required"  # Windows Hello exige la vérification de l'utilisateur
-    secured_rp_ids:
-        - "localhost"
+  creation_profiles:
+    default:
+      rp:
+        name: "Teona Passenger"
+        id: "localhost" # Utiliser localhost pour le développement local ou votre domaine en production
+      challenge_length: 32
+      attestation_conveyance: "none"
+      authenticator_selection_criteria:
+        resident_key: "preferred"
+        require_resident_key: false
+        user_verification: "required" # Windows Hello nécessite la vérification de l'utilisateur
+      public_key_credential_parameters:
+        - -7 # ES256 (Elliptic Curve, recommandé)
+        - -257 # RS256 (RSA, compatibilité)
+  request_profiles:
+    default:
+      challenge_length: 32
+      timeout: 60000
+      user_verification: "required" # Windows Hello exige la vérification de l'utilisateur
+  secured_rp_ids:
+    - "localhost" # Utiliser localhost pour le développement local, ou le domaine de votre site en production

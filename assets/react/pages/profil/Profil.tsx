@@ -433,100 +433,95 @@ function ProfileDisplay() {
         }
     };
 
-// Inscription via WebAuthn (Windows Hello ou autre authentificateur)
-async function registerWebAuthn() {
-    try {
-        const options = await getRegisterOptions(); // Obtenez les options d'enregistrement WebAuthn depuis le backend
-        console.log("Options d'enregistrement WebAuthn :", options);
+    // Inscription via WebAuthn (Windows Hello ou autre authentificateur)
+    async function registerWebAuthn() {
+        try {
+            const options = await getRegisterOptions(); // Obtenez les options d'enregistrement WebAuthn depuis le backend
+            console.log("Options d'enregistrement WebAuthn :", options);
 
-        // Vérifier la structure de options et du challenge
-        if (!options || !options.publicKey || !options.publicKey.challenge) {
-            throw new Error("Le challenge est manquant");
-        }
-
-        console.log("Challenge avant vérification du type :", options.publicKey.challenge);
-
-        // Vérifier si le challenge est un ArrayBuffer ou une chaîne base64
-        if (!(options.publicKey.challenge instanceof ArrayBuffer)) {
-            console.log("Challenge n'est pas un ArrayBuffer, il semble être une chaîne base64 ou autre");
-
-            // Nettoyage de la chaîne base64 pour enlever les caractères invalides
-            const challengeBase64 = cleanBase64String(options.publicKey.challenge);
-            
-            // Convertir la chaîne base64 en ArrayBuffer
-            const challengeBuffer = base64ToArrayBuffer(challengeBase64);
-            options.publicKey.challenge = challengeBuffer; // Remplacer par l'ArrayBuffer converti
-        }
-
-        console.log("Challenge après conversion :", options.publicKey.challenge);
-
-        // Vérifier si la propriété `user` et `user.id` sont définies avant de tenter d'y accéder
-        if (options.publicKey.user && options.publicKey.user.id) {
-            const userIdBase64 = options.publicKey.user.id; // L'ID utilisateur en base64
-            const decodedUserId = decodeBase64(userIdBase64); // Décoder l'ID utilisateur en base64
-
-            if (decodedUserId !== null) {
-                console.log("ID utilisateur décodé:", decodedUserId);
-            } else {
-                console.log("Erreur lors du décodage de l'ID utilisateur");
+            // Vérifier la structure de options et du challenge
+            if (!options || !options.publicKey || !options.publicKey.challenge) {
+                throw new Error("Le challenge est manquant");
             }
-        } else {
-            console.log("Propriété user ou user.id manquante dans les options WebAuthn");
+
+            // Vérifier si le challenge est un ArrayBuffer ou une chaîne base64 URL-safe
+            if (!(options.publicKey.challenge instanceof ArrayBuffer)) {
+                const challengeBase64 = convertBase64UrlToBase64(options.publicKey.challenge);
+                const challengeBuffer = base64ToArrayBuffer(challengeBase64);
+                options.publicKey.challenge = challengeBuffer;
+            }
+
+            // Vérification et conversion de l'ID utilisateur en ArrayBuffer
+            if (options.publicKey.user && options.publicKey.user.id) {
+                const userIdBase64 = options.publicKey.user.id;
+                const userIdBuffer = base64ToArrayBuffer(userIdBase64);
+                options.publicKey.user.id = userIdBuffer;
+            }
+
+            // Ajouter les algorithmes ES256 et RS256 dans pubKeyCredParams si nécessaire
+            if (!options.publicKey.pubKeyCredParams) {
+                options.publicKey.pubKeyCredParams = [
+                    { type: "public-key", alg: -7 },  // ES256
+                    { type: "public-key", alg: -257 } // RS256
+                ];
+            }
+
+            // Créer l'authentifiant WebAuthn
+            const credential = await navigator.credentials.create({
+                publicKey: options.publicKey,
+            });
+            console.log("Clé WebAuthn créée :", credential);
+            
+            // Envoyer la réponse au serveur pour finaliser l'enregistrement
+            const response = await postMethod('/webauthn/register/finish', {
+                credential: credential,
+            });
+
+            if (!options || !options.publicKey || !options.publicKey.pubKeyCredParams || options.publicKey.pubKeyCredParams.length < 1) {
+                throw new Error("Les paramètres de la clé publique sont manquants ou incorrects.");
+            }
+            
+
+            if (response) {
+                alert("Inscription WebAuthn réussie!");
+            }
+        } catch (err) {
+            console.error("Erreur lors de l'inscription WebAuthn :", err);
+            alert("Erreur lors de l'inscription WebAuthn.");
+        }
+    }
+
+    // Fonction pour convertir la base64 URL-safe en base64 classique
+    function convertBase64UrlToBase64(base64Url: string): string {
+        // Remplacer les caractères URL-safe par les caractères classiques
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        // Ajouter le padding nécessaire si la chaîne n'est pas un multiple de 4
+        const padding = base64.length % 4;
+        if (padding) {
+            base64 += '='.repeat(4 - padding);
+        }
+        return base64;
+    }
+
+    // Fonction pour vérifier si la chaîne est une base64 valide
+    function isValidBase64(base64: string): boolean {
+        const regex = /^[A-Za-z0-9+/=]+$/;
+        return regex.test(base64);
+    }
+
+    // Fonction pour convertir base64 en ArrayBuffer
+    function base64ToArrayBuffer(base64: string): ArrayBuffer {
+        const binaryString = atob(base64); // Décoder base64 en chaîne binaire
+        const length = binaryString.length;
+        const arrayBuffer = new ArrayBuffer(length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        for (let i = 0; i < length; i++) {
+            uint8Array[i] = binaryString.charCodeAt(i); // Remplir l'ArrayBuffer avec les données binaires
         }
 
-        // Créer l'authentifiant WebAuthn
-        const credential = await navigator.credentials.create({
-            publicKey: options.publicKey,
-        });
-        console.log("Clé WebAuthn créée :", credential);
-
-        // Envoyer la réponse au serveur pour finaliser l'enregistrement
-        const response = await postMethod('/webauthn/register/finish', {
-            credential: credential,
-        });
-
-        if (response) {
-            alert("Inscription WebAuthn réussie!");
-        }
-    } catch (err) {
-        console.error("Erreur lors de l'inscription WebAuthn :", err);
-        alert("Erreur lors de l'inscription WebAuthn.");
+        return arrayBuffer;
     }
-}
-
-// Fonction pour nettoyer la chaîne base64
-function cleanBase64String(base64: string): string {
-    // Enlever les espaces et les retours à la ligne
-    let cleaned = base64.replace(/[^A-Za-z0-9+/=]/g, "");
-    // Ajouter le padding de fin (caractères "=")
-    while (cleaned.length % 4 !== 0) {
-        cleaned += "=";
-    }
-    return cleaned;
-}
-
-// Fonction pour convertir base64 en ArrayBuffer
-function base64ToArrayBuffer(base64: string): ArrayBuffer {
-    const binaryString = atob(base64); // Décoder base64 en chaîne binaire
-    const length = binaryString.length;
-    const arrayBuffer = new ArrayBuffer(length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-
-    for (let i = 0; i < length; i++) {
-        uint8Array[i] = binaryString.charCodeAt(i); // Remplir l'ArrayBuffer avec les données binaires
-    }
-
-    return arrayBuffer;
-}
-
-function decodeBase64(encodedString: string) {
-    try {
-        return atob(encodedString); // Décoder l'ID utilisateur base64
-    } catch (e) {
-        console.error("Erreur lors du décodage base64:", e);
-        return null; // Retourner null en cas d'erreur
-    }
-}
 
     return (
         <div className='flex flex-col items-center justify-around'>
