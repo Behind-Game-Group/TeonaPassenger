@@ -36,6 +36,38 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/parametres', name: 'app_parametres')]
+    public function parametres(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/profil/preferences', name: 'app_preferences')]
+    public function preferences(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/profil/voyageurs', name: 'app_voyageurs')]
+    public function voyageurs(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
+    #[Route('/profil/ajouter-voyageur', name: 'app_ajouter_voyageur')]
+    public function ajouterVoyageur(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/favorite', name: 'app_favorite')]
     public function favorite(): Response
     {
@@ -76,7 +108,7 @@ class IndexController extends AbstractController
         if ($user instanceof User) {
             return new JsonResponse([
                 'user' => [
-                    'csrfToken' => $csrfToken, 
+                    'csrfToken' => $csrfToken,
                     'id' => $user->getId(),
                     'email' => $user->getEmail(),
                     'roles' => $user->getRoles(),

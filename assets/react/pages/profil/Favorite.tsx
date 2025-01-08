@@ -347,7 +347,7 @@ const Favorite = () => {
                                     </div>
                                 </form>
                             ) : (
-                                <form action={addDestination && addDestinationAdress && newDestination} className='flex flex-col gap-2'>
+                                <form onSubmit={(e) => { e.preventDefault(); addDestination && addDestinationAdress && newDestination();}} className='flex flex-col gap-2'>
                                     <div className='flex flex-row gap-2'>
                                         <input type='text' placeholder='Saisissez un hôtel une adresse ou une attraction' onChange={(e) => setAddDestinationAdress(e.target.value)} value={addDestinationAdress} />
                                         <input type="text" onChange={(e) => setAddDestination(e.target.value)} value={addDestination} />

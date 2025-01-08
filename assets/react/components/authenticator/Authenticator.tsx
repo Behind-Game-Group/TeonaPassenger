@@ -3,20 +3,25 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
+import { SiWebauthn } from "react-icons/si";
 import { postMethod } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
+import WebAuthInView from './WebAuthInView';
 
 export default function Authenticator() {
     const navigate = useNavigate();
     const [register, setRegister] = useState<boolean>(false);
+    const [webAuthInView, setWebAuthInView] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassWord] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
     const [errorEmail, setErrorEmail] = useState<string>("");
     const [errorPassword, setErrorPassword] = useState<string>("");
+    const [errorUsername, setErrorUsername] = useState<string>("");
 
     const { authenticatorView, setAuthenticatorView } = useUserContext();
 
@@ -26,6 +31,10 @@ export default function Authenticator() {
 
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassWord(e.target.value);
+    };
+
+    const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value);
     };
 
     const url: string = register ? '/registerCredentials' : '/loginCredentials';
@@ -86,7 +95,7 @@ export default function Authenticator() {
     }
 
     return (
-        <div className="relative w-[60%] p-2 h-[70%] place-content-center z-20 rounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95">
+        <div className="relative w-[60%] p-4 h-[70%] place-content-center z-20 rounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95">
             <div className='flex flex-col items-center justify-around'>
                 <h2 className='text-black text-2xl'>Bienvenue sur TEONA PASSENGER.</h2>
                 <h2 className='text-black text-2xl'>C'est parti pour un tour</h2>
@@ -97,38 +106,47 @@ export default function Authenticator() {
             <div className='flex flex-row items-center justify-around w-full h-10'>
                 <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl' onClick={LoginGoogle}><FcGoogle />Google</button>
                 <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><FaApple />Apple</button>
+                <button onClick={() => setWebAuthInView(!webAuthInView)} className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiWebauthn />2Fa</button>
             </div>
             <div className='flex flex-row p-2 items-center gap-2 justify-around w-[80%] h-auto'>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
-                <text className='text-black text-xl text-center'>ou</text>
+                <span className='text-black text-xl text-center'>ou</span>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
             </div>
-            <text className='text-black text-xl text-center'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></text>
-            <form action={email && password && postData} className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
-                {error && <text className='text-red-500 text-xl'>{error}</text>}
-                {success && <text className='text-green-500 text-xl'>{success}</text>}
-                <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
-                {errorEmail && <text className='text-red-500 text-xs'>{errorEmail}</text>}
-                <div className='flex flex-row gap-2 ml-[22px]'>
-                    <input
-                        onChange={handlePasswordChange}
-                        className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black'
-                        type={showPassword ? 'text' : 'password'}
-                        name='password'
-                        placeholder='Renseigner votre mot de passe'
-                        value={password}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className=''
-                    >
-                        {showPassword ? <FaEyeSlash size={20} color='#000' /> : <FaEye size={20} color='#000' />}
-                    </button>
-                </div>
-                {errorPassword && <text className='text-red-500 text-xs'>{errorPassword}</text>}
-                <button className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
-            </form>
+            {webAuthInView ?
+                <WebAuthInView register={register} setRegister={setRegister} username={username} handleUsernameChange={handleUsernameChange} email={email} handleEmailChange={handleEmailChange} error={error} setError={setError} errorEmail={errorEmail} setErrorEmail={setErrorEmail} errorUsername={errorUsername} setErrorUrsername={setErrorUsername} success={success} setSuccess={setSuccess} authenticatorView={authenticatorView} setAuthenticatorView={setAuthenticatorView} />
+            : 
+                <>
+                    <span className='text-black text-xl text-center'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></span>
+                    <form onSubmit={(e) => { e.preventDefault(); email && password && postData(); }} 
+                        className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
+                        {error && <span className='text-red-500 text-xl'>{error}</span>}
+                        {success && <span className='text-green-500 text-xl'>{success}</span>}
+                        <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
+                        {errorEmail && <span className='text-red-500 text-xs'>{errorEmail}</span>}
+                        <div className='flex flex-row gap-2 ml-[22px]'>
+                            <input
+                                onChange={handlePasswordChange}
+                                className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black'
+                                type={showPassword ? 'text' : 'password'}
+                                name='password'
+                                placeholder='Renseigner votre mot de passe'
+                                value={password}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className=''
+                            >
+                                {showPassword ? <FaEyeSlash size={20} color='#000' /> : <FaEye size={20} color='#000' />}
+                            </button>
+                        </div>
+                        {errorPassword && <span className='text-red-500 text-xs'>{errorPassword}</span>}
+                        <button className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
+                    </form>
+                </>
+            }
         </div>
-    )
+    );
+
 }

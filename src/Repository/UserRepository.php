@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +40,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->persist($user);
         if ($flush) {
             $this->getEntityManager()->flush();
+        }
+    }
+
+    public function findOneByUsernameOrEmail(string $name): ?User
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.username = :name')
+                ->orWhere('u.email = :name')
+                ->setParameter('name', $name)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return null;
         }
     }
 

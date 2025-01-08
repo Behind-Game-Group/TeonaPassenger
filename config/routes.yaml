@@ -11,6 +11,22 @@ app_profil:
   path: "/profil"
   controller: 'App\Controller\IndexController::profil'
 
+app_parametres:
+  path: "/profil/parametres"
+  controller: 'App\Controller\IndexController::parametres'
+
+app_preferences:
+  path: "/profil/preferences"
+  controller: 'App\Controller\IndexController::preferences'
+
+app_voyageurs:
+  path: "/profil/voyageurs"
+  controller: 'App\Controller\IndexController::voyageurs'
+
+app_ajouter_voyageur:
+  path: "/profil/ajouter-voyageur"
+  controller: 'App\Controller\IndexController::ajouterVoyageur'
+
 app_vols:
   path: "/vols/page"
   controller: 'App\Controller\IndexController::vols'
@@ -43,16 +59,6 @@ app_login_credentials:
   path: "/loginCredentials"
   controller: 'App\Controller\AuthController::loginCredentials'
   methods: [GET, POST]
-
-webauthn_register_options:
-  path: "/webauthn/register/options"
-  controller: 'App\Controller\WebAuthnController::generateRegisterOptions'
-  methods: [POST, GET]
-
-webauthn_login_options:
-  path: "/webauthn/login/options"
-  controller: 'App\Controller\WebAuthnController::generateLoginOptions'
-  methods: [POST, GET]
 
 logout_route:
   path: /logout
