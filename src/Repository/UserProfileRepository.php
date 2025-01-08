@@ -45,7 +45,7 @@ class UserProfileRepository extends ServiceEntityRepository
         if (isset($newData['local_airport'])) {
             $userProfile->setLocalAirport($newData['local_airport']);
         }
-        
+
         // Mise à jour des timestamps (si nécessaires)
         $userProfile->setUpdateTime(new \DateTime());
 

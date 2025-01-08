@@ -8,7 +8,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
 const Voyageur = () => {
   // State utilisateur
-  const [user, setUser] = useState({
+  const [currentUser, setUser] = useState({
     name: "Martin",
     secondname: "Vincenzo",
     lastname: "Vallée",
@@ -71,7 +71,7 @@ const Voyageur = () => {
   });
 
   // Gestion de la modification d'un champ
-  const handleUpdateField = (field: keyof typeof user, value: string) => {
+  const handleUpdateField = (field: keyof typeof currentUser, value: string) => {
     setUser((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -82,7 +82,7 @@ const Voyageur = () => {
 
   const saveUserData = async () => {
     try {
-      const response = await axios.post("/api/update-user", user);
+      const response = await axios.post("/api/update-currentUser", currentUser);
 
       if (response.status === 200) {
         console.log("Données sauvegardées avec succès !");
@@ -98,7 +98,7 @@ const Voyageur = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil user={user} />
+      <HeaderProfil currentUser={currentUser} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -138,7 +138,7 @@ const Voyageur = () => {
               className="relative flex mt-2 items-center justify-center rounded-full text-white text-3xl font-bold"
               style={{ backgroundColor: circleColor, width: '80px', height:'80px' }}
             >
-              {user.name.charAt(0)}
+              {currentUser.name.charAt(0)}
             </div>
           <div className="grid grid-cols-2 gap-6 mt-4">
             <div>
@@ -146,12 +146,12 @@ const Voyageur = () => {
               {isEditing.name ? (
                 <input
                   type="text"
-                  value={user.name}
+                  value={currentUser.name}
                   onChange={(e) => handleUpdateField("name", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.name}</p>
+                <p className="text-gray-700">{currentUser.name}</p>
               )}
               <button
                 onClick={() => toggleEdit("name")}
@@ -165,14 +165,14 @@ const Voyageur = () => {
               {isEditing.secondname ? (
                 <input
                   type="secondname"
-                  value={user.secondname}
+                  value={currentUser.secondname}
                   onChange={(e) =>
                     handleUpdateField("secondname", e.target.value)
                   }
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.secondname}</p>
+                <p className="text-gray-700">{currentUser.secondname}</p>
               )}
               <button
                 onClick={() => toggleEdit("secondname")}
@@ -186,14 +186,14 @@ const Voyageur = () => {
               {isEditing.lastname ? (
                 <input
                   type="lastname"
-                  value={user.lastname}
+                  value={currentUser.lastname}
                   onChange={(e) =>
                     handleUpdateField("lastname", e.target.value)
                   }
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.lastname}</p>
+                <p className="text-gray-700">{currentUser.lastname}</p>
               )}
               <button
                 onClick={() => toggleEdit("lastname")}
@@ -207,14 +207,14 @@ const Voyageur = () => {
               {isEditing.birthday ? (
                 <input
                   type="birthday"
-                  value={user.birthday}
+                  value={currentUser.birthday}
                   onChange={(e) =>
                     handleUpdateField("birthday", e.target.value)
                   }
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.birthday}</p>
+                <p className="text-gray-700">{currentUser.birthday}</p>
               )}
               <button
                 onClick={() => toggleEdit("birthday")}
@@ -228,12 +228,12 @@ const Voyageur = () => {
               {isEditing.sexe ? (
                 <input
                   type="sexe"
-                  value={user.sexe}
+                  value={currentUser.sexe}
                   onChange={(e) => handleUpdateField("sexe", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.sexe}</p>
+                <p className="text-gray-700">{currentUser.sexe}</p>
               )}
               <button
                 onClick={() => toggleEdit("sexe")}
@@ -247,12 +247,12 @@ const Voyageur = () => {
               {isEditing.tel ? (
                 <input
                   type="tel"
-                  value={user.tel}
+                  value={currentUser.tel}
                   onChange={(e) => handleUpdateField("tel", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.tel}</p>
+                <p className="text-gray-700">{currentUser.tel}</p>
               )}
               <button
                 onClick={() => toggleEdit("tel")}

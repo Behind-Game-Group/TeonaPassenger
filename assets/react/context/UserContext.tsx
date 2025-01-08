@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 
@@ -10,7 +11,7 @@ interface User {
 
 // Crée le contexte pour l'utilisateur avec le type User
 interface UserContextType {
-    user: User;
+    currentUser: User;
     authenticatorView: boolean;
     setAuthenticatorView: Dispatch<SetStateAction<boolean>>;
     updateUser: (newUserData: Partial<User>) => void;
@@ -33,7 +34,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User>({});
+  const [currentUser, setUser] = useState<User>({});
   const [authenticatorView, setAuthenticatorView] = useState<boolean>(false);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
@@ -41,14 +42,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         // Récupérer l'utilisateur courant et le token CSRF
         axios.get('/getCurrentUser')
             .then(response => {
-                setUser(response.data.user);
+                setUser(response.data.currentUser);
                 // console.log(response);
                 // Récupérer le token CSRF et le stocker dans les cookies et le contexte
-                setCsrfToken(response.data.user.csrfToken);
-                localStorage.setItem('csrfToken', response.data.user.csrfToken);
+                setCsrfToken(response.data.currentUser.csrfToken);
+                localStorage.setItem('csrfToken', response.data.currentUser.csrfToken);
             })
             .catch(error => {
-                console.error('Error fetching current user:', error.response?.data || error.message);
+                console.error('Error fetching current currentUser:', error.response?.data || error.message);
             });
         // console.log(csrfToken)
     }, []);
@@ -58,7 +59,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, updateUser, csrfToken, setCsrfToken, authenticatorView, setAuthenticatorView }}>
+    <UserContext.Provider value={{ currentUser, updateUser, csrfToken, setCsrfToken, authenticatorView, setAuthenticatorView }}>
       {children}
     </UserContext.Provider>
   );

@@ -13,7 +13,7 @@ function Layout({ children }: { children: ReactNode }) {
   // Gestion de l'état de la barre latérale
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false); // État pour la largeur de la barre latérale
-  const {user, updateUser, authenticatorView} = useUserContext();
+  const {currentUser, updateUser, authenticatorView} = useUserContext();
   const [loginView, setLoginView] = useState<boolean>(false);
   const [registerView, setRegisterView] = useState<boolean>(false);
 

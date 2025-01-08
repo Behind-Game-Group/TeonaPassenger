@@ -9,7 +9,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 const Parametres = () => {
 
  // State utilisateur
- const [user, setUser] = useState({
+ const [currentUser, setUser] = useState({
   name: "Martin",
   email: "martinvallee01@gmail.com",
   airport: "Batumi, Géorgie",
@@ -22,7 +22,7 @@ const [isEditing, setIsEditing] = useState({
 });
 
 // Gestion de la modification d'un champ
-const handleUpdateField = (field: keyof typeof user, value: string) => {
+const handleUpdateField = (field: keyof typeof currentUser, value: string) => {
   setUser((prev) => ({ ...prev, [field]: value }));
 };
 
@@ -33,7 +33,7 @@ const toggleEdit = (field: keyof typeof isEditing) => {
 
 const saveUserData = async () => {
   try {
-    const response = await axios.post("/api/update-user", user);
+    const response = await axios.post("/api/update-currentUser", currentUser);
 
     if (response.status === 200) {
       console.log("Données sauvegardées avec succès !");
@@ -50,7 +50,7 @@ const saveUserData = async () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil user={user} />
+      <HeaderProfil currentUser={currentUser} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -87,12 +87,12 @@ const saveUserData = async () => {
               {isEditing.name ? (
                 <input
                   type="text"
-                  value={user.name}
+                  value={currentUser.name}
                   onChange={(e) => handleUpdateField("name", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.name}</p>
+                <p className="text-gray-700">{currentUser.name}</p>
               )}
               <button
                 onClick={() => toggleEdit("name")}
@@ -106,12 +106,12 @@ const saveUserData = async () => {
               {isEditing.email ? (
                 <input
                   type="email"
-                  value={user.email}
+                  value={currentUser.email}
                   onChange={(e) => handleUpdateField("email", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.email}</p>
+                <p className="text-gray-700">{currentUser.email}</p>
               )}
               <button
                 onClick={() => toggleEdit("email")}

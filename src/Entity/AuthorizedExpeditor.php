@@ -18,7 +18,7 @@ class AuthorizedExpeditor
     #[Groups('expeditor:read')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
-    
+
     #[ORM\ManyToOne(inversedBy: 'authorizedExpeditors')]
     #[ORM\JoinColumn(nullable: false)]
     private ?UserProfile $userProfile_id = null;

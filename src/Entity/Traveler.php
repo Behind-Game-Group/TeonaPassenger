@@ -33,7 +33,7 @@ class Traveler
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['traveler:read'])]
     private ?string $gender = null;
-    
+
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['traveler:read'])]
     private ?string $email = null;
@@ -45,7 +45,7 @@ class Traveler
     #[ORM\Column(nullable: true)]
     #[Groups(['traveler:read'])]
     private ?int $phone = null;
-    
+
     #[ORM\Column(nullable: true)]
     #[Groups(['traveler:read'])]
     private ?int $DHS = null;

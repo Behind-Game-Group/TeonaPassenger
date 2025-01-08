@@ -44,5 +44,4 @@ class AirportRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

@@ -8,7 +8,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
 const Preferences = () => {
   // State utilisateur
-  const [user, setUser] = useState({
+  const [currentUser, setUser] = useState({
     name: "Martin",
     email: "martinvallee01@gmail.com",
     airport: "Batumi, Géorgie",
@@ -52,7 +52,7 @@ const Preferences = () => {
   });
 
   // Gestion de la modification d'un champ
-  const handleUpdateField = (field: keyof typeof user, value: string) => {
+  const handleUpdateField = (field: keyof typeof currentUser, value: string) => {
     setUser((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -63,7 +63,7 @@ const Preferences = () => {
 
   const saveUserData = async () => {
     try {
-      const response = await axios.post("/api/update-user", user);
+      const response = await axios.post("/api/update-currentUser", currentUser);
 
       if (response.status === 200) {
         console.log("Données sauvegardées avec succès !");
@@ -79,7 +79,7 @@ const Preferences = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil user={user} />
+      <HeaderProfil currentUser={currentUser} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -119,12 +119,12 @@ const Preferences = () => {
               {isEditing.airport ? (
                 <input
                   type="text"
-                  value={user.airport}
+                  value={currentUser.airport}
                   onChange={(e) => handleUpdateField("airport", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.airport}</p>
+                <p className="text-gray-700">{currentUser.airport}</p>
               )}
               <button
                 onClick={() => toggleEdit("airport")}
@@ -138,14 +138,14 @@ const Preferences = () => {
               {isEditing.OtherAirport ? (
                 <input
                   type="OtherAirport"
-                  value={user.OtherAirport}
+                  value={currentUser.OtherAirport}
                   onChange={(e) =>
                     handleUpdateField("OtherAirport", e.target.value)
                   }
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{user.OtherAirport}</p>
+                <p className="text-gray-700">{currentUser.OtherAirport}</p>
               )}
               <button
                 onClick={() => toggleEdit("OtherAirport")}

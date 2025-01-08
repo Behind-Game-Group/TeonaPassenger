@@ -124,5 +124,4 @@ class History
 
         return $this;
     }
-
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 interface HeaderProfilProps {
-  user: {
+  currentUser: {
     name: string;
     email: string;
     airport: string;
@@ -9,7 +9,7 @@ interface HeaderProfilProps {
   };
 }
 
-const HeaderProfil = ({ user }: HeaderProfilProps) => {
+const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
   // Couleur du cercle
   const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
   const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
@@ -31,20 +31,20 @@ const HeaderProfil = ({ user }: HeaderProfilProps) => {
       {/* Informations utilisateur */}
       <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour {user.name}</h1>
+          <h1 className="text-2xl font-bold">Bonjour {currentUser.name}</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
-              <p className="mt-1">{user.email}</p>
+              <p className="mt-1">{currentUser.email}</p>
             </div>
             <div>
               <p className="font-semibold">Aéroport local :</p>
-              <p className="mt-1 underline">{user.airport}</p>
+              <p className="mt-1 underline">{currentUser.airport}</p>
             </div>
           </div>
         </div>
         <div className="relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
-          {user.name.charAt(0)}
+          {currentUser.name.charAt(0)}
         </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}

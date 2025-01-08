@@ -7,7 +7,7 @@ interface UserProfile {
   id: number;
   name: string | null;
   surname: string | null;
-  username: string | null;
+  currentUsername: string | null;
   avatar: string | null;
   site: string | null;
   local_airport: string | null;
@@ -79,7 +79,7 @@ const UserProfile: React.FC = () => {
       setProfile(response);
       setFormData(response);
     } catch (err) {
-      setError('Failed to fetch user profile.');
+      setError('Failed to fetch currentUser profile.');
     }
   };
 
@@ -381,8 +381,8 @@ const UserProfile: React.FC = () => {
           Username:
           <input
             type="text"
-            name="username"
-            value={formData.username || ''}
+            name="currentUsername"
+            value={formData.currentUsername || ''}
             onChange={handleChange}
             aria-label="User's Username"
           />

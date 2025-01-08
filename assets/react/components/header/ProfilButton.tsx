@@ -1,17 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdLogIn } from "react-icons/io";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useUserContext } from '../../context/UserContext';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function ProfilButton() {
-    const { user, authenticatorView, setAuthenticatorView } = useUserContext();
-    console.log(user.email);
+    const { user } = useAuth0();
+    const name = user?.name;
+    const picture = user?.picture;
+    const email = user?.email;
+    console.log(name, email, picture);
+    const { currentUser, updateUser, authenticatorView, setAuthenticatorView } = useUserContext();
+    console.log(currentUser.email);
+
+    useEffect(() => {
+        if (user) {
+            updateUser({firstName: user.given_name, lastName: user.family_name, email: user.email});
+            console.log(user);
+        }
+      }, [user]);
+
   return (
     <>
     {/* Profil */}
-    {user.email ?
+    {currentUser.email ?
         <div className='flex flex-col w-[30%] h-auto justify-between items-center gap-2'>
             <Link
                 to={'/profil'}
@@ -20,7 +34,7 @@ export default function ProfilButton() {
             >
                 <img className="w-[25px]" src="/img/connexion-icon.png" alt="" />
             </Link>
-            <text className='absolute right-8 text-black'>Bienvenu, <text className='text-customBlue text-bold top-[70px]'>{user.email}</text></text>
+            <text className='absolute right-8 text-black'>Bienvenu, <text className='text-customBlue text-bold top-[70px]'>{currentUser.email}</text></text>
             <a
                 href="/logout"
                 className="absolute w-[100%] h-auto text-red-500 flex flex-row items-center justify-center gap-2 top-[100px] hover:brightness-95"

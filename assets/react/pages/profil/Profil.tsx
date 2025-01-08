@@ -12,7 +12,7 @@ interface Search {
 }
 
 const Profil = () => {
-  const [user, setUser] = useState({
+  const [currentUser, setUser] = useState({
       name: "Martin",
       email: "martinvallee01@gmail.com",
       airport: "Batumi, Géorgie",
@@ -58,7 +58,7 @@ const Profil = () => {
 
   const saveUserData = async () => {
     try {
-      const response = await axios.post("/api/update-user", searchHistory);
+      const response = await axios.post("/api/update-currentUser", searchHistory);
   
       if (response.status === 200) {
         console.log("Données sauvegardées avec succès !");
@@ -74,7 +74,7 @@ const Profil = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-20 z-10">
       {/* Header */}
-      <HeaderProfil user={user}/>
+      <HeaderProfil currentUser={currentUser}/>
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">

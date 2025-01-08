@@ -1,22 +1,23 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
-import { SiWebauthn } from "react-icons/si";
+import { SiAuth0 } from "react-icons/si";
 import { postMethod } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
-import WebAuthInView from './WebAuthInView';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function Authenticator() {
+    const { loginWithRedirect, logout, user, isLoading } = useAuth0();
     const navigate = useNavigate();
     const [register, setRegister] = useState<boolean>(false);
     const [webAuthInView, setWebAuthInView] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [email, setEmail] = useState<string>("");
+    const [userEmail, setEmail] = useState<string>("");
     const [password, setPassWord] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
+    const [currentUsername, setUsername] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [success, setSuccess] = useState<string>("");
     const [errorEmail, setErrorEmail] = useState<string>("");
@@ -43,7 +44,7 @@ export default function Authenticator() {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        if (register && !emailRegex.test(email)) {
+        if (register && !emailRegex.test(userEmail)) {
             setErrorEmail("Adresse e-mail invalide. Veuillez entrer une adresse valide.");
             setSuccess("");
             return;
@@ -62,7 +63,7 @@ export default function Authenticator() {
         }
 
         const data = {
-            email: email,
+            email: userEmail,
             password: password,
         };
         
@@ -106,23 +107,27 @@ export default function Authenticator() {
             <div className='flex flex-row items-center justify-around w-full h-10'>
                 <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl' onClick={LoginGoogle}><FcGoogle />Google</button>
                 <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><FaApple />Apple</button>
-                <button onClick={() => setWebAuthInView(!webAuthInView)} className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiWebauthn />2Fa</button>
+                {!isLoading && !user && (<button onClick={() =>
+                    // setWebAuthInView(!webAuthInView)
+                    loginWithRedirect()
+                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiAuth0 />Auth0</button>)}
+                {!isLoading && user && (<button onClick={() =>
+                    // setWebAuthInView(!webAuthInView)
+                    logout()
+                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiAuth0 />Déconnexion</button>)}
             </div>
             <div className='flex flex-row p-2 items-center gap-2 justify-around w-[80%] h-auto'>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
                 <span className='text-black text-xl text-center'>ou</span>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
             </div>
-            {webAuthInView ?
-                <WebAuthInView register={register} setRegister={setRegister} username={username} handleUsernameChange={handleUsernameChange} email={email} handleEmailChange={handleEmailChange} error={error} setError={setError} errorEmail={errorEmail} setErrorEmail={setErrorEmail} errorUsername={errorUsername} setErrorUrsername={setErrorUsername} success={success} setSuccess={setSuccess} authenticatorView={authenticatorView} setAuthenticatorView={setAuthenticatorView} />
-            : 
                 <>
                     <span className='text-black text-xl text-center'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></span>
-                    <form onSubmit={(e) => { e.preventDefault(); email && password && postData(); }} 
+                    <form onSubmit={(e) => { e.preventDefault(); userEmail && password && postData(); }} 
                         className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
                         {error && <span className='text-red-500 text-xl'>{error}</span>}
                         {success && <span className='text-green-500 text-xl'>{success}</span>}
-                        <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={email} />
+                        <input onChange={handleEmailChange} className='rounded-md p-2 w-[300px] border-gray-500 border text-center text-black' type='text' name='email' placeholder='Saisissez votre adresse électronique...' value={userEmail} />
                         {errorEmail && <span className='text-red-500 text-xs'>{errorEmail}</span>}
                         <div className='flex flex-row gap-2 ml-[22px]'>
                             <input
@@ -145,7 +150,6 @@ export default function Authenticator() {
                         <button className='rounded-md p-2 border-gray-500 border bg-customBlue text-center text-white' type='submit'>{register ? "S'inscrire" : 'Se connecter'}</button>
                     </form>
                 </>
-            }
         </div>
     );
 

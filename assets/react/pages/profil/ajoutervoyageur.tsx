@@ -7,7 +7,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
 const AddVoyageur = () => {
   // State utilisateur
-  const [user, setUser] = useState({
+  const [currentUser, setUser] = useState({
     name: "Martin",
     secondname: "Vincenzo",
     lastname: "Vallée",
@@ -88,9 +88,9 @@ const AddVoyageur = () => {
 
   // Fonction pour sauvegarder les informations
   const saveUserData = async () => {
-    const updatedUser = { ...user, ...newField }; // Fusionner les champs actuels avec les nouveaux champs
+    const updatedUser = { ...currentUser, ...newField }; // Fusionner les champs actuels avec les nouveaux champs
     try {
-      const response = await axios.post("/api/update-user", updatedUser);
+      const response = await axios.post("/api/update-currentUser", updatedUser);
 
       if (response.status === 200) {
         console.log("Données sauvegardées avec succès !");
@@ -107,7 +107,7 @@ const AddVoyageur = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil user={user} />
+      <HeaderProfil currentUser={currentUser} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -151,7 +151,7 @@ const AddVoyageur = () => {
               height: "80px",
             }}
           >
-            {newField.name.charAt(0) || user.name.charAt(0)}
+            {newField.name.charAt(0) || currentUser.name.charAt(0)}
           </div>
 
           <div className="grid grid-cols-2 gap-6 mt-4">

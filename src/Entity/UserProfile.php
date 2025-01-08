@@ -538,6 +538,4 @@ class UserProfile
 
         return $this;
     }
-
-
 }

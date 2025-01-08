@@ -137,7 +137,7 @@ class DestinationController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            
+
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -176,4 +176,3 @@ class DestinationController extends AbstractController
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
 }
-

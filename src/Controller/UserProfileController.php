@@ -30,8 +30,8 @@ class UserProfileController extends AbstractController
 
     #[Route('/updateUserProfile', name: 'app_update_user_profile')]
     public function updateUserProfile(
-        EntityManagerInterface $em, 
-        Request $request, 
+        EntityManagerInterface $em,
+        Request $request,
         CsrfTokenManagerInterface $csrfTokenManager
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);

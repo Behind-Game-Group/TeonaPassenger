@@ -89,7 +89,7 @@ class CompanyController extends AbstractController
         $user = $this->getUser();
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
-            
+
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);

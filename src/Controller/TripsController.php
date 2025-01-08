@@ -183,7 +183,7 @@ class TripsController extends AbstractController
             if (empty($data['csrfToken'])) {
                 return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
             }
-    
+
             // Validation du token CSRF
             $csrfToken = new CsrfToken('default', $data['csrfToken']);
             if (!$csrfTokenManager->isTokenValid($csrfToken)) {

@@ -14,9 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final readonly class OAuthRegistrationService
 {
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
-    {
-    }
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher) {}
 
     /**
      * @param GoogleUser $resourceOwner
