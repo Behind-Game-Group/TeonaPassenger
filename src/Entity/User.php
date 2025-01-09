@@ -22,6 +22,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $username = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -36,6 +40,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google_id = null;
+
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $apple_id = null;
+
+    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $auth0_id = null;
+
+    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?UserProfile $userProfile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,10 +65,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
         return $this;
     }
 
@@ -109,5 +139,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
+
+    public function setUserProfile(UserProfile $userProfile): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userProfile->getUserId() !== $this) {
+            $userProfile->setUserId($this);
+        }
+
+        $this->userProfile = $userProfile;
+
+        return $this;
+    }
+
+    public function getGoogle_id()
+    {
+        return $this->google_id;
+    }
+
+    public function setGoogle_id($google_id)
+    {
+        $this->google_id = $google_id;
+
+        return $this;
+    }
+
+    public function getApple_id()
+    {
+        return $this->apple_id;
+    }
+
+    public function setApple_id($apple_id)
+    {
+        $this->apple_id = $apple_id;
+
+        return $this;
+    }
+
+    public function getAuth0_id()
+    {
+        return $this->auth0_id;
+    }
+
+    public function setAuth0_id($auth0_id)
+    {
+        $this->auth0_id = $auth0_id;
+
+        return $this;
     }
 }

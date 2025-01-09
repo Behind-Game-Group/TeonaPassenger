@@ -2,6 +2,19 @@
 @use "tailwindcss/components";
 @use "tailwindcss/utilities";
 
-main {
-    background-color: red;
+@import '~react-datepicker/dist/react-datepicker.css';
+  
+  /* Réinitialisation de certaines marges par défaut */
+  
+
+  *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Réinitialisation des marges/paddings */
+body, html {
+  margin: 0;
+  padding: 0;
 }
