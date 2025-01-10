@@ -14,26 +14,19 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
-class Auth0Authenticator extends AbstractLoginFormAuthenticator
+class Auth0Authenticator extends AbstractAuthenticator
 {
     public function __construct(
         private readonly UserRepository $repository,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly LoggerInterface $logger
     ) {}
-
-    protected function getLoginUrl(Request $request): string
-    {
-        return '/loginAuth0'; // Votre route de login
-    }
-
+    
     // Vérifie si cette authentification doit être déclenchée
     public function supports(Request $request): bool
     {
@@ -41,10 +34,15 @@ class Auth0Authenticator extends AbstractLoginFormAuthenticator
     }
 
     // Tente de récupérer et valider les informations d'authentification
-    public function authenticate(Request $request): Passport
+    public function authenticate(Request $request): SelfValidatingPassport
     {
         $this->logger->info('Auth0Authenticator is triggered.');
         $data = json_decode($request->getContent(), true);
+
+        if (!$data) {
+            $this->logger->error('Auth0Authenticator: Failed to parse JSON from request.');
+            throw new CustomUserMessageAuthenticationException('Invalid JSON payload.');
+        }
 
         $email = $data['email'] ?? null;
         $firstname = $data['given_name'] ?? null;
@@ -76,12 +74,12 @@ class Auth0Authenticator extends AbstractLoginFormAuthenticator
             $newuser->setUserProfile($userProfile);
 
             $this->repository->save($newuser, true);
+
+            $user = $this->repository->findOneBy(['email' => $email]);
         }
 
         return new SelfValidatingPassport(
-            userBadge: new UserBadge($email, function ($email) {
-                return $this->repository->findOneBy(['email' => $email]);
-            }),
+            userBadge: new UserBadge($user->getUserIdentifier(), fn() => $user),
             badges: [
                 new RememberMeBadge()
             ]

@@ -72,7 +72,7 @@ logout_route:
 google_callback:
   path: /google/callback
   controller: App\Controller\GoogleController::callback
-  methods: POST
+  methods: [GET, POST]
 
 app_show_companies:
   path: /showCompanies

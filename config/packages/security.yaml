@@ -40,6 +40,7 @@ security:
       logout:
         path: logout_route
         target: /
+      stateless: false 
 
     auth0:
       pattern: ^/loginAuth0
@@ -49,11 +50,14 @@ security:
       logout:
         path: logout_route
         target: /
+      stateless: false 
 
     main:
+      pattern: ^/(?!google|auth0)
       provider: app_user_provider
       custom_authenticator:
         - App\Security\SecurityControllerAuthenticator
       logout:
         path: logout_route
         target: /
+      stateless: false 
