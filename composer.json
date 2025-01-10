@@ -28,6 +28,7 @@
         "symfony/http-client": "7.2.*",
         "symfony/intl": "7.2.*",
         "symfony/mailer": "7.2.*",
+        "symfony/mailtrap-mailer": "7.2.*",
         "symfony/mime": "7.2.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "7.2.*",
@@ -46,6 +47,7 @@
         "symfony/web-link": "7.2.*",
         "symfony/webpack-encore-bundle": "^2.2",
         "symfony/yaml": "7.2.*",
+        "symfonycasts/reset-password-bundle": "^1.23",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },

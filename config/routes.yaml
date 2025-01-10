@@ -226,3 +226,20 @@ app_add_trip:
   path: "/trip/add"
   controller: 'App\Controller\TripsController::addTrip'
   methods: POST
+
+app_forgot_password_request:
+  path: "/forgot-password"
+  controller: 'App\Controller\ResetPasswordController::request'
+  methods: [GET, POST]
+
+app_check_email:
+  path: "/check-email"
+  controller: 'App\Controller\ResetPasswordController::checkEmail'
+  methods: [GET, POST]
+
+app_reset_password:
+  path: "/reset/{token}"
+  controller: 'App\Controller\ResetPasswordController::reset'
+  methods: [GET, POST]
+
+

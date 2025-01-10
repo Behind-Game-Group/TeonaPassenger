@@ -147,6 +147,15 @@
             "./config/packages/mailer.yaml"
         ]
     },
+    "symfony/mailtrap-mailer": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "e1d25e0fab8778b977233aff6762d3791eab3155"
+        }
+    },
     "symfony/maker-bundle": {
         "version": "1.61",
         "recipe": {
@@ -322,6 +331,18 @@
             "./config/packages/webpack_encore.yaml",
             "./package.json",
             "./webpack.config.js"
+        ]
+    },
+    "symfonycasts/reset-password-bundle": {
+        "version": "1.23",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "97c1627c0384534997ae1047b93be517ca16de43"
+        },
+        "files": [
+            "./config/packages/reset_password.yaml"
         ]
     },
     "twig/extra-bundle": {
