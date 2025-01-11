@@ -34,8 +34,10 @@ class AuthController extends AbstractController
 
         $userprofile = new UserProfile();
         $userprofile->setCreateTime(new DateTimeImmutable());
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setUpdatedAt(new \DateTimeImmutable());
         $user->setUserProfile($userprofile);
-
+        $em->persist($userprofile);
         $em->persist($user);
         $em->flush();
 

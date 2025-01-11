@@ -2,93 +2,119 @@
 
 namespace App\Controller;
 
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use App\Repository\UserRepository;
 use App\Entity\User;
-use App\Security\GoogleAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use League\OAuth2\Client\Provider\Google;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use App\Entity\GoogleConnection;
+use DateTimeImmutable;
 
-class GoogleController extends AbstractController
+class GoogleController
 {
-    #[Route('/google/connect', name: 'google_connect')]
-    public function connect(ClientRegistry $clientRegistry): Response
-    {
-        // Redirige l'utilisateur vers Google pour l'authentification
-        return $clientRegistry
-            ->getClient('google') // Nom du client défini dans config/packages/knpu_oauth2_client.yaml
-            ->redirect(['email'], ['profile'], ['openid']); // Scopes demandés
+    private Google $provider;
+    private EntityManagerInterface $entityManager;
+    private TokenStorageInterface $tokenStorage;
+
+    public function __construct(
+        string $clientId,
+        string $clientSecret,
+        string $redirectUri,
+        EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage
+    ) {
+        $this->provider = new Google([
+            'clientId'     => $clientId,
+            'clientSecret' => $clientSecret,
+            'redirectUri'  => $redirectUri,
+        ]);
+        $this->entityManager = $entityManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
-    #[Route('/google/callback', name: 'google_callback')]
-    public function callback(
-        ClientRegistry $clientRegistry,
-        EntityManagerInterface $entityManager,
-        UserRepository $userRepository,
-        UserAuthenticatorInterface $userAuthenticator,
-        RequestStack $requestStack,
-        AuthenticatorInterface $authenticator
-    ): JsonResponse {
-        $client = $clientRegistry->getClient('google');
-        $request = $requestStack->getCurrentRequest();
+    #[Route('/google/connect', name: 'auth_google_start')]
+    public function login(Request $request, SessionInterface $session): RedirectResponse
+    {
+        $authUrl = $this->provider->getAuthorizationUrl([
+            'scope' => [
+                'https://www.googleapis.com/auth/userinfo.email',
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'openid'
+            ],
+            'access_type' => 'online',
+            'prompt' => 'select_account consent'
+        ]);
+
+        $session->set('oauth2state', $this->provider->getState());
+        return new RedirectResponse($authUrl);
+    }
+
+    #[Route('/google/callback', name: 'auth_google_callback')]
+    public function callback(Request $request, SessionInterface $session): Response
+    {
+        $state = $request->get('state');
+        if (empty($state) || ($state !== $session->get('oauth2state'))) {
+            $session->remove('oauth2state');
+            return new Response('Invalid OAuth state.', 400);
+        }
 
         try {
-            /** @var GoogleUser $googleUser */
-            $googleUser = $client->fetchUser();
+            $token = $this->provider->getAccessToken('authorization_code', [
+                'code' => $request->get('code')
+            ]);
 
-            $email = $googleUser->getEmail();
-            $googleId = $googleUser->getId();
+            /** @var \League\OAuth2\Client\Provider\GoogleUser $googleUser */
+            $googleUser = $this->provider->getResourceOwner($token);
 
-            if (!$email) {
-                throw new \Exception('Impossible de récupérer l\'email de l\'utilisateur.');
-            }
+            // Rechercher d'abord une connexion Google existante
+            $googleConnection = $this->entityManager->getRepository(GoogleConnection::class)
+                ->findOneBy(['google_id' => $googleUser->getId()]);
 
-            // Récupérer ou créer l'utilisateur
-            $user = $userRepository->findOneBy(['email' => $email]);
-            if (!$user) {
-                // Vérification par GoogleId pour création d'un nouvel utilisateur
-                $user = $userRepository->findOneBy(['google_Id' => $googleId]);
+            if ($googleConnection) {
+                $user = $googleConnection->getUser();
+            } else {
+                // Rechercher un utilisateur existant par email
+                $date = new DateTimeImmutable();
+                $user = $this->entityManager->getRepository(User::class)
+                    ->findOneBy(['email' => $googleUser->getEmail()]);
 
                 if (!$user) {
+                    // Créer un nouvel utilisateur
                     $user = new User();
-                    $user->setEmail($email);
-                    $user->setGoogle_Id($googleId);
-
-                    $entityManager->persist($user);
-                    $entityManager->flush();
+                    $user->setEmail($googleUser->getEmail());
+                    $user->setRoles(['ROLE_USER']);
+                    $user->setCreatedAt($date);
+                    $user->setUpdatedAt($date);
+                    $this->entityManager->persist($user);
                 }
+
+                // Créer la connexion Google
+                $googleConnection = new GoogleConnection();
+                $googleConnection->setUser($user);
+                $googleConnection->setGoogleId($googleUser->getId());
+                $user->setEmail($googleUser->getEmail());
+                $googleConnection->setGoogleName($googleUser->getName());
+                $user->setUpdatedAt($date);
+
+                $this->entityManager->persist($user);
+                $this->entityManager->persist($googleConnection);
             }
 
-            // Authentification avec GoogleAuthenticator
-            if ($authenticator instanceof GoogleAuthenticator) {
-                $response = $userAuthenticator->authenticateUser(
-                    $user,
-                    $authenticator, // Cela sera l'authenticator personnalisé
-                    $request
-                );
+            $this->entityManager->flush();
 
-                return $response ?? new JsonResponse([
-                    'status' => 'success',
-                    'user' => [
-                        'id' => $user->getId(),
-                        'email' => $user->getEmail(),
-                        'name' => $user->getName(),
-                    ],
-                ]);
-            } else {
-                throw new \Exception('Authenticator is not of type GoogleAuthenticator.');
-            }
+            // Authentifier l'utilisateur
+            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+            $this->tokenStorage->setToken($token);
+            $session->set('_security_main', serialize($token));
+
+            return new RedirectResponse('/');
         } catch (\Exception $e) {
-            return new JsonResponse([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            return new Response('Authentication failed: ' . $e->getMessage(), 500);
         }
     }
 }

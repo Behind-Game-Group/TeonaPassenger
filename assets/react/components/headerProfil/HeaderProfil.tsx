@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface HeaderProfilProps {
   currentUser: {
-    name: string;
+    firstname: string;
     email: string;
     airport: string;
     OtherAirport?: string;
@@ -31,7 +31,7 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
       {/* Informations utilisateur */}
       <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour {currentUser.name}</h1>
+          <h1 className="text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
@@ -44,7 +44,7 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
           </div>
         </div>
         <div className="relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
-          {currentUser.name.charAt(0)}
+          {currentUser.firstname.charAt(0)}
         </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}

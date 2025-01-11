@@ -7,13 +7,15 @@ import "../styles/styles.scss"; // Assurez-vous que ce fichier est bien chargé 
 import Header from "./components/header/Header";
 import Authenticator from "./components/authenticator/Authenticator";
 import { useUserContext } from "./context/UserContext";
-import { getMethod } from "./services/axiosInstance";
+import { getMethod, postMethod } from "./services/axiosInstance";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Layout({ children }: { children: ReactNode }) {
   // Gestion de l'état de la barre latérale
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false); // État pour la largeur de la barre latérale
-  const {currentUser, updateUser, authenticatorView} = useUserContext();
+  const { currentUser, updateUser, authenticatorView } = useUserContext();
+  const {user, isLoading } = useAuth0();
   const [loginView, setLoginView] = useState<boolean>(false);
   const [registerView, setRegisterView] = useState<boolean>(false);
 
@@ -25,6 +27,41 @@ function Layout({ children }: { children: ReactNode }) {
 
   const toggleExpandSidebar = () => {
     setIsSidebarExpanded((prev) => !prev); // Bascule entre les deux modes
+  };
+
+  const postAuth0Info = async () => {
+    try {
+      // Si l'utilisateur n'est pas connecté, rediriger vers Auth0
+      if (user) {
+        // Si on arrive ici, c'est que l'utilisateur est déjà connecté avec Auth0
+      const url = '/auth0/callback';
+      const data = { 
+          email: user.email, 
+          given_name: user.given_name, 
+          family_name: user.family_name, 
+          nickname: user.nickname, 
+          picture: user.picture, 
+          sub: user.sub,
+          updated_at: user.updated_at,
+          email_verified: user.email_verified
+      };
+
+      const response = await postMethod(url, data);
+      console.log('Réponse du serveur après la requête POST :', response);
+
+      if (response) {
+        updateUser({ 
+            firstName: user.given_name, 
+            lastName: user.family_name, 
+            email: user.email 
+        });
+        console.log("Votre compte a bien été créé !");
+        window.location.reload();
+      }
+    }
+      } catch (error) {
+          console.error('Erreur lors de la requête POST :', error);
+      }
   };
 
   // Fermeture de la barre latérale si l'utilisateur clique à l'extérieur
@@ -45,6 +82,13 @@ function Layout({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  useEffect(() => {
+        // Vérifier si on revient d'une authentification Auth0
+        if (user && !isLoading) {
+            postAuth0Info();
+        }
+    }, [user, isLoading]);
+           
   console.log(authenticatorView);
 
   return (

@@ -14,35 +14,15 @@ export default function ProfilButton() {
     const picture = user?.picture;
     const email = user?.email;
     console.log(name, email, picture);
-    const { currentUser, updateUser, authenticatorView, setAuthenticatorView } = useUserContext();
+    const { currentUser, authenticatorView, setAuthenticatorView } = useUserContext();
     console.log(currentUser.email);
     const { logout } = useAuth0();
     const [isReloading, setReloading] = useState(true);
 
     useEffect(() => {
-        if (user) {
-            updateUser({ firstName: user.given_name, lastName: user.family_name, email: user.email });
-            console.log(user);
-            const url = '/loginAuth0';
-            const data = { 
-                email: user.email, 
-                given_name: user.given_name, 
-                family_name: user.family_name, 
-                nickname: user.nickname, 
-                picture: user.picture, 
-                sub: user.sub 
-            };
-            try {
-                axios.post(url, data)
-                    .then(reponse => {
-                        console.log(reponse);
-                        
-                    })
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        console.log(user);
     }, [user]);
+    
     
     return (
         <>

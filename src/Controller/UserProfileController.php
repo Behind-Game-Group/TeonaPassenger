@@ -49,17 +49,17 @@ class UserProfileController extends AbstractController
         if ($user instanceof User) {
             $userProfile = $user->getUserProfile();
 
-            $name = $data['name'] ?? null;
-            $surname = $data['surname'] ?? null;
+            $lastname = $data['lastname'] ?? null;
+            $firstname = $data['firstname'] ?? null;
             $username = $data['username'] ?? null;
             $site = $data['site'] ?? null;
 
-            if (!$name || !$surname || !$username || !$site) {
-                return new JsonResponse(['error' => 'Name, surname, username and site are required'], JsonResponse::HTTP_BAD_REQUEST);
+            if (!$lastname || !$firstname || !$username || !$site) {
+                return new JsonResponse(['error' => 'Name, firstname, username and site are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $userProfile->setName($name);
-            $userProfile->setSurname($surname);
+            $userProfile->setLastname($lastname);
+            $userProfile->setFirstname($firstname);
             $userProfile->setUsername($username);
             $userProfile->setSite($site);
             $userProfile->setLocalAirport($data['local_airport'] ?? $userProfile->getLocalAirport());

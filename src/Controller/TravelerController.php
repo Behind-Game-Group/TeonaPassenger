@@ -53,7 +53,7 @@ class TravelerController extends AbstractController
             $traveler = new Traveler();
 
             $name = $data['name'] ?? null;
-            $surname = $data['surname'] ?? null;
+            $firstname = $data['firstname'] ?? null;
             $email = $data['email'] ?? null;
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
@@ -73,7 +73,7 @@ class TravelerController extends AbstractController
 
             $traveler->setName($name);
             $traveler->setEmail($email);
-            $traveler->setSurname($surname);
+            $traveler->setSurname($firstname);
             $verifbirthdate = DateTime::createFromFormat('Y-m-d', $data['birthdate']);
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);

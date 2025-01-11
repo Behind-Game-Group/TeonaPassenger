@@ -19,6 +19,14 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/profil', name: 'app_profil')]
     public function profil(): Response
     {

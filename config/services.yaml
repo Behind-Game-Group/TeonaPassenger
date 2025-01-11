@@ -4,8 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-  google_oauth_id: '%env(GOOGLE_OAUTH_ID)%'
-  google_oauth_secret: '%env(GOOGLE_OAUTH_SECRET)%'
+  google_client_id: '%env(GOOGLE_OAUTH_ID)%'
+  google_client_secret: '%env(GOOGLE_OAUTH_SECRET)%'
+  google_redirect_uri: '%env(GOOGLE_REDIRECT_URI)%'
+  auth0_domain: '%env(AUTH0_DOMAIN)%'
+  auth0_client_id: '%env(AUTH0_CLIENT_ID)%'
+  auth0_client_secret: '%env(AUTH0_CLIENT_SECRET)%'
 
 services:
   # default configuration for services in *this* file
@@ -21,14 +25,22 @@ services:
       - "../src/DependencyInjection/"
       - "../src/Entity/"
       - "../src/Kernel.php"
-  App\Repository\WebauthnCredentialRepository: ~
-  App\Repository\WebauthnUserEntityRepository:
-    autowire: true
-    autoconfigure: true
-    public: false
+
+  # GoogleController et GoogleAuthentiator configuration
+  App\Controller\GoogleController:
+    arguments:
+      $clientId: "%env(GOOGLE_OAUTH_ID)%"
+      $clientSecret: "%env(GOOGLE_OAUTH_SECRET)%"
+      $redirectUri: "%env(GOOGLE_REDIRECT_URI)%"
+    tags: ["controller.service_arguments"]
+
+  App\Security\GoogleAuthenticator:
+    arguments:
+      $clientId: '%env(GOOGLE_OAUTH_ID)%'
+      $clientSecret: '%env(GOOGLE_OAUTH_SECRET)%'
+      $redirectUri: '%env(GOOGLE_REDIRECT_URI)%'
+
+  # UserRepository configuration
   App\Repository\UserRepository:
     autowire: true
     autoconfigure: true
-
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
