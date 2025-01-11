@@ -9,7 +9,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 const Voyageur = () => {
   // State utilisateur
   const [currentUser, setUser] = useState({
-    name: "Martin",
+    firstname: "Martin",
     secondname: "Vincenzo",
     lastname: "Vallée",
     birthday: "01/01/1990",
@@ -62,7 +62,7 @@ const Voyageur = () => {
   const [isEditing, setIsEditing] = useState({
     airport: false,
     OtherAirport: false,
-    name: false,
+    firstname: false,
     secondname: false,
     lastname: false,
     birthday: false,
@@ -138,26 +138,26 @@ const Voyageur = () => {
               className="relative flex mt-2 items-center justify-center rounded-full text-white text-3xl font-bold"
               style={{ backgroundColor: circleColor, width: '80px', height:'80px' }}
             >
-              {currentUser.name.charAt(0)}
+              {currentUser.firstname.charAt(0)}
             </div>
           <div className="grid grid-cols-2 gap-6 mt-4">
             <div>
               <p className="font-semibold">Prénom</p>
-              {isEditing.name ? (
+              {isEditing.firstname ? (
                 <input
                   type="text"
-                  value={currentUser.name}
-                  onChange={(e) => handleUpdateField("name", e.target.value)}
+                  value={currentUser.firstname}
+                  onChange={(e) => handleUpdateField("firstname", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{currentUser.name}</p>
+                <p className="text-gray-700">{currentUser.firstname}</p>
               )}
               <button
-                onClick={() => toggleEdit("name")}
+                onClick={() => toggleEdit("firstname")}
                 className="text-orange-600 hover:underline mt-2"
               >
-                {isEditing.name ? "Enregistrer" : "Modifier"}
+                {isEditing.firstname ? "Enregistrer" : "Modifier"}
               </button>
             </div>
             <div>

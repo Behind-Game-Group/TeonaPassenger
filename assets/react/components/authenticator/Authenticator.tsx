@@ -8,6 +8,7 @@ import { postMethod } from '../../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
 
 export default function Authenticator() {
     const { loginWithRedirect, logout, user, isLoading } = useAuth0();
@@ -24,7 +25,7 @@ export default function Authenticator() {
     const [errorPassword, setErrorPassword] = useState<string>("");
     const [errorUsername, setErrorUsername] = useState<string>("");
 
-    const { authenticatorView, setAuthenticatorView } = useUserContext();
+    const { updateUser,authenticatorView, setAuthenticatorView } = useUserContext();
 
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);

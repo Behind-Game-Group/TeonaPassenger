@@ -1,6 +1,6 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import React, { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
+
 
 // Définition des types des données utilisateur avec les champs supplémentaires
 interface User {
@@ -42,11 +42,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         // Récupérer l'utilisateur courant et le token CSRF
         axios.get('/getCurrentUser')
             .then(response => {
-                setUser(response.data.currentUser);
+                setUser(response.data.user);
                 // console.log(response);
                 // Récupérer le token CSRF et le stocker dans les cookies et le contexte
-                setCsrfToken(response.data.currentUser.csrfToken);
-                localStorage.setItem('csrfToken', response.data.currentUser.csrfToken);
+                setCsrfToken(response.data.user.csrfToken);
+                localStorage.setItem('csrfToken', response.data.user.csrfToken);
             })
             .catch(error => {
                 console.error('Error fetching current currentUser:', error.response?.data || error.message);

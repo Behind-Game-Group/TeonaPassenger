@@ -35,18 +35,18 @@ class TravelerRepository extends ServiceEntityRepository
     /**
      * Trouver un voyageur par son nom complet
      * @param string $name
-     * @param string|null $surname
+     * @param string|null $firstname
      * @return Traveler[] Retourne un tableau de voyageurs qui correspondent
      */
-    public function findByFullName(string $name, ?string $surname = null): array
+    public function findByFullName(string $name, ?string $firstname = null): array
     {
         $qb = $this->createQueryBuilder('t')
             ->andWhere('t.name = :name')
             ->setParameter('name', $name);
 
-        if ($surname) {
-            $qb->andWhere('t.surname = :surname')
-                ->setParameter('surname', $surname);
+        if ($firstname) {
+            $qb->andWhere('t.firstname = :firstname')
+                ->setParameter('firstname', $firstname);
         }
 
         return $qb->getQuery()->getResult();

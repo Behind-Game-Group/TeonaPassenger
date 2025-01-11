@@ -20,11 +20,11 @@ class UserProfile
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['userProfile:read'])]
-    private ?string $name = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['userProfile:read'])]
-    private ?string $surname = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['userProfile:read'])]
@@ -131,26 +131,26 @@ class UserProfile
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(?string $name): static
+    public function setLastname(?string $name): static
     {
-        $this->name = $name;
+        $this->lastname = $name;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->surname;
+        return $this->firstname;
     }
 
-    public function setSurname(?string $surname): static
+    public function setFirstname(?string $firstname): static
     {
-        $this->surname = $surname;
+        $this->firstname = $firstname;
 
         return $this;
     }

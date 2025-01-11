@@ -27,11 +27,11 @@ class UserProfileRepository extends ServiceEntityRepository
     public function updateUserProfile(UserProfile $userProfile, array $newData): UserProfile
     {
         // Met à jour chaque champ si les nouvelles données sont présentes
-        if (isset($newData['name'])) {
-            $userProfile->setName($newData['name']);
+        if (isset($newData['lastname'])) {
+            $userProfile->setLastname($newData['lastname']);
         }
-        if (isset($newData['surname'])) {
-            $userProfile->setSurname($newData['surname']);
+        if (isset($newData['firstname'])) {
+            $userProfile->setFirstname($newData['firstname']);
         }
         if (isset($newData['username'])) {
             $userProfile->setUsername($newData['username']);

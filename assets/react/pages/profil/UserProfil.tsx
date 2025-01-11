@@ -5,8 +5,9 @@ import { set } from 'date-fns';
 
 interface UserProfile {
   id: number;
-  name: string | null;
-  surname: string | null;
+  lastname: string | null;
+  firstname: string | null;
+  username: string | null;
   currentUsername: string | null;
   avatar: string | null;
   site: string | null;
@@ -15,8 +16,8 @@ interface UserProfile {
 
 interface Traveler {
   id: number;
-  name: string;
-  surname: string;
+  lastname: string;
+  firstname: string;
   email: string;
   birthdate: string;
   gender: string;
@@ -290,7 +291,7 @@ const UserProfile: React.FC = () => {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.surname) {
+    if (!formData.lastname || !formData.firstname) {
       setError('Please fill in all required fields.');
       return;
     }
@@ -360,7 +361,7 @@ const UserProfile: React.FC = () => {
           <input
             type="text"
             name="name"
-            value={formData.name || ''}
+            value={formData.lastname || ''}
             onChange={handleChange}
             aria-label="User's Name"
           />
@@ -370,8 +371,8 @@ const UserProfile: React.FC = () => {
           Surname:
           <input
             type="text"
-            name="surname"
-            value={formData.surname || ''}
+            name="firstname"
+            value={formData.firstname || ''}
             onChange={handleChange}
             aria-label="User's Surname"
           />
@@ -381,8 +382,8 @@ const UserProfile: React.FC = () => {
           Username:
           <input
             type="text"
-            name="currentUsername"
-            value={formData.currentUsername || ''}
+            name="username"
+            value={formData.username || ''}
             onChange={handleChange}
             aria-label="User's Username"
           />
@@ -423,8 +424,8 @@ const UserProfile: React.FC = () => {
               Name:
               <input
                 type="text"
-                name="name"
-                value={editDataTraveler.name || ''}
+                name="lastname"
+                value={editDataTraveler.lastname || ''}
                 onChange={handleEditTravelerChange}
               />
             </label>
@@ -433,8 +434,8 @@ const UserProfile: React.FC = () => {
               Surname:
               <input
                 type="text"
-                name="surname"
-                value={editDataTraveler.surname || ''}
+                name="firstname"
+                value={editDataTraveler.firstname || ''}
                 onChange={handleEditTravelerChange}
               />
               </label>
@@ -492,8 +493,8 @@ const UserProfile: React.FC = () => {
             Name:
             <input
               type="text"
-              name="name"
-              value={newTraveler.name || ''}
+              name="lastname"
+              value={newTraveler.lastname || ''}
               onChange={handleTravelerChange}
             />
           </label>
@@ -502,8 +503,8 @@ const UserProfile: React.FC = () => {
             Surname:
             <input
               type="text"
-              name="surname"
-              value={newTraveler.surname || ''}
+              name="firstname"
+              value={newTraveler.firstname || ''}
               onChange={handleTravelerChange}
             />
           </label>
@@ -559,7 +560,7 @@ const UserProfile: React.FC = () => {
       <ul>
         {travelers.map((traveler) => (
           <li key={traveler.id}>
-            {traveler.name} {traveler.surname} - {traveler.email} - {traveler.birthdate}
+            {traveler.lastname} {traveler.firstname} - {traveler.email} - {traveler.birthdate}
             <button className='text-green-500' onClick={() => {
               setEditTraveler(!editTraveler)
               setEditDataTraveler(traveler)
@@ -608,7 +609,7 @@ const UserProfile: React.FC = () => {
             <option value="">Select Traveler</option>
             {travelers.map((traveler) => (
               <option key={traveler.id} value={traveler.id}>
-                {traveler.name} {traveler.surname}
+                {traveler.lastname} {traveler.firstname}
               </option>
             ))}
           </select>

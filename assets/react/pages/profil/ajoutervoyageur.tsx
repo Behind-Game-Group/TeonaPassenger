@@ -8,7 +8,7 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 const AddVoyageur = () => {
   // State utilisateur
   const [currentUser, setUser] = useState({
-    name: "Martin",
+    firstname: "Martin",
     secondname: "Vincenzo",
     lastname: "Vallée",
     birthday: "01/01/1990",
@@ -47,7 +47,7 @@ const AddVoyageur = () => {
 
   // État pour les champs à ajouter
   const [newField, setNewField] = useState({
-    name: "",
+    firstname: "",
     secondname: "",
     lastname: "",
     birthday: "",
@@ -59,7 +59,7 @@ const AddVoyageur = () => {
 
   // Mapping des intitulés des champs
   const fieldLabels: Record<string, string> = {
-    name: "Prénom",
+    firstname: "Prénom",
     secondname: "Deuxième prénom",
     lastname: "Nom de famille",
     birthday: "Date de naissance",
@@ -151,7 +151,7 @@ const AddVoyageur = () => {
               height: "80px",
             }}
           >
-            {newField.name.charAt(0) || currentUser.name.charAt(0)}
+            {newField.firstname.charAt(0) || currentUser.firstname.charAt(0)}
           </div>
 
           <div className="grid grid-cols-2 gap-6 mt-4">

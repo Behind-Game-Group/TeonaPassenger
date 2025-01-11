@@ -34,8 +34,10 @@ class AuthController extends AbstractController
 
         $userprofile = new UserProfile();
         $userprofile->setCreateTime(new DateTimeImmutable());
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $user->setUpdatedAt(new \DateTimeImmutable());
         $user->setUserProfile($userprofile);
-
+        $em->persist($userprofile);
         $em->persist($user);
         $em->flush();
 
@@ -44,6 +46,13 @@ class AuthController extends AbstractController
 
     #[Route('/loginCredentials', name: 'app_login_credentials', methods: ['POST'])]
     public function loginCredentials(): JsonResponse
+    {
+        // Symfony déclenchera automatiquement le SecurityControllerAuthenticator sur cette route.
+        return new JsonResponse(['message' => 'You should never see this!'], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    #[Route('/loginAuth0', name: 'app_login_auth0', methods: ['POST'])]
+    public function loginAuth0(): JsonResponse
     {
         // Symfony déclenchera automatiquement le SecurityControllerAuthenticator sur cette route.
         return new JsonResponse(['message' => 'You should never see this!'], Response::HTTP_INTERNAL_SERVER_ERROR);

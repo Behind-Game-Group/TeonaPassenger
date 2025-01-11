@@ -10,14 +10,14 @@ const Parametres = () => {
 
  // State utilisateur
  const [currentUser, setUser] = useState({
-  name: "Martin",
+  firstname: "Martin",
   email: "martinvallee01@gmail.com",
   airport: "Batumi, Géorgie",
 });
 
 // État pour savoir si on est en mode édition ou non
 const [isEditing, setIsEditing] = useState({
-  name: false,
+  firstname: false,
   email: false,
 });
 
@@ -84,21 +84,21 @@ const saveUserData = async () => {
           <div className="grid grid-cols-2 gap-6 mt-4">
             <div>
               <p className="font-semibold">Nom :</p>
-              {isEditing.name ? (
+              {isEditing.firstname ? (
                 <input
                   type="text"
-                  value={currentUser.name}
-                  onChange={(e) => handleUpdateField("name", e.target.value)}
+                  value={currentUser.firstname}
+                  onChange={(e) => handleUpdateField("firstname", e.target.value)}
                   className="border rounded p-2 mt-2"
                 />
               ) : (
-                <p className="text-gray-700">{currentUser.name}</p>
+                <p className="text-gray-700">{currentUser.firstname}</p>
               )}
               <button
-                onClick={() => toggleEdit("name")}
+                onClick={() => toggleEdit("firstname")}
                 className="text-orange-600 hover:underline mt-2"
               >
-                {isEditing.name ? "Enregistrer" : "Modifier"}
+                {isEditing.firstname ? "Enregistrer" : "Modifier"}
               </button>
             </div>
             <div>

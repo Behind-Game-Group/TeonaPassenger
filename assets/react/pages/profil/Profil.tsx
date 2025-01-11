@@ -13,7 +13,7 @@ interface Search {
 
 const Profil = () => {
   const [currentUser, setUser] = useState({
-      name: "Martin",
+      firstname: "Martin",
       email: "martinvallee01@gmail.com",
       airport: "Batumi, Géorgie",
       OtherAirport: "Charles de Gaulle, Paris",

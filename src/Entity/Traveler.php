@@ -24,7 +24,7 @@ class Traveler
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['traveler:read'])]
-    private ?string $surname = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Groups(['traveler:read'])]
@@ -88,12 +88,12 @@ class Traveler
 
     public function getSurname(): ?string
     {
-        return $this->surname;
+        return $this->firstname;
     }
 
-    public function setSurname(?string $surname): static
+    public function setSurname(?string $firstname): static
     {
-        $this->surname = $surname;
+        $this->firstname = $firstname;
 
         return $this;
     }
