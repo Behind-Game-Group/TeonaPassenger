@@ -54,7 +54,6 @@ class Auth0Controller extends AbstractController
                     $user = (new User())
                         ->setEmail($data['email'])
                         ->setRoles(['ROLE_USER'])
-                        ->setUsername($data['nickname'] ?? 'User_' . uniqid())
                         ->setCreatedAt(new \DateTimeImmutable())
                         ->setUpdatedAt(new \DateTimeImmutable());
 
