@@ -50,6 +50,11 @@ app_trips:
   controller: 'App\Controller\IndexController::Trips'
   methods: GET
 
+app_expeditors:
+  path: "/profil/expeditors"
+  controller: 'App\Controller\IndexController::expeditors'
+  methods: GET
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'

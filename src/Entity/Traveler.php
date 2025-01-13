@@ -20,7 +20,7 @@ class Traveler
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['traveler:read'])]
-    private ?string $name = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['traveler:read'])]
@@ -74,24 +74,36 @@ class Traveler
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getEmail()
     {
-        return $this->name;
+        return $this->email;
     }
 
-    public function setName(?string $name): static
+    public function setEmail($email)
     {
-        $this->name = $name;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getSurname(): ?string
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getFirstname()
     {
         return $this->firstname;
     }
 
-    public function setSurname(?string $firstname): static
+    public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
 
@@ -208,18 +220,6 @@ class Traveler
                 $fidelityProgram->setTravelerId(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
 
         return $this;
     }

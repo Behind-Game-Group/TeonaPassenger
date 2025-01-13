@@ -13,6 +13,7 @@ import Parametres from './pages/profil/parametres';
 import Preferences from './pages/profil/preferences';
 import Voyageur from './pages/profil/voyageurs';
 import Auth0ProviderWithHistory from './providers/auth0Provider';
+import Expeditors from './pages/expeditors/expeditors';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/profil/parametres' element={<Parametres />}/>
                 <Route path="/profil/preferences" element={<Preferences/>}/>
                 <Route path="/profil/voyageurs" element={<Voyageur/>}/>
+                <Route path="/profil/expeditors" element={<Expeditors/>}/>
                 {/* Ajout de la route */}
               </Routes>
             </Layout>

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Entity\GoogleConnection;
+use App\Entity\UserProfile;
 use DateTimeImmutable;
 
 class GoogleController
@@ -84,13 +85,17 @@ class GoogleController
                     ->findOneBy(['email' => $googleUser->getEmail()]);
 
                 if (!$user) {
-                    // Créer un nouvel utilisateur
+                    // Créer un nouvel utilisateur + son profil
                     $user = new User();
                     $user->setEmail($googleUser->getEmail());
                     $user->setRoles(['ROLE_USER']);
                     $user->setCreatedAt($date);
                     $user->setUpdatedAt($date);
+                    $userprofile = new UserProfile();
+                    $userprofile->setCreateTime(new DateTimeImmutable());
+                    $user->setUserProfile($userprofile);
                     $this->entityManager->persist($user);
+                    $this->entityManager->persist($userprofile);
                 }
 
                 // Créer la connexion Google

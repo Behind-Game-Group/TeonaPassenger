@@ -41,14 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[Groups(['user:read'])]
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $apple_id = null;
-
-    #[Groups(['user:read'])]
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $auth0_id = null;
-
-    #[Groups(['user:read'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -164,18 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->userProfile = $userProfile;
-
-        return $this;
-    }
-
-    public function getApple_id()
-    {
-        return $this->apple_id;
-    }
-
-    public function setApple_id($apple_id)
-    {
-        $this->apple_id = $apple_id;
 
         return $this;
     }

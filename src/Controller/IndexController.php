@@ -108,6 +108,14 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/profil/expeditors', name: 'app_expeditors')]
+    public function expeditors(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
     public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {

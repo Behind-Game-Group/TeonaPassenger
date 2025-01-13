@@ -63,7 +63,8 @@ class Auth0Controller extends AbstractController
                         ->setFirstname($data['given_name'] ?? null)
                         ->setLastname($data['family_name'] ?? null)
                         ->setUsername($data['nickname'] ?? null)
-                        ->setAvatar($data['picture'] ?? null);
+                        ->setAvatar($data['picture'] ?? null)
+                        ->setCreateTime(new \DateTimeImmutable());
 
                     $this->entityManager->persist($user);
                     $this->entityManager->persist($userProfile);

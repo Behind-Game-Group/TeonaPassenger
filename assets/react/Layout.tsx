@@ -56,7 +56,6 @@ function Layout({ children }: { children: ReactNode }) {
             email: user.email 
         });
         console.log("Votre compte a bien été créé !");
-        window.location.reload();
       }
     }
       } catch (error) {
@@ -88,7 +87,7 @@ function Layout({ children }: { children: ReactNode }) {
             postAuth0Info();
         }
     }, [user, isLoading]);
-           
+
   console.log(authenticatorView);
 
   return (

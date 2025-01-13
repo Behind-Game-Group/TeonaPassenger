@@ -52,7 +52,7 @@ class TravelerController extends AbstractController
             $userProfile = $user->getUserProfile();
             $traveler = new Traveler();
 
-            $name = $data['name'] ?? null;
+            $lastname = $data['lastname'] ?? null;
             $firstname = $data['firstname'] ?? null;
             $email = $data['email'] ?? null;
             $birthdate = $data['birthdate'] ?? null;
@@ -61,7 +61,7 @@ class TravelerController extends AbstractController
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$name || !$email || !$birthdate || !$gender || !$phone) {
+            if (!$lastname || !$email || !$birthdate || !$gender || !$phone) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -71,9 +71,9 @@ class TravelerController extends AbstractController
                 return new JsonResponse(['error' => 'This traveler already exists'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $traveler->setName($name);
+            $traveler->setLastname($lastname);
             $traveler->setEmail($email);
-            $traveler->setSurname($firstname);
+            $traveler->setFirstname($firstname);
             $verifbirthdate = DateTime::createFromFormat('Y-m-d', $data['birthdate']);
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);

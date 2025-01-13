@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getMethod, postMethod } from '../../services/axiosInstance';  // Import des méthodes personnalisées
 import { useUserContext } from '../../context/UserContext';
-import { set } from 'date-fns';
 
 interface UserProfile {
   id: number;
@@ -95,6 +94,7 @@ const UserProfile: React.FC = () => {
 
         }));
         setTravelers(formattedTravelers);
+        console.log(response);
       }
     } catch (err) {
       setError('Failed to fetch travelers.');
@@ -178,7 +178,7 @@ const UserProfile: React.FC = () => {
     setSuccess(null);
 
     try {
-      const response = await postMethod('/addTraveler', {
+      await postMethod('/addTraveler', {
         ...newTraveler,
         csrfToken,
       });
@@ -357,24 +357,24 @@ const UserProfile: React.FC = () => {
       {/* Formulaire pour mettre à jour le profil utilisateur */}
       <form onSubmit={handleUpdateProfile} className='border-2 border-black rounded-sm items-center mb-5 w-[800px]'>
         <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.lastname || ''}
-            onChange={handleChange}
-            aria-label="User's Name"
-          />
-        </label>
-        <br />
-        <label>
-          Surname:
+          firstname
           <input
             type="text"
             name="firstname"
             value={formData.firstname || ''}
             onChange={handleChange}
-            aria-label="User's Surname"
+            aria-label="User's firstname"
+          />
+        </label>
+        <br />
+        <label>
+          Lastname:
+          <input
+            type="text"
+            name="lastname"
+            value={formData.lastname || ''}
+            onChange={handleChange}
+            aria-label="User's lastname"
           />
         </label>
         <br />
@@ -421,21 +421,21 @@ const UserProfile: React.FC = () => {
           <h2>Modify Traveler</h2>
           <form onSubmit={handleEditTraveler} className='border-2 border-black rounded-sm items-center mb-5 w-[800px]'>
             <label>
-              Name:
+              Firstname:
               <input
                 type="text"
-                name="lastname"
-                value={editDataTraveler.lastname || ''}
+                name="firstname"
+                value={editDataTraveler.firstname || ''}
                 onChange={handleEditTravelerChange}
               />
             </label>
             <br />
             <label>
-              Surname:
+              Lastname:
               <input
                 type="text"
-                name="firstname"
-                value={editDataTraveler.firstname || ''}
+                name="lastname"
+                value={editDataTraveler.lastname || ''}
                 onChange={handleEditTravelerChange}
               />
               </label>
@@ -490,21 +490,21 @@ const UserProfile: React.FC = () => {
         <h2>Add Traveler</h2>
         <form onSubmit={handleAddTraveler} className='border-2 border-black rounded-sm items-center mb-5 w-[800px]'>
           <label>
-            Name:
+            Firstname:
             <input
               type="text"
-              name="lastname"
-              value={newTraveler.lastname || ''}
+              name="firstname"
+              value={newTraveler.firstname || ''}
               onChange={handleTravelerChange}
             />
           </label>
           <br />
           <label>
-            Surname:
+            Lastname:
             <input
               type="text"
-              name="firstname"
-              value={newTraveler.firstname || ''}
+              name="lastname"
+              value={newTraveler.lastname || ''}
               onChange={handleTravelerChange}
             />
           </label>
