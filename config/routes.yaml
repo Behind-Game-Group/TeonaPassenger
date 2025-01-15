@@ -263,3 +263,13 @@ app_add_trip:
   path: "/trip/add"
   controller: 'App\Controller\TripsController::addTrip'
   methods: POST
+
+resultats:
+  path: /resultat
+  controller: 'App\Controller\IndexController::resultat'
+  methods: GET
+
+resultats_city:
+  path: /resultat/{city}
+  controller: 'App\Controller\IndexController::resultat'
+  methods: GET
