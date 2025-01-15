@@ -79,7 +79,7 @@ const Preferences = () => {
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
       {/* Header Profil */}
-      <HeaderProfil currentUser={currentUser} />
+      <HeaderProfil />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">

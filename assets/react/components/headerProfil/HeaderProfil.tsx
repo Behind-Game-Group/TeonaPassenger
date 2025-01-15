@@ -1,19 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useUserContext } from "../../context/UserContext";
+import { getMethod } from "../../services/axiosInstance";
 
-interface HeaderProfilProps {
-  currentUser: {
-    firstname: string;
-    email: string;
-    airport: string;
-    OtherAirport?: string;
-  };
+type User = {
+  firstname?: string;
+  local_airport?: string;
+  avatar?: string;
 }
 
-const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
+const HeaderProfil = () => {
   // Couleur du cercle
   const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
   const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
+  const [user, setUser] = useState<User>({
+    firstname: "",
+    local_airport: "",
+    avatar: ""
+  });
+  const { currentUser } = useUserContext();
 
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    try {
+      const response = await getMethod("/showUserProfile");
+      console.log(response);
+      setUser(response);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données utilisateur :", error);
+    }
+  };
   // Palette de couleurs
   const colorPalette = [
     "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#9333EA", "#34D399",
@@ -31,20 +50,26 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
       {/* Informations utilisateur */}
       <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
+          { user.firstname === "" ? (
+            <>
+              <h1 className="text-[25px] font-bold">Bonjour</h1>
+            </>
+          ) : (
+            <h1 className="text-[25px] font-bold">Bonjour {user.firstname}</h1>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="font-semibold">Adresse e-mail :</p>
-              <p className="mt-1">{currentUser.email}</p>
+              <p className="font-semibold text-[20px]">Adresse e-mail :</p>
+              <p className="mt-1 text-[15px]">{currentUser.email}</p>
             </div>
             <div>
-              <p className="font-semibold">Aéroport local :</p>
-              <p className="mt-1 underline">{currentUser.airport}</p>
+              <p className="font-semibold text-[20px]">Aéroport local :</p>
+              <p className="mt-1 underline text-[15px]">{user.local_airport}</p>
             </div>
           </div>
         </div>
         <div className="relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
-          {currentUser.firstname.charAt(0)}
+          {currentUser.firstName?.charAt(0)}
         </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}

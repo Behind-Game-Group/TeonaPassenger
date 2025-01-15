@@ -62,7 +62,6 @@ class UserProfileController extends AbstractController
             $userProfile->setFirstname($firstname);
             $userProfile->setUsername($username);
             $userProfile->setSite($site);
-            $userProfile->setLocalAirport($data['local_airport'] ?? $userProfile->getLocalAirport());
             $userProfile->setUpdateTime(new DateTimeImmutable());
             $em->persist($userProfile);
             $em->flush();
