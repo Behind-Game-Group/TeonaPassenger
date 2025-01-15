@@ -97,8 +97,8 @@ function Layout({ children }: { children: ReactNode }) {
       <aside
         ref={sidebarRef}
         className={`fixed top-[124px] left-0 ${
-          isSidebarExpanded ? "w-64 z-10" : "w-10"
-        } h-full bg-customOrange text-white border-r border-white transition-all z-10`}
+          isSidebarExpanded ? "w-64 z-30" : "w-10"
+        } h-full bg-customOrange text-white border-r border-white transition-all z-30`}
       >
         <nav>
           <ul className="">
