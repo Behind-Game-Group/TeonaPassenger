@@ -47,6 +47,7 @@ module.exports = {
       colors: {
         customBlue: 'rgba(19, 154, 210, 1)',
         customOrange: "rgba(223, 141, 34, 1)",
+        customOrangeOpacity: "rgba(223, 141, 34, 0.85)",
       },
     },
   },

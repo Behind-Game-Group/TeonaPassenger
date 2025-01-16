@@ -70,6 +70,11 @@ app_login_credentials:
   controller: 'App\Controller\AuthController::loginCredentials'
   methods: [GET, POST]
 
+app_delete_user:
+  path: "/user/delete"
+  controller: 'App\Controller\UserProfileController::deleteUser'
+  methods: [DELETE]
+
 app_login_auth0:
   path: "/loginAuth0"
   controller: 'App\Controller\AuthController::loginAuth0'

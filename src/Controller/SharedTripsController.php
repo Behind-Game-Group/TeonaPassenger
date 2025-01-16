@@ -83,7 +83,7 @@ class SharedTripsController extends AbstractController
             $sharedTrip = new SharedTrip();
             $sharedTrip->setEmail($data['email']);
 
-            if ($data['isEditable'] === 'isEditableOption1') {
+            if ($data['isEditable'] === 'option1') {
                 $sharedTrip->setIsEditable(true);
             } else {
                 $sharedTrip->setIsEditable(false);
