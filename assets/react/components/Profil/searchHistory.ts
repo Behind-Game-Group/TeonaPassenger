@@ -1,0 +1,111 @@
+export const searchHistory = [
+    {
+      route: "TBS → Batumi",
+      date: "lun. 28/01 - mer. 30/01",
+      details: "1 voyageur, Éco",
+      type: "plane",
+    },
+    {
+      route: "SOF → Sofia",
+      date: "mar. 29/01 - jeu. 01/02",
+      details: "2 voyageurs, Éco",
+      type: "plane",
+    },
+    {
+      route: "TBS → Tbilisi",
+      date: "ven. 02/02 - sam. 03/02",
+      details: "1 voyageur, Affaires",
+      type: "bus",
+    },
+    {
+      route: "CDG → Bucarest",
+      date: "dim. 04/02 - lun. 05/02",
+      details: "2 voyageurs, Affaires",
+      type: "hotel",
+    },
+    {
+      route: "Bucarest → Contanta",
+      date: "mar. 06/02 - mer. 07/02",
+      details: "2 voyageurs, Affaires",
+      type: "ferry",
+    },
+    {
+      route: "Contanta → Sofia",
+      date: "jeu. 08/02 - ven. 09/02",
+      details: "2 voyageurs, Affaires",
+      type: "car",
+    },
+    {
+      route: "LHR → Paris",
+      date: "sam. 10/02 - dim. 11/02",
+      details: "1 voyageur, Premium",
+      type: "plane",
+    },
+    {
+      route: "TBS → London",
+      date: "lun. 12/02 - mer. 14/02",
+      details: "2 voyageurs, Éco",
+      type: "plane",
+    },
+    {
+      route: "SOF → Paris",
+      date: "ven. 16/02 - sam. 17/02",
+      details: "1 voyageur, Affaires",
+      type: "car",
+    },
+    {
+      route: "TBS → Sofia",
+      date: "dim. 18/02 - lun. 19/02",
+      details: "2 voyageurs, Premium",
+      type: "ferry",
+    },
+    {
+      route: "TBS → Batumi",
+      date: "mer. 21/02 - jeu. 22/02",
+      details: "1 voyageur, Éco",
+      type: "plane",
+    },
+    {
+      route: "Paris → Sofia",
+      date: "dim. 25/02 - lun. 26/02",
+      details: "2 voyageurs, Affaires",
+      type: "bus",
+    },
+    {
+      route: "TBS → Batumi",
+      date: "mar. 27/02 - mer. 28/02",
+      details: "3 voyageurs, Éco",
+      type: "plane",
+    },
+    {
+      route: "Paris → Bucarest",
+      date: "jeu. 01/03 - ven. 02/03",
+      details: "1 voyageur, Affaires",
+      type: "ferry",
+    },
+    {
+      route: "SOF → Tbilisi",
+      date: "sam. 03/03 - dim. 04/03",
+      details: "2 voyageurs, Éco",
+      type: "car",
+    },
+    {
+      route: "Tbilisi → Paris",
+      date: "lun. 05/03 - mar. 06/03",
+      details: "1 voyageur, Premium",
+      type: "plane",
+    },
+    {
+      route: "Sofia → London",
+      date: "mer. 07/03 - jeu. 08/03",
+      details: "3 voyageurs, Affaires",
+      type: "ferry",
+    },
+    {
+      route: "Tbilisi → Batumi",
+      date: "ven. 09/03 - sam. 10/03",
+      details: "1 voyageur, Éco",
+      type: "car",
+    },
+  ];
+  

@@ -1,45 +1,49 @@
 "use client";
 
 import React, { useState } from "react";
+import { searchHistory } from "../../components/Profil/searchHistory";
 import axios from "axios";
-import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 import { Link } from "react-router-dom";
+import {
+  FaPlane,
+  FaBus,
+  FaArrowRight,
+  FaCar,
+  FaHotel,
+  FaShip,
+  FaSearch,
+} from "react-icons/fa";
+import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 
-interface Search {
+// Définition du type 'Search' avec un type discriminant pour 'type'
+type Search = {
   route: string;
   date: string;
   details: string;
-}
+  type: "plane" | "bus" | "car" | "hotel" | "ferry"; // Utilisation des types littéraux
+};
+
+// Définition des icônes par type de transport
+const iconMap: { [key in "plane" | "bus" | "car" | "hotel" | "ferry"]: React.ElementType } = {
+  plane: FaPlane,
+  bus: FaBus,
+  car: FaCar,
+  hotel: FaHotel,
+  ferry: FaShip,
+};
 
 const Profil = () => {
   const [currentUser, setUser] = useState({
-      firstname: "Martin",
-      email: "martinvallee01@gmail.com",
-      airport: "Batumi, Géorgie",
-      OtherAirport: "Charles de Gaulle, Paris",
-    });
-  const [searchHistory, setSearchHistory] = useState<Search[]>([
-    { route: "TBS → Batumi", date: "mer. 11/12", details: "1 voyageur, Éco" },
-    { route: "SOF → Sofia", date: "mer. 12/12", details: "2 voyageurs, Éco" },
-    { route: "TBS → Tbilisi", date: "jeu. 13/12", details: "1 voyageur, Affaires" },
-  ]);
+    firstname: "Martin",
+    email: "martinvallee01@gmail.com",
+    airport: "Batumi, Géorgie",
+    OtherAirport: "Charles de Gaulle, Paris",
+  });
+  const [searchHistoryState, setSearchHistory] = useState<Search[]>(
+    searchHistory as Search[]
+  );
   const [selectedSearch, setSelectedSearch] = useState<Search | null>(null);
-
-  // Couleur du cercle
-    const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
-    const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
-  
-    // Palette de couleurs
-    const colorPalette = [
-      "#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#9333EA", "#3B82F6",
-      "#34D399", "#FBBF24", "#DC2626", "#8B5CF6",
-    ];
-  
-    // Fonction pour changer la couleur
-    const handleColorChange = (color: string) => {
-      setCircleColor(color);
-      setIsColorPickerVisible(false); // Cacher la palette après sélection
-    };
+  const [showAll, setShowAll] = useState(false); // Etat pour afficher tout l'historique
 
   const handleViewDetails = (search: Search) => {
     setSelectedSearch(search); // Ouvre la modal avec les détails
@@ -48,7 +52,7 @@ const Profil = () => {
   const handleClearAll = () => {
     const confirmClear = confirm("Êtes-vous sûr de vouloir tout supprimer ?");
     if (confirmClear) {
-      setSearchHistory([]);
+      setSearchHistory([]); // Efface l'historique
     }
   };
 
@@ -56,25 +60,10 @@ const Profil = () => {
     setSelectedSearch(null); // Ferme la modal
   };
 
-  const saveUserData = async () => {
-    try {
-      const response = await axios.post("/api/update-currentUser", searchHistory);
-  
-      if (response.status === 200) {
-        console.log("Données sauvegardées avec succès !");
-      } else {
-        throw new Error("Erreur lors de la sauvegarde des données");
-      }
-    } catch (error) {
-      console.error("Erreur :", error);
-      alert("Une erreur est survenue lors de la sauvegarde.");
-    }
-  };
-
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-20 z-10">
       {/* Header */}
-      <HeaderProfil currentUser={currentUser}/>
+      <HeaderProfil currentUser={currentUser} />
 
       {/* liens profil */}
       <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
@@ -99,47 +88,60 @@ const Profil = () => {
       </div>
 
       {/* Historique de recherche */}
-      <div className="mt-10 bg-white rounded-lg shadow-md p-6 w-full max-w-6xl">
+      <div className="mt-10 bg-white rounded-lg shadow-md p-6 w-full max-w-6xl relative">
         <h2 className="text-lg font-bold text-orange-600">
           Vos recherches précédentes
         </h2>
-        {searchHistory.length > 0 ? (
-          <div className="overflow-x-auto mt-4">
+        <h3
+          onClick={() => setShowAll(!showAll)} // Modifie l'état pour afficher tout l'historique
+          className="cursor-pointer text-black hover:underline"
+        >
+          {showAll ? "Voir moins" : "Afficher: Tout l'historique"}
+        </h3>
+        {searchHistoryState.length > 0 ? (
+          <div className="overflow-x-auto mt-4 border border-black rounded-lg p-5">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-orange-100">
-                <tr>
-                  <th className="py-2 px-4">Itinéraire</th>
-                  <th className="py-2 px-4">Date</th>
-                  <th className="py-2 px-4">Détails</th>
-                  <th className="py-2 px-4">Action</th>
-                </tr>
-              </thead>
               <tbody>
-                {searchHistory.map((search, index) => (
-                  <tr
-                    key={index}
-                    className={`${
-                      index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                    } border-b`}
-                  >
-                    <td className="py-2 px-4">{search.route}</td>
-                    <td className="py-2 px-4">{search.date}</td>
-                    <td className="py-2 px-4">{search.details}</td>
-                    <td className="py-2 px-4 text-orange-600 hover:underline cursor-pointer">
-                      <button onClick={() => handleViewDetails(search)}>
-                        Voir les détails
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {searchHistoryState.slice(0, showAll ? searchHistoryState.length : 7).map(
+                  (search, index) => (
+                    <tr key={index} className="border-b border-black">
+                      <td className="py-2 px-4 flex items-center gap-2">
+                        {/* Icônes en fonction du type */}
+                        {React.createElement(iconMap[search.type], { className: 'text-blue-500' })}
+                        {/* Itinéraire avec flèche */}
+                        {search.route.split("→").map((part, i, arr) => (
+                          <React.Fragment key={i}>
+                            {i > 0 && (
+                              <FaArrowRight className="text-orange-500 mx-1" />
+                            )}
+                            <span>{part.trim()}</span>
+                          </React.Fragment>
+                        ))}
+                      </td>
+                      <td className="py-2 px-4">{search.date}</td>
+                      <td className="py-2 px-4">{search.details}</td>
+                      <td className="py-2 px-4 flex justify-end">
+                        <button
+                          onClick={() => handleViewDetails(search)}
+                          className="flex items-center gap-2 text-orange-600 hover:underline cursor-pointer"
+                        >
+                          <FaSearch className="text-white bg-customOrange rounded-full p-[0.3rem] w-[1.5rem] h-[1.5rem] flex items-center justify-center" />
+                          Voir les détails
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </div>
         ) : (
           <p className="mt-4 text-gray-600">Aucune recherche récente.</p>
         )}
+
+        {/* Le bouton "Tout supprimer" en haut à droite */}
         <button
-          className="mt-4 text-orange-600 hover:underline"
+          className="absolute top-[3.5rem] right-[2.5rem] text-orange-600 hover:underline"
           onClick={handleClearAll}
         >
           Tout supprimer
