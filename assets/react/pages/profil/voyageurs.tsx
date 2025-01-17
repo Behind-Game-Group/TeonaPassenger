@@ -1,99 +1,68 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import HeaderProfil from "../../components/headerProfil/HeaderProfil";
+import { useUserContext } from "../../context/UserContext";
+import { getMethod } from "../../services/axiosInstance";
+
+interface Traveler {
+  id: number;
+  lastname: string;
+  firstname: string;
+  email: string;
+  birthdate: string;
+  gender: string;
+  phone: string;
+  DHS?: number;
+  KTN?: number;
+  principal: boolean;
+}
 
 const Voyageur = () => {
-  // State utilisateur
-  const [currentUser, setUser] = useState({
-    firstname: "Martin",
-    secondname: "Vincenzo",
-    lastname: "Vallée",
-    birthday: "01/01/1990",
-    sexe: "Masculin",
-    email: "martinvallee01@gmail.com",
-    tel: "0785442489",
-    airport: "Batumi, Géorgie",
-    OtherAirport: "Charles de Gaulle, Paris",
-  });
+  const [travelers, setTravelers] = useState<Traveler[]>([]);
+  const [principalTraveler, setPrincipalTraveler] = useState<Traveler | null>(null);
+  const [newTraveler, setNewTraveler] = useState<Partial<Traveler>>({});
+  const [editDataTraveler, setEditDataTraveler] = useState<Partial<Traveler>>({});
+  const [editTraveler, setEditTraveler] = useState(false);
+  const [ajout, setAjout] = useState(false);
+  const { csrfToken } = useUserContext();
 
-  // Couleur du cercle
-  const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
-  const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
+  useEffect(() => {
+    fetchTravelers();
+  }, []);
 
-  // Palette de couleurs
-  const colorPalette = [
-    "#3B82F6",
-    "#10B981",
-    "#F59E0B",
-    "#EF4444",
-    "#9333EA",
-    "#3B82F6",
-    "#34D399",
-    "#FBBF24",
-    "#DC2626",
-    "#8B5CF6",
-  ];
-
-  // Fonction pour changer la couleur
-  const handleColorChange = (color: string) => {
-    setCircleColor(color);
-    setIsColorPickerVisible(false); // Cacher la palette après sélection
+  // Fonction pour formater une date au format 'YYYY-MM-DD'
+  const formatDateForInput = (date: string) => {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;  // Retourne au format 'YYYY-MM-DD'
   };
 
-  // État pour les destinations enregistrées
-  const [destinations, setDestinations] = useState<string[]>([]);
-
-  // État pour la nouvelle destination à ajouter
-  const [newDestination, setNewDestination] = useState("");
-
-  // Ajouter une nouvelle destination
-  const addDestination = () => {
-    if (newDestination.trim() !== "") {
-      setDestinations((prev) => [...prev, newDestination]);
-      setNewDestination(""); // Réinitialise le champ d'entrée
-    }
-  };
-
-  // État pour savoir si on est en mode édition ou non
-  const [isEditing, setIsEditing] = useState({
-    airport: false,
-    OtherAirport: false,
-    firstname: false,
-    secondname: false,
-    lastname: false,
-    birthday: false,
-    sexe: false,
-    tel: false,
-  });
-
-  // Gestion de la modification d'un champ
-  const handleUpdateField = (field: keyof typeof currentUser, value: string) => {
-    setUser((prev) => ({ ...prev, [field]: value }));
-  };
-
-  // Basculer le mode édition
-  const toggleEdit = (field: keyof typeof isEditing) => {
-    setIsEditing((prev) => ({ ...prev, [field]: !prev[field] }));
-  };
-
-  const saveUserData = async () => {
-    try {
-      const response = await axios.post("/api/update-currentUser", currentUser);
-
-      if (response.status === 200) {
-        console.log("Données sauvegardées avec succès !");
-      } else {
-        throw new Error("Erreur lors de la sauvegarde des données");
+  const fetchTravelers = async () => {
+      try {
+        const response = await getMethod('/showTravelers');
+        if (response) {
+          if (response.principal === false) {
+          const formattedTravelers = response.map((traveler: Traveler) => ({
+            ...traveler,
+            birthdate: formatDateForInput(traveler.birthdate),
+  
+          }));
+          setTravelers(formattedTravelers);
+          console.log(response);
+          } else {
+            response[0].birthdate = formatDateForInput(response[0].birthdate);
+            setPrincipalTraveler(response[0]);
+          }
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (error) {
-      console.error("Erreur :", error);
-      alert("Une erreur est survenue lors de la sauvegarde.");
-    }
-  };
+    };
 
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
@@ -123,164 +92,82 @@ const Voyageur = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-6xl space-y-6">
-        <h2 className="font-bold">Voyageurs</h2>
+      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6">
+        <h2 className="font-bold text-[20px]">Voyageur·euses</h2>
         {/* Detail de connexion en dur(a revoir faire un form) */}
         <div className="bg-white rounded-lg border p-6">
-          <h2 className="text-lg font-bold text-orange-600">
-            Voyageur principal
+          <h2 className="text-[15px] font-bold">
+          Voyageur·euse principal·e
           </h2>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-[#562D80]">
             Ces informations nous permettront de pré-remplir certains champs et
             d’accélérer le processus de réservation.
           </p>
             <div
-              className="relative flex mt-2 items-center justify-center rounded-full text-white text-3xl font-bold"
-              style={{ backgroundColor: circleColor, width: '80px', height:'80px' }}
+              className="relative flex my-6 items-center justify-center rounded-full text-white text-3xl font-bold bg-blue-500"
+              style={{ width: '100px', height:'100px' }}
             >
-              {currentUser.firstname.charAt(0)}
+              M
             </div>
-          <div className="grid grid-cols-2 gap-6 mt-4">
-            <div>
-              <p className="font-semibold">Prénom</p>
-              {isEditing.firstname ? (
-                <input
-                  type="text"
-                  value={currentUser.firstname}
-                  onChange={(e) => handleUpdateField("firstname", e.target.value)}
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.firstname}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("firstname")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.firstname ? "Enregistrer" : "Modifier"}
-              </button>
+          <div className="flex flex-col p-5 ml-10">
+            <div className="flex flex-row justify-between mb-5 max-w-6xl">
+              <div className="flex flex-col items-center">
+                <p className="font-semibold text-[15px]">Prénom</p>
+                <p>-</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <p className="font-semibold text-[15px]">2ème prénom</p>
+                <p>-</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <p className="font-semibold text-[15px]">Nom de famille</p>
+                <p>-</p>
+              </div>
             </div>
-            <div>
-              <p className="font-semibold">Second prénom</p>
-              {isEditing.secondname ? (
-                <input
-                  type="secondname"
-                  value={currentUser.secondname}
-                  onChange={(e) =>
-                    handleUpdateField("secondname", e.target.value)
-                  }
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.secondname}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("secondname")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.secondname ? "Enregistrer" : "Modifier"}
-              </button>
-            </div>
-            <div>
-              <p className="font-semibold">Nom</p>
-              {isEditing.lastname ? (
-                <input
-                  type="lastname"
-                  value={currentUser.lastname}
-                  onChange={(e) =>
-                    handleUpdateField("lastname", e.target.value)
-                  }
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.lastname}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("lastname")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.lastname ? "Enregistrer" : "Modifier"}
-              </button>
-            </div>
-            <div>
-              <p className="font-semibold">Date de naissance</p>
-              {isEditing.birthday ? (
-                <input
-                  type="birthday"
-                  value={currentUser.birthday}
-                  onChange={(e) =>
-                    handleUpdateField("birthday", e.target.value)
-                  }
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.birthday}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("birthday")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.birthday ? "Enregistrer" : "Modifier"}
-              </button>
-            </div>
-            <div>
-              <p className="font-semibold">Sexe</p>
-              {isEditing.sexe ? (
-                <input
-                  type="sexe"
-                  value={currentUser.sexe}
-                  onChange={(e) => handleUpdateField("sexe", e.target.value)}
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.sexe}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("sexe")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.sexe ? "Enregistrer" : "Modifier"}
-              </button>
-            </div>
-            <div>
-              <p className="font-semibold">Téléphone</p>
-              {isEditing.tel ? (
-                <input
-                  type="tel"
-                  value={currentUser.tel}
-                  onChange={(e) => handleUpdateField("tel", e.target.value)}
-                  className="border rounded p-2 mt-2"
-                />
-              ) : (
-                <p className="text-gray-700">{currentUser.tel}</p>
-              )}
-              <button
-                onClick={() => toggleEdit("tel")}
-                className="text-orange-600 hover:underline mt-2"
-              >
-                {isEditing.tel ? "Enregistrer" : "Modifier"}
-              </button>
+            <div className="flex flex-row justify-between my-5">
+              <div className="flex flex-col w-full max-w-lg">
+                <div className="flex flex-row justify-between my-5">
+                  <div className="flex flex-col items-center">
+                    <p className="font-semibold text-[15px]">Date de naissance (DD/MM/YYYY)</p>
+                    <p>-</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="font-semibold text-[15px]">Sexe</p>
+                    <p>-</p>
+                  </div>
+                </div>
+                <div className="flex flex-col my-5">
+                  <p className="font-semibold text-[15px]">Numéro de téléphone portable</p>
+                  <p>-</p>
+                </div>
+                <div className="flex flex-row justify-between mt-5">
+                  <div className="flex flex-col items-center">
+                    <p className="font-semibold text-[15px]">Numéro de recours DHS</p>
+                    <p>-</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="font-semibold text-[15px]">Numéro de voyageur·euse (KTN)</p>
+                    <p>-</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center items-center pr-10">
+                <p className="text-customOrange cursor-pointer">Modifier le ou la <br/> voyageur·euse</p>  
+              </div>
             </div>
           </div>
         </div>
 
         {/* autres sections parametres */}
         <div className="bg-white rounded-lg border p-6">
-          <h2 className="text-lg font-bold text-orange-600">
-            Ajouter voyageur
+          <h2 className="text-[15px] font-bold text-black">
+            Compagnons de voyage
           </h2>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-[15px] text-[#562D80]">
           Ajoutez des proches et collègues avec lesquels vous voyagez régulièrement pour faciliter et accélérer vos réservations.
           </p>
-          <div className="grid grid-cols-2 gap-6 mt-4">
-            <div>              
-              <a href="/profil/ajoutervoyageur.tsx"
-                
-                className="text-orange-600 hover:underline mt-2"
-              >
-                Ajouter un voyageur
-              </a>
-            </div>
+          <div className="mt-10">
+            <button className="text-customOrange font-bold">Ajouter un·e voyageur·euse</button>
           </div>
         </div>
       </div>

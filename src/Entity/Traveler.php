@@ -54,6 +54,10 @@ class Traveler
     #[Groups(['traveler:read'])]
     private ?int $KTN = null;
 
+    #[ORM\Column]
+    #[Groups(['traveler:read'])]
+    private ?bool $principal = null;
+
     #[ORM\ManyToOne(inversedBy: 'travelers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?UserProfile $userProfile_id = null;
@@ -220,6 +224,18 @@ class Traveler
                 $fidelityProgram->setTravelerId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrincipal()
+    {
+        return $this->principal;
+    }
+
+    public function setPrincipal($principal)
+    {
+        $this->principal = $principal;
 
         return $this;
     }
