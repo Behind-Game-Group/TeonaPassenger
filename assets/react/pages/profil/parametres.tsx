@@ -179,12 +179,12 @@ const Parametres = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-[1588px] space-y-6">
+      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-[1700px] space-y-6">
         <h2 className="font-bold text-[20px]">Parametres généraux</h2>
         {/* Detail de connexion en dur(a revoir faire un form) */}
         <div className="bg-white rounded-lg border p-6">
-          <div className="flex flex-row justify-between">
-            <div className="flex flex-col w-full max-w-[500px]">
+          <div className="flex flex-row justify-between max-xl:max-w-full">
+            <div className="flex flex-col w-full max-w-[500px] max-xl:max-w-full">
               <h2 className="font-bold text-[20px]">Détails de connexion</h2>
               {edit ? (
                 <form className="flex flex-col space-y-4 ml-5 mt-14" onSubmit={handleUpdateProfile}>
@@ -255,28 +255,28 @@ const Parametres = () => {
                 <div className="flex flex-col space-y-4 ml-5 mt-14 mb-5">
                   <div className="flex flex-col space-y-2">
                     <p className="text-[15px]">Votre nom</p>
-                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px]">
                       <p>{profil.firstname} {profil.lastname}</p>
                       <button className="text-customOrange  hover:underline" onClick={() => setEdit(!edit)}>Modifier</button>
                     </div>
                   </div>
                   <div className="flex flex-col space-y-2">
                     <p className="text-[15px]">Nom d’utilisateur·ice</p>
-                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px]">
                       <p>{profil.username}</p>
                       <button className="text-customOrange hover:underline" onClick={() => setEdit(!edit)}>Modifier</button>
                     </div>
                   </div>
                   <div className="flex flex-col space-y-2">
                     <p className="text-[15px]">Adresse e-mail</p>
-                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px]">
                       <p>{currentUser.email}</p>
                       <button className="text-customOrange hover:underline" onClick={() => setEdit(!edit)}>Modifier</button>
                     </div>
                   </div>
                   <div className="flex flex-col space-y-2 mb-5">
                     <p className="text-[15px]">Site</p>
-                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px]">
                       <p>{profil.site}</p>
                       <button className="text-customOrange hover:underline" onClick={() => setEdit(!edit)}>Modifier</button>
                     </div>
@@ -295,7 +295,7 @@ const Parametres = () => {
                 </a>
               </div>
             </div>
-            <div className="max-w-[873px] max-h-[600px]">
+            <div className="w-[873px] h-[600px] max-xl:hidden">
               <img className="w-full h-full" src="/img/user.png" alt="user" />
             </div>
           </div>
@@ -350,7 +350,9 @@ const Parametres = () => {
           <div className="flex flex-col">
             <h2 className="text-[20px]">Flux de calendrier Trips</h2>
             <p className="mt-2 text-gray-600">Cette adresse de flux présente tous vos voyages.</p>
-            <p className="text-gray-900 p-1 my-2 bg-gray-100 w-[500px]">https://www.theonagroup.fr/trips/ical/uf/lFzw9Mkm0LE/VSU39KV1/calendar.ics</p>
+            <div className="my-2 bg-gray-200">
+              <p className="text-gray-900 p-1">https://www.theonagroup.fr/trips/ical/uf/lFzw9Mkm0LE/VSU39KV1/calendar.ics</p>
+            </div>
             <a href="" className="text-customOrange">Réinitialiser ce lien</a>
           </div>
         </div>
