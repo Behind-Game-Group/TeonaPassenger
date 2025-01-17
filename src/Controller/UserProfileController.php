@@ -90,7 +90,8 @@ class UserProfileController extends AbstractController
             
             $user = $this->getUser();
             if ($user instanceof User) {
-                
+                $userRepository->delete($user);
+                return new JsonResponse(['message' => 'User deleted successfully'], Response::HTTP_OK);
             }
 
             return new JsonResponse(['message' => 'Shared trip removed successfully'], 200);

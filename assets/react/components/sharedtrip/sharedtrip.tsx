@@ -70,7 +70,7 @@ export default function sharedtrip() {
             <>
                 <div className='fixed h-screen bg-customOrangeOpacity w-full top-0 left-0 flex justify-center items-center'>
                     <div className='bg-white flex flex-col justify-center items-center w-[507px] z-50 p-5'>
-                        <button className='cursor-pointer text-[25px] text-black' onClick={() => setAjout(!ajout)}>X</button>
+                        <button className='cursor-pointer text-[10px] text-black' onClick={() => setAjout(!ajout)}>X</button>
                         <h2 className='text-[20px] font-bold'>Partagez vos voyages</h2>
                         <p className='text-[15px] my-5 p-2'>Ajoutez les e-mails de vos compagnons de voyage pour partager automatiquement vos projets avec eux.</p>
                         <input

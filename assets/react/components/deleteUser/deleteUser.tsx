@@ -1,28 +1,12 @@
 import React, { useState } from 'react'
 import { useUserContext } from '../../context/UserContext';
 import { deleteMethod } from '../../services/axiosInstance';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function deleteUser() {
     const [ajout, setAjout] = useState(false)
     const { currentUser, csrfToken } = useUserContext();
-
-    const deleteUsers = async () => {
-        const url = '/user/delete';
-        const data = {
-            email: currentUser.email,
-            csrfToken: csrfToken 
-        };
-
-        try {
-            const response = await deleteMethod(url, data);
-            if (response) {
-                console.log(response);
-                setAjout(false);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    const { logout } = useAuth0();
 
     return (
         <>
@@ -33,12 +17,15 @@ export default function deleteUser() {
                     <h2 className='text-[20px] font-bold'>Supprimer le compte et les infos enregistrées</h2>
                     <p className='text-[15px] my-5 p-2'>En supprimant votre compte, vous perdrez vos préférences et infos enregistrées. Nous vous enverrons un e-mail à {currentUser.email} pour vous expliquer la suppression étape par étape.</p>
                     <div className='flex flex-row space-x-2'>
-                        <button
-                            onClick={() => deleteUsers()}
+                        <a
+                            href='/logout'
+                            onClick={() => {
+                                logout()
+                            }}
                             className='rounded-md p-2 px-8 mt-3 border bg-customOrange text-center text-white'
                         >
                             Supprimer mon compte
-                        </button>
+                        </a>
                         <button
                             onClick={() => setAjout(!ajout)}
                             className='rounded-md p-2 px-8 mt-3 border bg-gray-300 text-center text-gray-500'

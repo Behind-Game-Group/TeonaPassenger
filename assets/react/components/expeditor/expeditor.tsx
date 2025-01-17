@@ -45,7 +45,7 @@ export default function expeditor() {
             <>
                 <div className='fixed h-screen bg-customOrangeOpacity w-full top-0 left-0 flex justify-center items-center'>
                     <div className='bg-white flex flex-col justify-center items-center w-[507px] z-50 p-5'>
-                        <button className='cursor-pointer text-[25px] text-black' onClick={() => setAjout(!ajout)}>X</button>
+                        <button className='cursor-pointer text-[10px] text-black' onClick={() => setAjout(!ajout)}>X</button>
                         <h2 className='text-[20px] font-bold'>Ajouter une adresse e-mail</h2>
                         <p className='text-[15px] my-5 p-2'>N’ajoutez que des adresses e-mail auxquelles vous ou un de vos proches avez accès. Au lieu d’envoyer des confirmations directement à partir d’un site de voyage, envoyez-les à votre adresse avant de les transférer à trips@theonagroup.fr.
                         </p>
