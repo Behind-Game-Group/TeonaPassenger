@@ -44,16 +44,14 @@ function SharedTrips() {
         try {
             const response = await postMethod(url, data);
             
-            // Succès
             if (response && response.message) {
-                setSuccessMessage(response.message); // Assume que `response.message` existe
+                setSuccessMessage(response.message);
             } else {
                 setErrorMessage('Une erreur inattendue est survenue.');
             }
         } catch (error: any) {
             console.error('Erreur détectée:', error);
     
-            // Gestion des erreurs du backend
             if (error.response) {
                 // Erreur avec une réponse du serveur
                 setErrorMessage(error.response.data.error || 'Erreur inconnue du serveur.');

@@ -55,6 +55,11 @@ app_expeditors:
   controller: 'App\Controller\IndexController::expeditors'
   methods: GET
 
+app_hotels:
+  path: "/see-hotels"
+  controller: 'App\Controller\IndexController::hotels'
+  methods: GET
+
 app_get_current_user:
   path: "/getCurrentUser"
   controller: 'App\Controller\IndexController::getCurrentUser'
@@ -268,3 +273,8 @@ app_add_trip:
   path: "/trip/add"
   controller: 'App\Controller\TripsController::addTrip'
   methods: POST
+
+app_get_hotels:
+  path: "/api/hotels"
+  controller: 'App\Controller\Api\HotelController::getHotels'
+  methods: GET

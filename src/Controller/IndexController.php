@@ -116,6 +116,14 @@ class IndexController extends AbstractController
         ]);
     }
 
+    #[Route('/see-hotels', name: 'app_hotels')]
+    public function hotels(): Response
+    {
+        return $this->render('index/index.html.twig', [
+            'sitename' => 'Teona Passenger',
+        ]);
+    }
+
     #[Route('/getCurrentUser', name: 'app_get_current_user')]
     public function getCurrentUser(CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {

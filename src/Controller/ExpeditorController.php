@@ -57,7 +57,7 @@ class ExpeditorController extends AbstractController
             }
 
             if (empty($data['email'])) {
-                return new JsonResponse(['error' => 'Email is required'], 400);  // Utilisation de 'error' pour la gestion d'erreurs
+                return new JsonResponse(['error' => 'Email is required'], 400);
             }
 
             $user = $this->getUser();
@@ -80,9 +80,9 @@ class ExpeditorController extends AbstractController
             $userProfile->addAuthorizedExpeditor($expeditor);
             $expeditorRepository->save($expeditor, true);
 
-            return new JsonResponse(['message' => 'User added to expeditors'], 201);  // Utilisation de 'message' pour une réponse réussie
+            return new JsonResponse(['message' => 'User added to expeditors'], 201);
         } catch (\Exception $e) {
-            return new JsonResponse(['error' => 'Internal server error: ' . $e->getMessage()], 500);  // Retour d'une erreur générique
+            return new JsonResponse(['error' => 'Internal server error: ' . $e->getMessage()], 500); 
         }
     }
 

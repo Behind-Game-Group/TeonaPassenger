@@ -82,7 +82,6 @@ class TripsController extends AbstractController
             return new JsonResponse(['error' => 'Arrival date must be after departure date.'], 400);
         }
 
-        // Create and save the trip
         $trip = new Trip();
         $trip->setName($data['name']);
         $trip->setDestination($data['destination']);
