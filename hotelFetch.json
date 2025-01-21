@@ -1,0 +1,185 @@
+{
+    "type": "hotel",
+    "name": "Eiffel Turenne Hotel - Paris",
+    "description": "Informal rooms with complimentary WiFi in a classic hotel featuring an informal lounge/bar.",
+    "link": "http://www.hoteleiffelturenne.com/",
+    "gps_coordinates": {
+        "latitude": 48.8542406,
+        "longitude": 2.3074893999999997
+    },
+    "check_in_time": "3:00 PM",
+    "check_out_time": "11:00 AM",
+    "rate_per_night": {
+        "lowest": "$196",
+        "extracted_lowest": 196,
+        "before_taxes_fees": "$178",
+        "extracted_before_taxes_fees": 178
+    },
+    "total_rate": {
+        "lowest": "$979",
+        "extracted_lowest": 979,
+        "before_taxes_fees": "$890",
+        "extracted_before_taxes_fees": 890
+    },
+    "deal": "29% less than usual",
+    "deal_description": "Great Deal",
+    "nearby_places": [
+        {
+            "name": "Hôtel des Invalides",
+            "transportations": [
+                {
+                    "type": "Walking",
+                    "duration": "9 min"
+                }
+            ]
+        },
+        {
+            "name": "Paris Charles de Gaulle Airport",
+            "transportations": [
+                {
+                    "type": "Taxi",
+                    "duration": "44 min"
+                },
+                {
+                    "type": "Public transport",
+                    "duration": "1 hr 5 min"
+                }
+            ]
+        },
+        {
+            "name": "Les Bons Garçons",
+            "transportations": [
+                {
+                    "type": "Walking",
+                    "duration": "1 min"
+                }
+            ]
+        }
+    ],
+    "hotel_class": "3-star tourist hotel",
+    "extracted_hotel_class": 3,
+    "images": [
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/p/AF1QipOzXuutvqGBD7lhYLDNMvzlzHGovifribTDWEZ9=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/AF1QipOzXuutvqGBD7lhYLDNMvzlzHGovifribTDWEZ9=s10000"
+        },
+        {
+            "thumbnail": "https://lh4.googleusercontent.com/proxy/zHBo99FEpGEN6aLM1lgu9LyTqGeqqmErkUQF3PWiCKwI9J3MuCdYfVlTc7sxTe4rQettOLULqYi9Ze9tZKvEMinJc9PzQdot3BoDP4mu550c1uiBfHyaCYRyjpI2ownYvITXyiJuyUJxtVuiJ8x6zkHPnsC_k0A=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://photos.hotelbeds.com/giata/original/69/691696/691696a_hb_a_001.jpg"
+        },
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/p/AF1QipPX1de6gLSzAtUHHYtggV-5Um02oXvS_jAEpT3h=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/AF1QipPX1de6gLSzAtUHHYtggV-5Um02oXvS_jAEpT3h=s10000"
+        },
+        {
+            "thumbnail": "https://lh4.googleusercontent.com/proxy/BP1XhpZfNeb8QgT6GmqxUmmQfheSH37Uh2rX0Ba9l2gpjgmo3GlToc3TrfAE4T8Qtg8gW1xRGDJ7dJVFc7XSeVYzROi7xXsDHGBN_GHoZPV5yUar9RrwQ89VemFZ2zgjb5QnkYlU_l6pH11mScRo6aq5HImkuw=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/87/62/44/hotel-eiffel-turenne.jpg?w=2100&h=1400&s=1"
+        },
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/p/AF1QipN4CJSn4wqD5EBcQNNHknvtRfCH28HOmTIjbPDI=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/AF1QipN4CJSn4wqD5EBcQNNHknvtRfCH28HOmTIjbPDI=s10000"
+        },
+        {
+            "thumbnail": "https://lh3.googleusercontent.com/proxy/7znNwCynx70byej5zvcObgzCih6PZh9ia_QQdwHX1qc634y-hzOobtMY9-HahmcrBp3tQj24OImtpuakO3FlgfZ0uuqh6XiMby9u6Pht23oFJU4QgPBxGq-Op9LFenrDvtyJDBrPsx_hF3TXemJoZLl4WlwxPQ=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/87/62/ee/hotel-eiffel-turenne.jpg?w=2100&h=1400&s=1"
+        },
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/proxy/M3Yew-imwquhMTqpYzyAZUg0Y2nPGGgENQU_Yl8StFdfqufvtfPWOm5uXUDMBBX3GdC9kp9cTFc76zQRyz8q1zn4eFzjaENoSGWZk9OPzTGfeiZ3XZln0XCEqDB1TfyrvYGaTejxmM9NOfscXARseZ0V2m3elh4=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/http://media.staticontent.com/media/pictures/ea3b2706-807a-4470-a89b-b87f0df35442=s10000"
+        },
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/p/AF1QipNrPcQsCmZd1qqMUDdJQgf36JXvaEjDa_g_C0Xz=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/AF1QipNrPcQsCmZd1qqMUDdJQgf36JXvaEjDa_g_C0Xz=s10000"
+        },
+        {
+            "thumbnail": "https://lh5.googleusercontent.com/p/AF1QipNQdWX-L91LzN2wp1YDnI2CS4zdUN3tzIRyl4u-=s287-w287-h192-n-k-no-v1",
+            "original_image": "https://lh5.googleusercontent.com/p/AF1QipNQdWX-L91LzN2wp1YDnI2CS4zdUN3tzIRyl4u-=s10000"
+        }
+    ],
+    "overall_rating": 4.6,
+    "reviews": 955,
+    "ratings": [
+        {
+            "stars": 5,
+            "count": 670
+        },
+        {
+            "stars": 4,
+            "count": 221
+        },
+        {
+            "stars": 3,
+            "count": 33
+        },
+        {
+            "stars": 2,
+            "count": 11
+        },
+        {
+            "stars": 1,
+            "count": 20
+        }
+    ],
+    "location_rating": 4.7,
+    "reviews_breakdown": [
+        {
+            "name": "Location",
+            "description": "Location",
+            "total_mentioned": 304,
+            "positive": 287,
+            "negative": 3,
+            "neutral": 14
+        },
+        {
+            "name": "Service",
+            "description": "Service",
+            "total_mentioned": 323,
+            "positive": 311,
+            "negative": 11,
+            "neutral": 1
+        },
+        {
+            "name": "Property",
+            "description": "Property",
+            "total_mentioned": 337,
+            "positive": 289,
+            "negative": 33,
+            "neutral": 15
+        },
+        {
+            "name": "Cleanliness",
+            "description": "Cleanliness",
+            "total_mentioned": 204,
+            "positive": 193,
+            "negative": 5,
+            "neutral": 6
+        },
+        {
+            "name": "Breakfast",
+            "description": "Breakfast",
+            "total_mentioned": 77,
+            "positive": 58,
+            "negative": 9,
+            "neutral": 10
+        },
+        {
+            "name": "Transit",
+            "description": "Public transit",
+            "total_mentioned": 58,
+            "positive": 49,
+            "negative": 2,
+            "neutral": 7
+        }
+    ],
+    "amenities": [
+        "Breakfast ($)",
+        "Free Wi-Fi",
+        "Air conditioning",
+        "Bar",
+        "Airport shuttle",
+        "Full-service laundry",
+        "Child-friendly"
+    ],
+    "property_token": "ChgIismKl46e1JkoGgwvZy8xeW10NGhkMF8QAQ",
+    "serpapi_property_details_link": "https://serpapi.com/search.json?adults=2&check_in_date=2025-01-25&check_out_date=2025-01-30&children=0&currency=USD&engine=google_hotels&gl=us&hl=en&property_token=ChgIismKl46e1JkoGgwvZy8xeW10NGhkMF8QAQ&q=Paris"
+}

@@ -1,58 +1,122 @@
-import React, { useState, useEffect } from 'react';
-import { getMethod } from '../../services/axiosInstance';
+// src/App.js
+import React, { useState } from 'react';
+import axios from 'axios';
+import { postMethod } from '../../services/axiosInstance';
 
-const HotelSearchBar = () => {
-    const [query, setQuery] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
-    const [loading, setLoading] = useState(false);
+const App = () => {
+    const [city, setCity] = useState('');
+    const [checkIn, setCheckIn] = useState('');
+    const [checkOut, setCheckOut] = useState('');
+    const [adults, setAdults] = useState(1);
+    const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [error, setError] = useState('');
 
-    useEffect(() => {
-        if (query.length < 2) {
-            setSuggestions([]);
-            return; // Ne pas envoyer de requête si la saisie est trop courte
-        }
+    interface Hotel {
+        name: string;
+        brand_name: string;
+        link: string;
+    }
 
-        const fetchSuggestions = async () => {
-            setLoading(true);
-            try {
-                const response = await getMethod('/api/hotel-suggestions');
-                setSuggestions(response.data);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des suggestions :', error);
-            } finally {
-                setLoading(false);
-            }
+    interface FormData extends Record<string, unknown> {
+        city: string;
+        checkIn: string;
+        checkOut: string;
+        adults: number;
+    }
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const data: FormData = {
+            city,
+            checkIn,
+            checkOut,
+            adults,
         };
 
-        const delayDebounceFn = setTimeout(() => {
-            fetchSuggestions();
-        }, 300); // Attendre 300 ms avant d'envoyer une requête
-
-        return () => clearTimeout(delayDebounceFn); // Nettoyer le timeout précédent
-    }, [query]);
+        try {
+            // Envoi de la requête POST à l'API Symfony
+            const response = await postMethod('/api/hotels', data);
+            console.log(response.data);
+            // setHotels(response.data);
+        } catch (err) {
+            setError('Une erreur est survenue lors de la récupération des hôtels.');
+            console.error(err);
+        }
+    };
 
     return (
-        <div style={{ position: 'relative' }}>
-            <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Rechercher une destination"
-                style={{ width: '100%', padding: '8px' }}
-            />
-            {loading && <div>Chargement...</div>}
-            {suggestions.length > 0 && (
-                <ul style={{ position: 'absolute', top: '40px', left: 0, right: 0, background: '#fff', border: '1px solid #ccc' }}>
-                    {suggestions.map((suggestion, index) => (
-                        <li key={index} style={{ padding: '8px', cursor: 'pointer' }}>
-                            <strong>{suggestion.title}</strong>
-                            <p style={{ margin: 0 }}>{suggestion.location}</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
+        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+            <div className="max-w-4xl mx-auto p-6">
+                <h1 className="text-4xl font-bold text-center mb-8">Recherche d'Hôtels</h1>
+
+                <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg space-y-6">
+                    <div>
+                        <label htmlFor="city" className="block text-lg font-semibold text-gray-700">Ville :</label>
+                        <input
+                            type="text"
+                            id="city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="checkIn" className="block text-lg font-semibold text-gray-700">Date d'arrivée :</label>
+                        <input
+                            type="date"
+                            id="checkIn"
+                            value={checkIn}
+                            onChange={(e) => setCheckIn(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="checkOut" className="block text-lg font-semibold text-gray-700">Date de départ :</label>
+                        <input
+                            type="date"
+                            id="checkOut"
+                            value={checkOut}
+                            onChange={(e) => setCheckOut(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-black"
+                            required
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-purple-600 text-white text-lg font-semibold rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    >
+                        Rechercher
+                    </button>
+                </form>
+
+                {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
+
+                <div className="mt-8">
+                    <h2 className="text-2xl font-semibold">Hôtels disponibles :</h2>
+                    {hotels.length > 0 ? (
+                        <ul className="mt-4 space-y-4">
+                            {hotels.map((hotel, index) => (
+                                <li key={index} className="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200">
+                                    <a href={hotel.link} target="_blank" rel="noopener noreferrer" className="text-xl text-purple-600 font-semibold hover:underline">
+                                        {hotel.name}
+                                    </a>
+                                    <p className="text-gray-600">{hotel.brand_name}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="mt-4 text-gray-600">Aucun hôtel trouvé pour ces critères.</p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
 
-export default HotelSearchBar;
+export default App;

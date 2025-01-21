@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HotelController extends AbstractController
 {
@@ -26,7 +27,6 @@ class HotelController extends AbstractController
             $data['city'],
             $data['checkIn'],
             $data['checkOut'],
-            $data['adults']
         );
 
         return new JsonResponse($hotels);
@@ -36,9 +36,17 @@ class HotelController extends AbstractController
     public function getHotelSuggestions(HttpFoundationRequest $request): JsonResponse
     {
         $query = $request->query->get('query', '');
-        $suggestions = $this->hotelService->fetchHotelSuggestions($query);
+    
+        // Simuler des suggestions pour tester le flux complet
+        $suggestions = [
+            ['title' => 'Hôtel Paris', 'location' => 'Paris, France'],
+            ['title' => 'Hôtel Nice', 'location' => 'Nice, France'],
+        ];
     
         return new JsonResponse($suggestions, 200);
+
+
     }
     
+
 }
