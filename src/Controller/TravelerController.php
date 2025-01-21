@@ -61,9 +61,8 @@ class TravelerController extends AbstractController
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            $principal = $data['principal'] ?? null;
-            if (!$lastname || !$email || !$birthdate || !$gender || !$phone || !$principal) {
-                return new JsonResponse(['error' => 'email, birthdate, gender, phone and principal are required'], JsonResponse::HTTP_BAD_REQUEST);
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone) {
+                return new JsonResponse(['error' => 'Name, firstname, birthdate, gender and phone are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             // Vérifie si le voyageur existe déjà
@@ -82,7 +81,17 @@ class TravelerController extends AbstractController
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);
-            $traveler->setPrincipal($principal);
+            if ($data['principal'] === true) {
+                $search = $userProfile->getTravelers();
+                foreach ($search as $traveler) {
+                    $traveler->setPrincipal(false);
+                    $em->persist($traveler);
+                    $em->flush();
+                }
+                $traveler->setPrincipal(true);
+            } else {
+                $traveler->setPrincipal(false);
+            }
             $userProfile->addTraveler($traveler); // Associe ce voyageur au profil utilisateur
             $em->persist($traveler);
             $em->flush();
@@ -148,6 +157,7 @@ class TravelerController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -157,7 +167,8 @@ class TravelerController extends AbstractController
                 return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
-            $name = $data['name'] ?? null;
+            $lastname = $data['lastname'] ?? null;
+            $firstname = $data['firstname'] ?? null;
             $email = $data['email'] ?? null;
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
@@ -165,11 +176,12 @@ class TravelerController extends AbstractController
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$name || !$email || !$birthdate || !$gender || !$phone) {
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $traveler->setName($name);
+            $traveler->setFirstName($firstname);
+            $traveler->setLastName($lastname);
             $traveler->setEmail($email);
             $verifbirthdate = DateTime::createFromFormat('Y-m-d', $birthdate);
             $traveler->setBirthdate($verifbirthdate);
@@ -178,6 +190,17 @@ class TravelerController extends AbstractController
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);
+            if ($data['principal'] === true) {
+                $search = $userProfile->getTravelers();
+                foreach ($search as $traveler) {
+                    $traveler->setPrincipal(false);
+                    $em->persist($traveler);
+                    $em->flush();
+                }
+                $traveler->setPrincipal(true);
+            } else {
+                $traveler->setPrincipal(false);
+            }
             $em->persist($traveler);
             $em->flush();
 
