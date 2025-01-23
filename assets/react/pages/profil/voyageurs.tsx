@@ -285,7 +285,7 @@ const Voyageur = () => {
                 <div className="border-2 border-blue-500 p-2 rounded-3xl">
                   <p className="text-blue-500"><span className="text-white px-3 py-1 rounded-full bg-blue-500 mr-2">?</span>Le nom, la date de naissance et le genre saisi ci-dessous doivent correspondre exactement à ceux indiqués sur la pièce d’identité de la personne qui voyage, délivrée par le gouvernement.</p>
                 </div>
-                <form onSubmit={handlePrincipalTraveler} className="flex flex-col space-y-4">
+                <form onSubmit={handlePrincipalTraveler} className="flex flex-col space-y-20 mt-10">
                   <div className="flex flex-row flex-wrap space-x-20 justify-center">
                     <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Prénom *</p>
@@ -334,26 +334,28 @@ const Voyageur = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center">
-                    <select name="gender" value={editPrincipalTraveler.gender} onChange={handleEditPrincipalGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-[266px] h-[53px] text-[15px] rounded-xl">
-                      <option value="">Genre *</option>
-                      <option value="Homme (H)">Homme (H)</option>
-                      <option value="Femme (F)">Femme (F)</option>
-                    </select>
-                    <div>
-                      <p className="text-[15px]">Telephone portable *</p>
-                      <input
-                      type="text"
-                      name="phone"
-                      value={editPrincipalTraveler.phone}
-                      onChange={handlePrincipalTravelerChange}
-                      aria-label="Traveler's phone"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
-                      />
+                  <div className="flex justify-center">
+                    <div className="flex flex-col max-w-[990px] w-full space-y-20">
+                      <select name="gender" value={editPrincipalTraveler.gender} onChange={handleEditPrincipalGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-[266px] h-[53px] text-[15px] rounded-xl">
+                        <option value="">Sexe *</option>
+                        <option value="Homme (H)">Homme (H)</option>
+                        <option value="Femme (F)">Femme (F)</option>
+                      </select>
+                      <div>
+                        <p className="text-[15px]">Telephone portable *</p>
+                        <input
+                        type="text"
+                        name="phone"
+                        value={editPrincipalTraveler.phone}
+                        onChange={handlePrincipalTravelerChange}
+                        aria-label="Traveler's phone"
+                        className="border-2 border-black p-1 w-[457px] h-[53px] text-[15px] rounded-xl"
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-row flex-wrap">
-                    <div className="flex flex-col">
+                  <div className="flex flex-row flex-wrap space-x-20 justify-center">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Numéro de recours DHS</p>
                       <input
                       type="text"
@@ -361,10 +363,10 @@ const Voyageur = () => {
                       value={editPrincipalTraveler.DHS}
                       onChange={handlePrincipalTravelerChange}
                       aria-label="Traveler's DHS"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Numéro de voyageur·euse (KTN)</p>
                       <input
                       type="text"
@@ -372,13 +374,13 @@ const Voyageur = () => {
                       value={editPrincipalTraveler.KTN}
                       onChange={handlePrincipalTravelerChange}
                       aria-label="Traveler's KTN"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row">
-                    {(editPrincipalTraveler.firstname === "" || editPrincipalTraveler.lastname === "" || editPrincipalTraveler.birthdate === "" || editPrincipalTraveler.gender === "" || editPrincipalTraveler.phone === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2">Enregistrer</button>}
-                    <button onClick={() => setAjout(!ajout)}>Annuler</button>
+                  <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
+                    {(editPrincipalTraveler.firstname === "" || editPrincipalTraveler.lastname === "" || editPrincipalTraveler.birthdate === "" || editPrincipalTraveler.gender === "" || editPrincipalTraveler.phone === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black py-2 px-10 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black py-2 px-7">Enregistrer</button>}
+                    <button onClick={() => setAjout(!ajout)} className="border-2 border-black py-2 px-7">Annuler</button>
                   </div>
                 </form>
               </>
@@ -439,9 +441,9 @@ const Voyageur = () => {
           { ToggleEditTraveler ? (
             <>
               <h2 className="text-[15px] font-bold">Modifier le ou la voyageur·euse</h2>
-              <form onSubmit={handleModifyTraveler} className="flex flex-col">
-                <div className="flex flex-row flex-wrap">
-                  <div className="flex flex-col">
+              <form onSubmit={handleModifyTraveler} className="flex flex-col space-y-14 mt-10">
+                <div className="flex flex-row flex-wrap space-x-20">
+                  <div className="flex flex-col w-[457px]">
                     <p className="text-[15px]">Prénom *</p>
                     <input
                       type="text"
@@ -449,10 +451,10 @@ const Voyageur = () => {
                       value={editDataTraveler.firstname}
                       onChange={handleEditTravelerChange}
                       aria-label="Traveler's firstname"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-[457px]">
                     <p className="text-[15px]">2ème Prénom</p>
                     <input
                       type="text"
@@ -460,12 +462,12 @@ const Voyageur = () => {
                       value={editDataTraveler.secondName}
                       onChange={handleEditTravelerChange}
                       aria-label="Traveler's secondname"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
                 </div>
-                <div className="flex flex-row flex-wrap">
-                  <div className="flex flex-col">
+                <div className="flex flex-row flex-wrap space-x-20">
+                  <div className="flex flex-col w-[457px]">
                     <p className="text-[15px]">Nom de famille *</p>
                     <input
                       type="text"
@@ -473,10 +475,10 @@ const Voyageur = () => {
                       value={editDataTraveler.lastname}
                       onChange={handleEditTravelerChange}
                       aria-label="Traveler's lastname"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-[457px]">
                     <p className="text-[15px]">Date de naissance (DD/MM/YYYY) *</p>
                     <input
                       type="date"
@@ -484,11 +486,11 @@ const Voyageur = () => {
                       value={editDataTraveler.birthdate}
                       onChange={handleEditTravelerChange}
                       aria-label="Traveler's birthdate"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
                 </div>
-                <div className="flex flex-row flex-wrap">
+                <div className="flex flex-row flex-wrap space-x-20">
                   <input
                     type="number"
                     name="phone"
@@ -496,7 +498,7 @@ const Voyageur = () => {
                     value={editDataTraveler.phone}
                     onChange={handleEditTravelerChange}
                     aria-label="Traveler's phone"
-                    className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                    className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                   />
                   <input
                     type="text"
@@ -505,21 +507,21 @@ const Voyageur = () => {
                     value={editDataTraveler.email}
                     onChange={handleEditTravelerChange}
                     aria-label="Traveler's email"
-                    className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                    className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                   />
                 </div>
-                <select name="gender" value={editDataTraveler.gender} onChange={handleEditGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                <select name="gender" value={editDataTraveler.gender} onChange={handleEditGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
                   <option value="">Genre *</option>
                   <option value="Homme (H)">Homme (H)</option>
                   <option value="Femme (F)">Femme (F)</option>
                 </select>
                 <button>Ajouter un autre programme</button>
                 <div className="flex flex-row space-x-4">
-                  <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"/>
+                  <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                   <p>Voyageur·euse principal·e</p>
                 </div>
-                <div className="flex flex-row">
-                  {(editDataTraveler.firstname === "" || editDataTraveler.lastname === "" || editDataTraveler.birthdate === "" || editDataTraveler.gender === "" || editDataTraveler.phone === "" || editDataTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2">Enregistrer</button>}
+                <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
+                  {(editDataTraveler.firstname === "" || editDataTraveler.lastname === "" || editDataTraveler.birthdate === "" || editDataTraveler.gender === "" || editDataTraveler.phone === "" || editDataTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2 w-[96px]">Enregistrer</button>}
                   <button onClick={() => {
                     setToggleEditTraveler(!ToggleEditTraveler)
                     setEditDataTraveler({})
@@ -532,9 +534,9 @@ const Voyageur = () => {
             { toggleNewTraveler ? (
               <>
                 <h2 className="text-[15px] font-bold">Ajouter un·e voyageur·euse</h2>
-                <form onSubmit={handleNewTraveler} className="flex flex-col">
-                  <div className="flex flex-row flex-wrap">
-                    <div className="flex flex-col">
+                <form onSubmit={handleNewTraveler} className="flex flex-col space-y-14 mt-10">
+                  <div className="flex flex-row flex-wrap space-x-20">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Prénom *</p>
                       <input
                         type="text"
@@ -542,10 +544,10 @@ const Voyageur = () => {
                         value={newTraveler.firstname}
                         onChange={handleTravelerChange}
                         aria-label="Traveler's firstname"
-                        className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                        className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">2ème Prénom</p>
                       <input
                         type="text"
@@ -553,12 +555,12 @@ const Voyageur = () => {
                         value={newTraveler.secondName}
                         onChange={handleTravelerChange}
                         aria-label="Traveler's secondname"
-                        className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                        className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row flex-wrap">
-                    <div className="flex flex-col">
+                  <div className="flex flex-row flex-wrap space-x-20">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Nom de famille *</p>
                       <input
                         type="text"
@@ -566,10 +568,10 @@ const Voyageur = () => {
                         value={newTraveler.lastname}
                         onChange={handleTravelerChange}
                         aria-label="Traveler's lastname"
-                        className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                        className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-[457px]">
                       <p className="text-[15px]">Date de naissance (DD/MM/YYYY) *</p>
                       <input
                         type="date"
@@ -577,11 +579,11 @@ const Voyageur = () => {
                         value={newTraveler.birthdate}
                         onChange={handleTravelerChange}
                         aria-label="Traveler's birthdate"
-                        className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                        className="border-2 border-black p-1 w-full h-[53px] text-[15px] rounded-xl"
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row flex-wrap">
+                  <div className="flex flex-row flex-wrap space-x-20">
                     <input
                       type="number"
                       name="phone"
@@ -589,7 +591,7 @@ const Voyageur = () => {
                       value={newTraveler.phone}
                       onChange={handleTravelerChange}
                       aria-label="Traveler's phone"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                     />
                     <input
                       type="text"
@@ -598,20 +600,20 @@ const Voyageur = () => {
                       value={newTraveler.email}
                       onChange={handleTravelerChange}
                       aria-label="Traveler's email"
-                      className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"
+                      className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
-                  <select name="gender" value={newTraveler.gender} onChange={handleGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]">
+                  <select name="gender" value={newTraveler.gender} onChange={handleGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
                     <option value="">Genre *</option>
                     <option value="Homme (H)">Homme (H)</option>
                     <option value="Femme (F)">Femme (F)</option>
                   </select>
                   <button>Ajouter un autre programme</button>
                   <div className="flex flex-row space-x-4">
-                    <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="border-2 border-black p-1 w-full max-w-[400px] text-[15px]"/>
+                    <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                     <p>Voyageur·euse principal·e</p>
                   </div>
-                  <div className="flex flex-row">
+                  <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
                     {(newTraveler.firstname === "" || newTraveler.lastname === "" || newTraveler.birthdate === "" || newTraveler.gender === "" || newTraveler.phone === "" || newTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2">Enregistrer</button>}
                     <button onClick={() => {
                       setToggleNewTraveler(!toggleNewTraveler)
