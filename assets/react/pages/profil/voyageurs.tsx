@@ -98,11 +98,6 @@ const Voyageur = () => {
       setEditPrincipalTraveler({ ...editPrincipalTraveler, [e.target.name]: e.target.value });
     };
 
-    const handlePrincipalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTogglePrincipal(e.target.checked);
-      console.log(togglePrincipal);
-    };
-
     const handlePrincipalTraveler = async (e: React.FormEvent) => {
       e.preventDefault();
       if (!csrfToken) {
@@ -168,16 +163,15 @@ const Voyageur = () => {
       }
 
       try {
-        console.log(newTraveler);
-        console.log("ici" + newTraveler.gender);
+        newTraveler.principal = togglePrincipal;
         const response = await postMethod('/addTraveler', {
           ...newTraveler,
-          principal: togglePrincipal,
           csrfToken,
         });
         if (response) {
           fetchTravelers();
           setToggleNewTraveler(!toggleNewTraveler)
+          setTogglePrincipal(false);
           setNewTraveler({});
         }
       } catch (err) {
@@ -207,15 +201,17 @@ const Voyageur = () => {
       }
 
       try {
+        editDataTraveler.principal = togglePrincipal;
+        console.log("aaa :", editDataTraveler.principal);
         const response = await postMethod('/modifyTraveler', {
           ...editDataTraveler,
           id: editDataTraveler.id,
-          principal: togglePrincipal,
           csrfToken,
         });
         if (response) {
           fetchTravelers();
           setToggleEditTraveler(false);
+          setTogglePrincipal(false);
           setEditDataTraveler({});
         }
         fetchTravelers();
@@ -517,7 +513,7 @@ const Voyageur = () => {
                 </select>
                 <button>Ajouter un autre programme</button>
                 <div className="flex flex-row space-x-4">
-                  <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
+                  <input type="checkbox" name="principal" onClick={() => setTogglePrincipal(!togglePrincipal)} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                   <p>Voyageur·euse principal·e</p>
                 </div>
                 <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
@@ -525,6 +521,7 @@ const Voyageur = () => {
                   <button onClick={() => {
                     setToggleEditTraveler(!ToggleEditTraveler)
                     setEditDataTraveler({})
+                    setTogglePrincipal(false);
                     }}>Annuler</button>
                 </div>
               </form>
@@ -610,7 +607,7 @@ const Voyageur = () => {
                   </select>
                   <button>Ajouter un autre programme</button>
                   <div className="flex flex-row space-x-4">
-                    <input type="checkbox" name="principal" value="false" onChange={handlePrincipalChange} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
+                    <input type="checkbox" name="principal" onClick={() => setTogglePrincipal(!togglePrincipal)} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                     <p>Voyageur·euse principal·e</p>
                   </div>
                   <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
@@ -618,13 +615,14 @@ const Voyageur = () => {
                     <button onClick={() => {
                       setToggleNewTraveler(!toggleNewTraveler)
                       setNewTraveler({})
+                      setTogglePrincipal(false);
                       }}>Annuler</button>
                   </div>
                 </form>
               </>
             ) : (
               <>
-                <h2 className="text-[15px] font-bold text-black">
+                <h2 className="text-[20px] font-bold text-black">
                   Compagnons de voyage
                 </h2>
                 <p className="mt-2 text-[15px] text-[#562D80]">
@@ -633,20 +631,20 @@ const Voyageur = () => {
                 {travelers.map((traveler) => (
                   <>
                     <div className="flex flex-row space-x-60 my-2">
-                      <div className="flex flex-col">
-                        <p>{traveler.lastname} {traveler.firstname}</p>
-                        <p>{traveler.email} | {traveler.phone}</p>
+                      <div className="flex flex-col w-full max-w-[400px]">
+                        <p className="font-semibold">{traveler.lastname} {traveler.firstname}</p>
+                        <p className="text-[15px]">{traveler.email} | {traveler.phone}</p>
                       </div>
-                      <div className="flex flex-col">
-                        <p>Programmes de fidélité</p>
-                        <p>Aucun</p>
+                      <div className="flex flex-col max-w-[300px]">
+                        <p className="font-semibold">Programmes de fidélité</p>
+                        <p className="text-[15px]">Aucun</p>
                       </div>
-                      <div className="flex flex-row">
+                      <div className="flex flex-row max-w-[200px] space-x-3">
                         <button onClick={() => {
                           setToggleEditTraveler(!ToggleEditTraveler)
                           setEditDataTraveler(traveler)
-                        }} className="text-blue-800">Modifier</button>
-                        <button onClick={() => handleDeleteTraveler(traveler.id)} className="text-blue-800">Supprimer</button>
+                        }} className="text-blue-800 font-semibold">Modifier</button>
+                        <button onClick={() => handleDeleteTraveler(traveler.id)} className="text-blue-800 font-semibold">Supprimer</button>
                       </div>
                     </div>
                     <hr />

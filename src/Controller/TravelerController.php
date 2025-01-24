@@ -83,10 +83,9 @@ class TravelerController extends AbstractController
             $traveler->setKTN($KTN);
             if ($data['principal'] === true) {
                 $search = $userProfile->getTravelers();
-                foreach ($search as $traveler) {
-                    $traveler->setPrincipal(false);
-                    $em->persist($traveler);
-                    $em->flush();
+                foreach ($search as $t) {
+                    $t->setPrincipal(false);
+                    $travelerRepository->save($t, true);
                 }
                 $traveler->setPrincipal(true);
             } else {
@@ -192,10 +191,9 @@ class TravelerController extends AbstractController
             $traveler->setKTN($KTN);
             if ($data['principal'] === true) {
                 $search = $userProfile->getTravelers();
-                foreach ($search as $traveler) {
-                    $traveler->setPrincipal(false);
-                    $em->persist($traveler);
-                    $em->flush();
+                foreach ($search as $t) {
+                    $t->setPrincipal(false);
+                    $travelerRepository->save($t, true);
                 }
                 $traveler->setPrincipal(true);
             } else {
