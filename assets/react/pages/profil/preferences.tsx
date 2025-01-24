@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import HeaderProfil from "../../components/headerProfil/HeaderProfil";
+import '../../../styles/preferences.css';
 
 const Preferences = () => {
   // State utilisateur
@@ -77,12 +78,12 @@ const Preferences = () => {
   };
 
   return (
-    <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
+    <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10 preferences-container">
       {/* Header Profil */}
-      <HeaderProfil currentUser={currentUser} />
+      <HeaderProfil currentUser={currentUser}/>
 
       {/* liens profil */}
-      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
+      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl space-x-4 liens">
         <Link to="/profil" className="hover:underline">
           Tableau de bord
         </Link>
@@ -104,16 +105,17 @@ const Preferences = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-6xl space-y-6">
-        <h2 className="font-bold">Préférences</h2>
-        {/* Detail de connexion en dur(a revoir faire un form) */}
-        <div className="bg-white rounded-lg border p-6">
+      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-6xl space-y-6 preferences-settings">
+        <h2 className="font-bold text-center">Préférences</h2>
+
+        {/* Section aéroports */}
+        <div className="bg-white rounded-lg border p-6 airport-section">
           <h2 className="text-lg font-bold text-orange-600">Aéroports</h2>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-600 text-sm">
             Trouvez des vols plus facilement en enregistrant votre aéroport
             local et les autres aéroports où vous vous rendez souvent.
           </p>
-          <div className="grid grid-cols-2 gap-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
               <p className="font-semibold">Aéroport local :</p>
               {isEditing.airport ? (
@@ -121,7 +123,7 @@ const Preferences = () => {
                   type="text"
                   value={currentUser.airport}
                   onChange={(e) => handleUpdateField("airport", e.target.value)}
-                  className="border rounded p-2 mt-2"
+                  className="border rounded p-2 mt-2 w-full"
                 />
               ) : (
                 <p className="text-gray-700">{currentUser.airport}</p>
@@ -137,12 +139,12 @@ const Preferences = () => {
               <p className="font-semibold">Autre aéroport :</p>
               {isEditing.OtherAirport ? (
                 <input
-                  type="OtherAirport"
+                  type="text"
                   value={currentUser.OtherAirport}
                   onChange={(e) =>
                     handleUpdateField("OtherAirport", e.target.value)
                   }
-                  className="border rounded p-2 mt-2"
+                  className="border rounded p-2 mt-2 w-full"
                 />
               ) : (
                 <p className="text-gray-700">{currentUser.OtherAirport}</p>
@@ -157,16 +159,82 @@ const Preferences = () => {
           </div>
         </div>
 
-        {/* autres sections parametres */}
-        <div className="bg-white rounded-lg border p-6">
+        {/* Paramètres compagnies */}
+        <div className="bg-white rounded-lg border p-6 airline-section">
+          <h2 className="text-lg font-bold text-orange-600">Compagnies</h2>
+          <p className="mt-2 text-gray-600 text-sm">
+            Affiner les résultats de recherche en précisant vos préférences
+            pour les compagnies aériennes.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div>
+              <p className="font-semibold">A éviter :</p>
+              <ul className="mt-2 text-gray-700 list-disc list-inside">
+                {destinations.map((destination, index) => (
+                  <li key={index}>{destination}</li>
+                ))}
+              </ul>
+              <input
+                type="text"
+                value={newDestination}
+                onChange={(e) => setNewDestination(e.target.value)}
+                className="border rounded p-2 mt-2 w-full"
+                placeholder="Recherche de compagnies aériennes"
+              />
+              <button
+                onClick={addDestination}
+                className="text-orange-600 hover:underline mt-2"
+              >
+                Ajouter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Paramètres hôtels */}
+        <div className="bg-white rounded-lg border p-6 hotel-section">
           <h2 className="text-lg font-bold text-orange-600">
-            Destinations enregistrées
+            Enseignes hotelières
           </h2>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-gray-600 text-sm">
             Choisissez l’une de vos destinations enregistrées pour trouver des
             hôtels et locations à proximité.
           </p>
-          <div className="grid grid-cols-2 gap-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div>
+              <p className="font-semibold">Destinations :</p>
+              <ul className="mt-2 text-gray-700 list-disc list-inside">
+                {destinations.map((destination, index) => (
+                  <li key={index}>{destination}</li>
+                ))}
+              </ul>
+              <input
+                type="text"
+                value={newDestination}
+                onChange={(e) => setNewDestination(e.target.value)}
+                className="border rounded p-2 mt-2 w-full"
+                placeholder="Nouvelle destination"
+              />
+              <button
+                onClick={addDestination}
+                className="text-orange-600 hover:underline mt-2"
+              >
+                Ajouter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Paramètres destinations */}
+        <div className="bg-white rounded-lg border p-6 destination-section">
+          <h2 className="text-lg font-bold text-orange-600">
+            Destinations enregistrées
+          </h2>
+          <p className="mt-2 text-gray-600 text-sm">
+            Choisissez l’une de vos destinations enregistrées pour trouver des
+            hôtels et locations à proximité.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
               <p className="font-semibold">Destinations :</p>
               <ul className="mt-2 text-gray-700 list-disc list-inside">

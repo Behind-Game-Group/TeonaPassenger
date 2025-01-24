@@ -1,0 +1,69 @@
+/* preferences-container */
+.preferences-container {
+    padding: 1rem;
+  }
+  
+  /* Réduire la largeur des sections */
+  .preferences-settings {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  .airport-section, .airline-section, .hotel-section, .destination-section {
+    margin-bottom: 20px;
+  }
+  
+  /* Styles spécifiques aux écrans petits (moins de 640px) */
+  @media (max-width: 640px) {
+    .preferences-container {
+      margin-left: 0;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  
+    .preferences-settings {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      width: 300px !important;
+      margin-right: 78px;
+    }
+  
+    .preferences-settings .grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .preferences-settings .button {
+      width: 100%;
+    }
+  
+    .text-center {
+      text-align: center;
+    }
+  
+    .font-bold {
+      font-weight: bold;
+    }
+
+    .liens {
+      margin-right: 500px;
+    }
+
+    /* tableau de bord */
+
+    .preferences-settings-tableau {
+        padding-left: 1rem;
+      padding-right: 1rem;
+      width: 370px !important;
+      margin-right: 78px;
+    }
+
+    .preferences-settings-tableau .grid {
+        grid-template-columns: 1fr;
+      }
+    
+      .preferences-settings-tableau .button {
+        width: 100%;
+      }
+
+  }
+  

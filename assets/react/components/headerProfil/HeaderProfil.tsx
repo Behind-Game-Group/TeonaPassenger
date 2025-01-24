@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../../styles/HeaderProfilResponsive.css"; // Import du fichier CSS pour le responsive
 
 interface HeaderProfilProps {
   currentUser: {
@@ -27,11 +28,11 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
   };
 
   return (
-    <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
+    <div className="header-container flex justify-between items-center text-white p-6 w-full max-w-6xl">
       {/* Informations utilisateur */}
-      <div className="flex justify-between items-center text-white p-6 w-full max-w-6xl">
+      <div className="user-info flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
-          <h1 className="text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
+          <h1 className="header-text text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
@@ -43,19 +44,22 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
             </div>
           </div>
         </div>
-        <div className="relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold" style={{ backgroundColor: circleColor }}>
+        <div
+          className="profile-circle relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold"
+          style={{ backgroundColor: circleColor }}
+        >
           {currentUser.firstname.charAt(0)}
         </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
-          className="absolute top-[8.7rem] right-[50px] rounded-full p-2 bg-customOrange shadow-md text-gray-800 hover:brightness-90"
+          className="color-picker-button absolute top-[8.7rem] right-[50px] rounded-full p-2 bg-customOrange shadow-md text-gray-800 hover:brightness-90"
         >
           <img src="/img/Pencil.png" alt="Pencil" className="w-4" />
         </button>
         {/* Palette de couleurs */}
         {isColorPickerVisible && (
-          <div className="absolute top-[11rem] right-[30px] bg-customOrange p-2 rounded shadow-lg">
-              <h2 className="text-black pb-1 ">Couleur de votre profil :</h2>
+          <div className="color-picker absolute top-[11rem] right-[30px] bg-customOrange p-2 rounded shadow-lg">
+            <h2 className="text-black pb-1">Couleur de votre profil :</h2>
             <div className="grid grid-cols-5 gap-2">
               {colorPalette.map((color, index) => (
                 <div
