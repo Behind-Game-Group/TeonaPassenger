@@ -27,6 +27,11 @@ interface FidelityProgram {
   programNumber: number;
 }
 
+interface FidelityPrograms {
+  id: number;
+  fidelityProgs: FidelityProgram[];
+}
+
 const Voyageur = () => {
   const [travelers, setTravelers] = useState<Traveler[]>([]);
   const [principalTraveler, setPrincipalTraveler] = useState<Traveler | null>(null);
@@ -38,7 +43,7 @@ const Voyageur = () => {
   const [toggleNewTraveler, setToggleNewTraveler] = useState(false);
   const { csrfToken, currentUser } = useUserContext();
 
-  const [fidelityPrograms, setFidelityPrograms] = useState<FidelityProgram[]>([]);
+  const [fidelityPrograms, setFidelityPrograms] = useState<FidelityPrograms[]>([]);
   const [newFidelityProgram, setNewFidelityProgram] = useState<Partial<FidelityProgram>>({});
   const [selectedTravelerId, setSelectedTravelerId] = useState<number | null>(null);
   const [togglePrincipal, setTogglePrincipal] = useState<boolean>(false);
@@ -223,12 +228,20 @@ const Voyageur = () => {
     const fetchFidelityPrograms = async () => {
       try {
         const response = await getMethod('/showFidelityPrograms');
-        setFidelityPrograms(response);
-        console.log(response);
+        if (response) {
+          setFidelityPrograms(response);
+          console.log("aaa: ", response);
+        } else {
+          console.log('error');
+        }
       } catch (err) {
         console.log(err);
       }
     };
+
+    useEffect(() => {
+      console.log("Mise à jour de fidelityPrograms:", fidelityPrograms);
+    }, [fidelityPrograms]);
 
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
@@ -628,28 +641,38 @@ const Voyageur = () => {
                 <p className="mt-2 text-[15px] text-[#562D80]">
                 Ajoutez des proches et collègues avec lesquels vous voyagez régulièrement pour faciliter et accélérer vos réservations.
                 </p>
-                {travelers.map((traveler) => (
-                  <>
-                    <div className="flex flex-row space-x-60 my-2">
-                      <div className="flex flex-col w-full max-w-[400px]">
-                        <p className="font-semibold">{traveler.lastname} {traveler.firstname}</p>
-                        <p className="text-[15px]">{traveler.email} | {traveler.phone}</p>
+                {travelers.map((traveler) => {
+                  const travelerPrograms = fidelityPrograms.find((program) => program.id === traveler.id);
+                  
+                  return (
+                    <>
+                      <div className="flex flex-row space-x-60 my-2">
+                        <div className="flex flex-col w-full max-w-[400px]">
+                          <p className="font-semibold">{traveler.lastname} {traveler.firstname}</p>
+                          <p className="text-[15px]">{traveler.email} | {traveler.phone}</p>
+                        </div>
+                        <div className="flex flex-col w-full max-w-[400px]">
+                          <p className="font-semibold">Programmes de fidélité</p>
+                          {travelerPrograms && travelerPrograms.fidelityProgs.length > 0 ? (
+                            travelerPrograms.fidelityProgs.map((prog) => (
+                              <p className="text-[15px]" key={prog.id}>{prog.name} | {prog.programNumber}</p>
+                            ))
+                          ) : (
+                            <p className="text-[15px]">Aucun</p>
+                          )}
+                        </div>
+                        <div className="flex flex-row max-w-[200px] space-x-3">
+                          <button onClick={() => {
+                            setToggleEditTraveler(!ToggleEditTraveler)
+                            setEditDataTraveler(traveler)
+                          }} className="text-blue-800 font-semibold">Modifier</button>
+                          <button onClick={() => handleDeleteTraveler(traveler.id)} className="text-blue-800 font-semibold">Supprimer</button>
+                        </div>
                       </div>
-                      <div className="flex flex-col max-w-[300px]">
-                        <p className="font-semibold">Programmes de fidélité</p>
-                        <p className="text-[15px]">Aucun</p>
-                      </div>
-                      <div className="flex flex-row max-w-[200px] space-x-3">
-                        <button onClick={() => {
-                          setToggleEditTraveler(!ToggleEditTraveler)
-                          setEditDataTraveler(traveler)
-                        }} className="text-blue-800 font-semibold">Modifier</button>
-                        <button onClick={() => handleDeleteTraveler(traveler.id)} className="text-blue-800 font-semibold">Supprimer</button>
-                      </div>
-                    </div>
-                    <hr />
-                  </>
-                ))}
+                      <hr />
+                    </>
+                  );
+                })}
                 <div className="mt-10">
                   <button className="text-customOrange font-bold" onClick={() => setToggleNewTraveler(!toggleNewTraveler)}>Ajouter un·e voyageur·euse</button>
                 </div>
