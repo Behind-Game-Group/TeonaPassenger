@@ -321,7 +321,7 @@ const Parametres = () => {
               <div className="flex flex-row space-x-60 my-2">
                 <div className="flex flex-row space-x-4">
                   <p className="font-bold">{expeditor.email}</p>
-                  <button onClick={() => handleDeleteExpeditor(expeditor.email)} className="text-red-800">SUP</button>
+                  <button onClick={() => handleDeleteExpeditor(expeditor.email)} className="">🗑️</button>
                 </div>
                 <p><span className="text-red-700">(non confirmé)</span> | <span className="text-blue-500 font-bold">renvoyer l’e-mail de confirmation</span></p>
               </div>
@@ -336,7 +336,7 @@ const Parametres = () => {
               <div className="flex flex-col my-3">
                 <div className="flex flex-row space-x-4">
                   <p className="font-bold">{sharedtrips.email}</p>
-                  <button onClick={() => deleteSharedTrips(sharedtrips.email)} className="text-red-800">SUP</button>
+                  <button onClick={() => deleteSharedTrips(sharedtrips.email)} className="">🗑️</button>
                 </div>
                 <div className="flex flex-row space-x-4">
                   <p className="text-[15px]">Peut modifier mes voyages</p>

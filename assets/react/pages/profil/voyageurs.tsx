@@ -45,6 +45,7 @@ const Voyageur = () => {
 
   const [fidelityPrograms, setFidelityPrograms] = useState<FidelityPrograms[]>([]);
   const [newFidelityProgram, setNewFidelityProgram] = useState<Partial<FidelityProgram>>({});
+  const [listNewFidelityPrograms, setListNewFidelityPrograms] = useState<FidelityProgram[]>([]);
   const [selectedTravelerId, setSelectedTravelerId] = useState<number | null>(null);
   const [togglePrincipal, setTogglePrincipal] = useState<boolean>(false);
 
@@ -61,6 +62,49 @@ const Voyageur = () => {
     const day = String(dateObj.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;  // Retourne au format 'YYYY-MM-DD'
   };
+
+  const listCompanyAvion = [
+    { name: 'Air France' },
+    { name: 'Lufthansa' },
+    { name: 'KLM Royal Dutch Airlines' },
+    { name: 'British Airways' },
+    { name: 'Ryanair' },
+    { name: 'EasyJet' },
+    { name: 'Emirates' },
+    { name: 'Qatar Airways' },
+    { name: 'Singapore Airlines' },
+    { name: 'American Airlines' },
+    { name: 'Delta Air Lines' },
+    { name: 'United Airlines' },
+    { name: 'Turkish Airlines' },
+    { name: 'Aeroflot' },
+    { name: 'Air Canada' },
+    { name: 'Iberia' },
+  ];
+
+  const listNumTel = [
+    { country: 'France', code: '+33' },
+    { country: 'Espagne', code: '+34' },
+    { country: 'Italie', code: '+39' },
+    { country: 'Allemagne', code: '+49' },
+    { country: 'Royaume-Uni', code: '+44' },
+    { country: 'États-Unis', code: '+1' },
+    { country: 'Canada', code: '+1' },
+    { country: 'Belgique', code: '+32' },
+    { country: 'Suisse', code: '+41' },
+    { country: 'Portugal', code: '+351' },
+    { country: 'Pays-Bas', code: '+31' },
+    { country: 'Australie', code: '+61' },
+    { country: 'Brésil', code: '+55' },
+    { country: 'Mexique', code: '+52' },
+    { country: 'Argentine', code: '+54' },
+    { country: 'Japon', code: '+81' },
+    { country: 'Chine', code: '+86' },
+    { country: 'Inde', code: '+91' },
+    { country: 'Afrique du Sud', code: '+27' },
+    { country: 'Russie', code: '+7' },
+    { country: 'Colombie', code: '+57' },
+  ];
 
   const fetchTravelers = async () => {
     try {
@@ -174,6 +218,13 @@ const Voyageur = () => {
           csrfToken,
         });
         if (response) {
+          const id = editDataTraveler.id;
+          if (id && listNewFidelityPrograms.length > 0) { 
+            await handleAddFidelityProgram(id);
+          } else {
+            console.log(id);
+            console.log(listNewFidelityPrograms.length)
+          }
           fetchTravelers();
           setToggleNewTraveler(!toggleNewTraveler)
           setTogglePrincipal(false);
@@ -214,6 +265,13 @@ const Voyageur = () => {
           csrfToken,
         });
         if (response) {
+          const id = editDataTraveler.id;
+          if (id && listNewFidelityPrograms.length > 0) { 
+            await handleAddFidelityProgram(id);
+          } else {
+            console.log(id);
+            console.log(listNewFidelityPrograms.length)
+          }
           fetchTravelers();
           setToggleEditTraveler(false);
           setTogglePrincipal(false);
@@ -239,9 +297,70 @@ const Voyageur = () => {
       }
     };
 
-    useEffect(() => {
-      console.log("Mise à jour de fidelityPrograms:", fidelityPrograms);
-    }, [fidelityPrograms]);
+    const handleFidelityProgramNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNewFidelityProgram({ ...newFidelityProgram, [e.target.name]: e.target.value });
+    };
+
+    const handleFidelityProgramNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setNewFidelityProgram({ ...newFidelityProgram, [e.target.name]: e.target.value });
+    };
+
+    const AddFidelityProgram = () => {
+      if (newFidelityProgram.name && newFidelityProgram.programNumber) {
+        setListNewFidelityPrograms([...listNewFidelityPrograms, newFidelityProgram as FidelityProgram]);
+        setNewFidelityProgram({});
+      } else {
+        console.log("Incomplete FidelityProgram");
+      }
+    };
+
+    const removeFidelityProgram = (programNumber: number) => {
+      setListNewFidelityPrograms(listNewFidelityPrograms.filter((program) => program.programNumber !== programNumber));
+    };
+
+    const handleAddFidelityProgram = async (id: number) => {
+      if (!csrfToken) {
+        console.log('CSRF token is missing.');
+        return;
+      }
+  
+      try {
+        for (const program of listNewFidelityPrograms) {
+          const response = await postMethod('/addFidelityProgram', {
+            ...program,
+            id: id,
+            csrfToken
+          });
+          if (response) {
+            console.log('Fidelity Program added successfully.');
+          } else {
+            console.log('Fidelity Program not added.');
+          }
+        }
+        fetchFidelityPrograms(); // Rafraîchir la liste des programmes de fidélité
+        setListNewFidelityPrograms([]);
+      } catch (err) {
+        console.log('Failed to add fidelity program.');
+      }
+    }
+
+    const handleDeleteFidelityProgram = async (id: number) => {
+      if (!csrfToken) {
+        console.log('CSRF token is missing.');
+        return;
+      }
+  
+      try {
+        await postMethod('/deleteFidelityProgram', { id, csrfToken });
+        fetchFidelityPrograms(); // Rafraîchir la liste après suppression
+      } catch (err) {
+        console.log('Failed to delete fidelity program.');
+      }
+    };
+
+    const listTravelerPrograms = fidelityPrograms.find(
+      (program) => program.id === editDataTraveler.id
+    );
 
   return (
     <div className="relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10">
@@ -423,7 +542,7 @@ const Voyageur = () => {
                     </div>
                     <div className="flex flex-col my-5">
                       <p className="font-semibold text-[15px]">Numéro de téléphone portable</p>
-                      <p>{principalTraveler?.phone ?? "-"}</p>
+                      <p>+{principalTraveler?.phone ?? "-"}</p>
                     </div>
                     <div className="flex flex-row justify-between mt-5">
                       <div className="flex flex-col items-center">
@@ -524,7 +643,44 @@ const Voyageur = () => {
                   <option value="Homme (H)">Homme (H)</option>
                   <option value="Femme (F)">Femme (F)</option>
                 </select>
-                <button>Ajouter un autre programme</button>
+                <hr />
+                <div className="flex flex-col justify-center space-y-2">
+                  <div className="flex flex-row space-x-4">
+                    <select name="name" id="name" value={newFidelityProgram.name} onChange={handleFidelityProgramNameChange} aria-label="Traveler's name" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
+                      <option value="">Recherche de programmes de fidélité</option>
+                      {listCompanyAvion.map((company) => (
+                        <option value={company.name}>{company.name}</option>
+                      ))}
+                    </select>
+                    <input
+                      type="number"
+                      name="programNumber"
+                      placeholder="Numéro de programme de fidélité"
+                      value={newFidelityProgram.programNumber}
+                      onChange={handleFidelityProgramNumberChange}
+                      aria-label="programNumber"
+                      className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
+                    />
+                    <div className="cursor-pointer bg-customOrange text-white items-center px-3 py-1" onClick={AddFidelityProgram}><p>+</p></div>
+                  </div>
+                  <hr />
+                  <div className="flex flex-col space-y-2">
+                    {listTravelerPrograms && listTravelerPrograms.fidelityProgs.length > 0 ? (
+                    listTravelerPrograms.fidelityProgs.map((prog) => (
+                      <div key={prog.id} className="flex flex-row space-x-4">
+                        <p className="text-[15px]">{prog.name} | {prog.programNumber}</p>
+                        <p onClick={() => handleDeleteFidelityProgram(prog.id)} className="cursor-pointer">🗑️</p>
+                      </div>
+                    ))
+                    ) : null}
+                    {listNewFidelityPrograms.map((program) => (
+                      <div className="flex flex-row space-x-4">
+                        <p>{program.name} | {program.programNumber}</p>
+                        <p onClick={() => removeFidelityProgram(program.programNumber)} className="cursor-pointer">🗑️</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <div className="flex flex-row space-x-4">
                   <input type="checkbox" name="principal" onClick={() => setTogglePrincipal(!togglePrincipal)} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                   <p>Voyageur·euse principal·e</p>
@@ -618,7 +774,36 @@ const Voyageur = () => {
                     <option value="Homme (H)">Homme (H)</option>
                     <option value="Femme (F)">Femme (F)</option>
                   </select>
-                  <button>Ajouter un autre programme</button>
+                  <hr />
+                  <div className="flex flex-col justify-center space-y-2">
+                    <div className="flex flex-row space-x-4">
+                      <select name="name" id="name" value={newFidelityProgram.name} onChange={handleFidelityProgramNameChange} aria-label="Traveler's name" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
+                        <option value="">Recherche de programmes de fidélité</option>
+                        {listCompanyAvion.map((company) => (
+                          <option value={company.name}>{company.name}</option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        name="programNumber"
+                        placeholder="Numéro de programme de fidélité"
+                        value={newFidelityProgram.programNumber}
+                        onChange={handleFidelityProgramNumberChange}
+                        aria-label="programNumber"
+                        className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
+                      />
+                      <p className="cursor-pointer bg-customOrange text-white" onClick={AddFidelityProgram}>+</p>
+                    </div>
+                    <hr />
+                    <div className="flex flex-col space-y-2">
+                      {listNewFidelityPrograms.map((program) => (
+                        <div className="flex flex-row space-x-4">
+                          <p>{program.name} | {program.programNumber}</p>
+                          <button onClick={() => removeFidelityProgram(program.programNumber)}>🗑️</button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                   <div className="flex flex-row space-x-4">
                     <input type="checkbox" name="principal" onClick={() => setTogglePrincipal(!togglePrincipal)} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                     <p>Voyageur·euse principal·e</p>
@@ -649,7 +834,7 @@ const Voyageur = () => {
                       <div className="flex flex-row space-x-60 my-2">
                         <div className="flex flex-col w-full max-w-[400px]">
                           <p className="font-semibold">{traveler.lastname} {traveler.firstname}</p>
-                          <p className="text-[15px]">{traveler.email} | {traveler.phone}</p>
+                          <p className="text-[15px]">{traveler.email} | +{traveler.phone}</p>
                         </div>
                         <div className="flex flex-col w-full max-w-[400px]">
                           <p className="font-semibold">Programmes de fidélité</p>
