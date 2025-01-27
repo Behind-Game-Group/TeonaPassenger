@@ -6,6 +6,8 @@ import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 import '../../../styles/preferences.css';
 import { deleteMethod, getMethod, postMethod } from '../../services/axiosInstance';
 import { useUserContext } from '../../context/UserContext';
+import '../../../styles/preferences.css';
+
 
 type Company = {
   id: number;
@@ -381,7 +383,7 @@ const Preferences = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6 max-lg:w-[600px]">
+      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6 max-lg:w-[600px] preferences-settings">
         <div className='flex flex-col mt-10 mb-10 gap-10 justify-center items-center'>
           <div className='border-2 border-[#562D80] rounded-md w-full max-w-[1200px]'>
             <div className='flex flex-col p-10 space-y-3 rounded-md'>

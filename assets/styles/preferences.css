@@ -27,7 +27,7 @@
   .preferences-settings {
     padding-left: 1rem;
     padding-right: 1rem;
-    width: 300px !important;
+    width: 400px !important;
     margin-right: 78px;
   }
 
@@ -49,7 +49,8 @@
 
   .liens {
     margin-right: 80px;
-    padding: 0;
+    padding-inline: 200px;
+    padding-block: 10px;
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 8rem;
@@ -57,6 +58,8 @@
     justify-content: center !important;
     justify-items: center;
     align-items: center !important;
+    background-color: peru;
+    border-radius: 15px;
   }
 
   /* tableau de bord */
@@ -76,11 +79,3 @@
     width: 100%;
   }
 }
-
-/* @media (max-width: 768px) {
-
-  .liens {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-} */
