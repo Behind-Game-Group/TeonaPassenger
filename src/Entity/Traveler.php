@@ -44,6 +44,10 @@ class Traveler
 
     #[ORM\Column(nullable: true)]
     #[Groups(['traveler:read'])]
+    private ?int $phoneCountry = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?int $phone = null;
 
     #[ORM\Column(nullable: true)]
@@ -228,14 +232,27 @@ class Traveler
         return $this;
     }
 
-    public function getPrincipal()
+    public function getPrincipal(): bool
     {
         return $this->principal;
     }
 
-    public function setPrincipal($principal)
+    public function setPrincipal($principal): self
     {
         $this->principal = $principal;
+
+        return $this;
+    }
+
+    public function getPhoneCountry(): int
+    {
+        return $this->phoneCountry;
+    }
+
+
+    public function setPhoneCountry($phoneCountry): self
+    {
+        $this->phoneCountry = $phoneCountry;
 
         return $this;
     }

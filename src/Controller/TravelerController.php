@@ -58,10 +58,11 @@ class TravelerController extends AbstractController
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
             $secondName = $data['secondName'] ?? null;
+            $phoneCountry = $data['phoneCountry'] ?? null;
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone) {
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone || !$phoneCountry) {
                 return new JsonResponse(['error' => 'Name, firstname, birthdate, gender and phone are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -78,6 +79,7 @@ class TravelerController extends AbstractController
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
+            $traveler->setPhoneCountry($phoneCountry);
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);
@@ -172,10 +174,11 @@ class TravelerController extends AbstractController
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
             $secondName = $data['secondName'] ?? null;
+            $phoneCountry = $data['phoneCountry'] ?? null;
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone) {
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone || !$phoneCountry) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
@@ -186,6 +189,7 @@ class TravelerController extends AbstractController
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
+            $traveler->setPhoneCountry($phoneCountry);
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);

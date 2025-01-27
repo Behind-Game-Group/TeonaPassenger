@@ -15,7 +15,8 @@ interface Traveler {
   email: string;
   birthdate: string;
   gender: string;
-  phone: string;
+  phoneCountry: number;
+  phone: number;
   DHS?: number;
   KTN?: number;
   principal: boolean;
@@ -188,11 +189,11 @@ const Voyageur = () => {
       setNewTraveler({ ...newTraveler, [e.target.name]: e.target.value });
     };
 
-    const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSelectNewTravelerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setNewTraveler({ ...newTraveler, [e.target.name]: e.target.value });
     };
 
-    const handleEditGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSelectEditTravelerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setEditDataTraveler({ ...editDataTraveler, [e.target.name]: e.target.value });
     };
 
@@ -200,7 +201,7 @@ const Voyageur = () => {
       setEditDataTraveler({ ...editDataTraveler, [e.target.name]: e.target.value });
     };
 
-    const handleEditPrincipalGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSelectEditPrincipalTravelerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       setEditPrincipalTraveler({ ...editPrincipalTraveler, [e.target.name]: e.target.value });
     };
 
@@ -218,13 +219,6 @@ const Voyageur = () => {
           csrfToken,
         });
         if (response) {
-          const id = editDataTraveler.id;
-          if (id && listNewFidelityPrograms.length > 0) { 
-            await handleAddFidelityProgram(id);
-          } else {
-            console.log(id);
-            console.log(listNewFidelityPrograms.length)
-          }
           fetchTravelers();
           setToggleNewTraveler(!toggleNewTraveler)
           setTogglePrincipal(false);
@@ -257,8 +251,7 @@ const Voyageur = () => {
       }
 
       try {
-        editDataTraveler.principal = togglePrincipal;
-        console.log("aaa :", editDataTraveler.principal);
+        console.log("bbb: ", editDataTraveler);
         const response = await postMethod('/modifyTraveler', {
           ...editDataTraveler,
           id: editDataTraveler.id,
@@ -326,6 +319,7 @@ const Voyageur = () => {
   
       try {
         for (const program of listNewFidelityPrograms) {
+          console.log("bbb: ", program);
           const response = await postMethod('/addFidelityProgram', {
             ...program,
             id: id,
@@ -368,7 +362,7 @@ const Voyageur = () => {
       <HeaderProfil />
 
       {/* liens profil */}
-      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
+      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl max-lg:w-[600px]">
         <Link to="/profil" className="hover:underline">
           Tableau de bord
         </Link>
@@ -390,7 +384,7 @@ const Voyageur = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6">
+      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6 max-lg:w-[600px]">
         <h2 className="font-bold text-[20px]">Voyageur·euses</h2>
         {/* Detail de connexion en dur(a revoir faire un form) */}
         <div className="bg-white rounded-lg border p-6">
@@ -464,21 +458,29 @@ const Voyageur = () => {
                   </div>
                   <div className="flex justify-center">
                     <div className="flex flex-col max-w-[990px] w-full space-y-20">
-                      <select name="gender" value={editPrincipalTraveler.gender} onChange={handleEditPrincipalGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-[266px] h-[53px] text-[15px] rounded-xl">
+                      <select name="gender" value={editPrincipalTraveler.gender} onChange={handleSelectEditPrincipalTravelerChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-[266px] h-[53px] text-[15px] rounded-xl">
                         <option value="">Sexe *</option>
                         <option value="Homme (H)">Homme (H)</option>
                         <option value="Femme (F)">Femme (F)</option>
                       </select>
-                      <div>
+                      <div className="flex flex-col">
                         <p className="text-[15px]">Telephone portable *</p>
-                        <input
-                        type="text"
-                        name="phone"
-                        value={editPrincipalTraveler.phone}
-                        onChange={handlePrincipalTravelerChange}
-                        aria-label="Traveler's phone"
-                        className="border-2 border-black p-1 w-[457px] h-[53px] text-[15px] rounded-xl"
-                        />
+                        <div className="flex flex-row items-center">
+                          <select name="phoneCountry" value={editPrincipalTraveler.phoneCountry} onChange={handleSelectEditPrincipalTravelerChange} aria-label="Traveler's phone country" className="border-2 border-black p-1 w-[104px] h-[53px] text-[15px] rounded-xl">
+                            <option value=""></option>
+                            {listNumTel.map((num) => (
+                              <option value={num.code}>{num.country} ({num.code})</option>
+                            ))}
+                          </select>
+                          <input
+                          type="text"
+                          name="phone"
+                          value={editPrincipalTraveler.phone}
+                          onChange={handlePrincipalTravelerChange}
+                          aria-label="Traveler's phone"
+                          className="border-2 border-black p-1 w-[353px] h-[53px] text-[15px] rounded-xl"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -507,7 +509,7 @@ const Voyageur = () => {
                     </div>
                   </div>
                   <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
-                    {(editPrincipalTraveler.firstname === "" || editPrincipalTraveler.lastname === "" || editPrincipalTraveler.birthdate === "" || editPrincipalTraveler.gender === "" || editPrincipalTraveler.phone === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black py-2 px-10 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black py-2 px-7">Enregistrer</button>}
+                    {(editPrincipalTraveler.firstname === "" || editPrincipalTraveler.lastname === "" || editPrincipalTraveler.birthdate === "" || editPrincipalTraveler.gender === "" || editPrincipalTraveler.phone === null) ? <p className="text-gray-600 bg-gray-400 border-2 border-black py-2 px-10 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black py-2 px-7">Enregistrer</button>}
                     <button onClick={() => setAjout(!ajout)} className="border-2 border-black py-2 px-7">Annuler</button>
                   </div>
                 </form>
@@ -542,7 +544,7 @@ const Voyageur = () => {
                     </div>
                     <div className="flex flex-col my-5">
                       <p className="font-semibold text-[15px]">Numéro de téléphone portable</p>
-                      <p>+{principalTraveler?.phone ?? "-"}</p>
+                      <p>{principalTraveler?.phoneCountry ? "+" : null}{principalTraveler?.phoneCountry}{principalTraveler?.phone ?? "-"}</p>
                     </div>
                     <div className="flex flex-row justify-between mt-5">
                       <div className="flex flex-col items-center">
@@ -619,15 +621,24 @@ const Voyageur = () => {
                   </div>
                 </div>
                 <div className="flex flex-row flex-wrap space-x-20">
-                  <input
+                  <div className="flex flex-row">
+                    <select name="phoneCountry" value={editDataTraveler.phoneCountry} onChange={handleSelectEditTravelerChange} aria-label="Traveler's phone country" className="border-2 border-black p-1 w-[104px] h-[53px] text-[15px] rounded-xl">
+                      <option value=""></option>
+                      {listNumTel.map((num) => (
+                        <option value={num.code}>{num.country} ({num.code})</option>
+                      ))}
+                    </select>
+                    <input
                     type="number"
+                    id="phone"
                     name="phone"
                     placeholder="Numéro de téléphone portable *"
                     value={editDataTraveler.phone}
                     onChange={handleEditTravelerChange}
                     aria-label="Traveler's phone"
-                    className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
-                  />
+                    className="border-2 border-black p-1 w-full max-w-[353px] h-[53px] text-[15px] rounded-xl"
+                    />
+                  </div>
                   <input
                     type="text"
                     name="email"
@@ -638,7 +649,7 @@ const Voyageur = () => {
                     className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                   />
                 </div>
-                <select name="gender" value={editDataTraveler.gender} onChange={handleEditGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
+                <select name="gender" value={editDataTraveler.gender} onChange={handleSelectEditTravelerChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
                   <option value="">Genre *</option>
                   <option value="Homme (H)">Homme (H)</option>
                   <option value="Femme (F)">Femme (F)</option>
@@ -654,6 +665,7 @@ const Voyageur = () => {
                     </select>
                     <input
                       type="number"
+                      id="programNumber"
                       name="programNumber"
                       placeholder="Numéro de programme de fidélité"
                       value={newFidelityProgram.programNumber}
@@ -686,7 +698,7 @@ const Voyageur = () => {
                   <p>Voyageur·euse principal·e</p>
                 </div>
                 <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
-                  {(editDataTraveler.firstname === "" || editDataTraveler.lastname === "" || editDataTraveler.birthdate === "" || editDataTraveler.gender === "" || editDataTraveler.phone === "" || editDataTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2 w-[96px]">Enregistrer</button>}
+                  {(editDataTraveler.firstname === "" || editDataTraveler.lastname === "" || editDataTraveler.birthdate === "" || editDataTraveler.gender === "" || editDataTraveler.phone === null || editDataTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2 w-[96px]">Enregistrer</button>}
                   <button onClick={() => {
                     setToggleEditTraveler(!ToggleEditTraveler)
                     setEditDataTraveler({})
@@ -750,15 +762,25 @@ const Voyageur = () => {
                     </div>
                   </div>
                   <div className="flex flex-row flex-wrap space-x-20">
-                    <input
+                    <div className="flex flex-row">
+                      <select name="phoneCountry" value={newTraveler.phoneCountry} onChange={handleSelectNewTravelerChange} aria-label="Traveler's phone country" className="border-2 border-black p-1 w-[104px] h-[53px] text-[15px] rounded-xl">
+                        <option value=""></option>
+                        {listNumTel.map((num) => (
+                          <option value={num.code}>{num.country} ({num.code})</option>
+                        ))}
+                      </select>
+                      <input
                       type="number"
+                      id="phone"
                       name="phone"
                       placeholder="Numéro de téléphone portable *"
                       value={newTraveler.phone}
                       onChange={handleTravelerChange}
                       aria-label="Traveler's phone"
-                      className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
-                    />
+                      className="border-2 border-black p-1 w-[353px] h-[53px] text-[15px] rounded-xl"
+                      />
+                    </div>
+                    
                     <input
                       type="text"
                       name="email"
@@ -769,47 +791,17 @@ const Voyageur = () => {
                       className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
                     />
                   </div>
-                  <select name="gender" value={newTraveler.gender} onChange={handleGenderChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
+                  <select name="gender" value={newTraveler.gender} onChange={handleSelectNewTravelerChange} aria-label="Traveler's gender" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
                     <option value="">Genre *</option>
                     <option value="Homme (H)">Homme (H)</option>
                     <option value="Femme (F)">Femme (F)</option>
                   </select>
-                  <hr />
-                  <div className="flex flex-col justify-center space-y-2">
-                    <div className="flex flex-row space-x-4">
-                      <select name="name" id="name" value={newFidelityProgram.name} onChange={handleFidelityProgramNameChange} aria-label="Traveler's name" className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl">
-                        <option value="">Recherche de programmes de fidélité</option>
-                        {listCompanyAvion.map((company) => (
-                          <option value={company.name}>{company.name}</option>
-                        ))}
-                      </select>
-                      <input
-                        type="number"
-                        name="programNumber"
-                        placeholder="Numéro de programme de fidélité"
-                        value={newFidelityProgram.programNumber}
-                        onChange={handleFidelityProgramNumberChange}
-                        aria-label="programNumber"
-                        className="border-2 border-black p-1 w-full max-w-[457px] h-[53px] text-[15px] rounded-xl"
-                      />
-                      <p className="cursor-pointer bg-customOrange text-white" onClick={AddFidelityProgram}>+</p>
-                    </div>
-                    <hr />
-                    <div className="flex flex-col space-y-2">
-                      {listNewFidelityPrograms.map((program) => (
-                        <div className="flex flex-row space-x-4">
-                          <p>{program.name} | {program.programNumber}</p>
-                          <button onClick={() => removeFidelityProgram(program.programNumber)}>🗑️</button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
                   <div className="flex flex-row space-x-4">
                     <input type="checkbox" name="principal" onClick={() => setTogglePrincipal(!togglePrincipal)} aria-label="Traveler's principal" className="w-5 h-5 border-2 border-black text-customOrange"/>
                     <p>Voyageur·euse principal·e</p>
                   </div>
                   <div className="flex flex-row justify-center max-w-[610px] w-full space-x-10">
-                    {(newTraveler.firstname === "" || newTraveler.lastname === "" || newTraveler.birthdate === "" || newTraveler.gender === "" || newTraveler.phone === "" || newTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2">Enregistrer</button>}
+                    {(newTraveler.firstname === "" || newTraveler.lastname === "" || newTraveler.birthdate === "" || newTraveler.gender === "" || newTraveler.phone === null || newTraveler.email === "") ? <p className="text-gray-600 bg-gray-400 border-2 border-black p-2 w-[96px]">Enregistrer</p> : <button type="submit" className="text-white bg-customOrange border-2 border-black p-2">Enregistrer</button>}
                     <button onClick={() => {
                       setToggleNewTraveler(!toggleNewTraveler)
                       setNewTraveler({})
@@ -834,7 +826,7 @@ const Voyageur = () => {
                       <div className="flex flex-row space-x-60 my-2">
                         <div className="flex flex-col w-full max-w-[400px]">
                           <p className="font-semibold">{traveler.lastname} {traveler.firstname}</p>
-                          <p className="text-[15px]">{traveler.email} | +{traveler.phone}</p>
+                          <p className="text-[15px]">{traveler.email} | +{traveler.phoneCountry}{traveler.phone}</p>
                         </div>
                         <div className="flex flex-col w-full max-w-[400px]">
                           <p className="font-semibold">Programmes de fidélité</p>
