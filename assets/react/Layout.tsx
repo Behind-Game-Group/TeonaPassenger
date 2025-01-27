@@ -98,7 +98,7 @@ function Layout({ children }: { children: ReactNode }) {
         ref={sidebarRef}
         className={`fixed top-[124px] left-0 ${
           isSidebarExpanded ? "w-64 z-10" : "w-10"
-        } h-full bg-customOrange text-white border-r border-white transition-all z-10`}
+        } h-full bg-customOrange text-white border-r border-white transition-all z-50`}
       >
         <nav>
           <ul className="">
@@ -184,7 +184,7 @@ function Layout({ children }: { children: ReactNode }) {
       <main
         className={`flex-1 p-5 ${
           isSidebarVisible ? "ml-64" : "ml-0"
-        } transition-all duration-300`}
+        } transition-all duration-300 z-10`}
       >
         {authenticatorView && <div className="fixed w-[100%] h-[100%] place-content-center z-50 rounded-lg bg-transparent text-white gap-2 flex flex-col items-center justify-around top-[5rem] hover:brightness-95"><Authenticator /></div>}
         <section
@@ -199,7 +199,7 @@ function Layout({ children }: { children: ReactNode }) {
 
       {/* Footer */}
       <footer
-        className={`text-white p-8 border-t-2 border-white ${
+        className={`text-white text-sm p-8 border-t-2 border-white ${
           isSidebarExpanded ? "ml-64" : "ml-[45px]"
         } transition-all duration-300`}
       >

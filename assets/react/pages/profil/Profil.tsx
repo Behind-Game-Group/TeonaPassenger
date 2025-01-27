@@ -67,7 +67,7 @@
         <HeaderProfil currentUser={currentUser} />
 
         {/* liens profil */}
-        <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl space-x-4 overflow-x-auto liens">
+        <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl liens">
           <Link to="/profil" className="hover:underline">
             Tableau de bord
           </Link>

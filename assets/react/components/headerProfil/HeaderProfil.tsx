@@ -33,7 +33,7 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
       <div className="user-info flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
           <h1 className="header-text text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-none lg:grid-cols-2 gap-6 user-grid">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
               <p className="mt-1">{currentUser.email}</p>
