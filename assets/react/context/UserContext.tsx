@@ -7,6 +7,7 @@ interface User {
   firstName?: string;
   lastName?: string;
   email?: string;
+  airport?: string;
 }
 
 // Crée le contexte pour l'utilisateur avec le type User

@@ -58,11 +58,12 @@ class TravelerController extends AbstractController
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
             $secondName = $data['secondName'] ?? null;
+            $phoneCountry = $data['phoneCountry'] ?? null;
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$lastname || !$email || !$birthdate || !$gender || !$phone) {
-                return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone || !$phoneCountry) {
+                return new JsonResponse(['error' => 'Name, firstname, birthdate, gender and phone are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
             // Vérifie si le voyageur existe déjà
@@ -78,9 +79,20 @@ class TravelerController extends AbstractController
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
+            $traveler->setPhoneCountry($phoneCountry);
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);
+            if ($data['principal'] === true) {
+                $search = $userProfile->getTravelers();
+                foreach ($search as $t) {
+                    $t->setPrincipal(false);
+                    $travelerRepository->save($t, true);
+                }
+                $traveler->setPrincipal(true);
+            } else {
+                $traveler->setPrincipal(false);
+            }
             $userProfile->addTraveler($traveler); // Associe ce voyageur au profil utilisateur
             $em->persist($traveler);
             $em->flush();
@@ -146,6 +158,7 @@ class TravelerController extends AbstractController
 
         $user = $this->getUser();
         if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
             $id = $data['id'] ?? null;
             if (!$id) {
                 return new JsonResponse(['error' => 'Id is required'], JsonResponse::HTTP_BAD_REQUEST);
@@ -155,27 +168,41 @@ class TravelerController extends AbstractController
                 return new JsonResponse(['error' => 'Traveler not found'], JsonResponse::HTTP_NOT_FOUND);
             }
 
-            $name = $data['name'] ?? null;
+            $lastname = $data['lastname'] ?? null;
+            $firstname = $data['firstname'] ?? null;
             $email = $data['email'] ?? null;
             $birthdate = $data['birthdate'] ?? null;
             $gender = $data['gender'] ?? null;
             $secondName = $data['secondName'] ?? null;
+            $phoneCountry = $data['phoneCountry'] ?? null;
             $phone = $data['phone'] ?? null;
             $DHS = $data['DHS'] ?? null;
             $KTN = $data['KTN'] ?? null;
-            if (!$name || !$email || !$birthdate || !$gender || !$phone) {
+            if (!$lastname || !$firstname || !$birthdate || !$gender || !$phone || !$phoneCountry) {
                 return new JsonResponse(['error' => 'Name and email are required'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-            $traveler->setName($name);
+            $traveler->setFirstName($firstname);
+            $traveler->setLastName($lastname);
             $traveler->setEmail($email);
             $verifbirthdate = DateTime::createFromFormat('Y-m-d', $birthdate);
             $traveler->setBirthdate($verifbirthdate);
             $traveler->setGender($gender);
             $traveler->setSecondName($secondName);
+            $traveler->setPhoneCountry($phoneCountry);
             $traveler->setPhone($phone);
             $traveler->setDHS($DHS);
             $traveler->setKTN($KTN);
+            if ($data['principal'] === true) {
+                $search = $userProfile->getTravelers();
+                foreach ($search as $t) {
+                    $t->setPrincipal(false);
+                    $travelerRepository->save($t, true);
+                }
+                $traveler->setPrincipal(true);
+            } else {
+                $traveler->setPrincipal(false);
+            }
             $em->persist($traveler);
             $em->flush();
 

@@ -79,4 +79,13 @@ class TravelerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function save(Traveler $traveler, ?bool $isSaved = true): void
+    {
+        $this->getEntityManager()->persist($traveler);
+
+        if ($isSaved) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

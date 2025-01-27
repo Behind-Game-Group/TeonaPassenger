@@ -18,21 +18,43 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class FidelityProgramController extends AbstractController
 {
+    // #[Route('/showFidelityPrograms', name: 'app_show_fidelity_programs')]
+    // public function showFidelityPrograms(SerializerInterface $serializerInterface): JsonResponse
+    // {
+    //     $user = $this->getUser();
+    //     if ($user instanceof User) {
+    //         $userProfile = $user->getUserProfile();
+    //         $travelers = $userProfile->getTravelers();
+    //         foreach ($travelers as $traveler) {
+    //             $fidelityProgram[] = $traveler->getFidelityPrograms();
+    //         }
+    //         $data = $serializerInterface->serialize($fidelityProgram, 'json', ['groups' => ['fidelityProgram:read']]);
+    //         return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+    //     }
+
+    //     return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    // }
     #[Route('/showFidelityPrograms', name: 'app_show_fidelity_programs')]
     public function showFidelityPrograms(SerializerInterface $serializerInterface): JsonResponse
     {
         $user = $this->getUser();
-        if ($user instanceof User) {
-            $userProfile = $user->getUserProfile();
-            $travelers = $userProfile->getTravelers();
-            foreach ($travelers as $traveler) {
-                $fidelityProgram[] = $traveler->getFidelityPrograms();
-            }
-            $data = $serializerInterface->serialize($fidelityProgram, 'json', ['groups' => ['fidelityProgram:read']]);
-            return new JsonResponse($data, JsonResponse::HTTP_OK, [], true);
+        if (!$user instanceof User) {
+            return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
         }
-
-        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    
+        $userProfile = $user->getUserProfile();
+        $travelers = $userProfile->getTravelers();
+    
+        $data = [];
+    
+        foreach ($travelers as $traveler) {
+            $data[] = [
+                'id' => $traveler->getId(),
+                'fidelityProgs' => $traveler->getFidelityPrograms()
+            ];
+        }
+    
+        return new JsonResponse($serializerInterface->serialize($data, 'json', ['groups' => ['fidelityProgram:read']]), JsonResponse::HTTP_OK, [], true);
     }
 
     #[Route('/addFidelityProgram', name: 'app_add_fidelity_program')]

@@ -44,6 +44,10 @@ class Traveler
 
     #[ORM\Column(nullable: true)]
     #[Groups(['traveler:read'])]
+    private ?int $phoneCountry = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['traveler:read'])]
     private ?int $phone = null;
 
     #[ORM\Column(nullable: true)]
@@ -53,6 +57,10 @@ class Traveler
     #[ORM\Column(nullable: true)]
     #[Groups(['traveler:read'])]
     private ?int $KTN = null;
+
+    #[ORM\Column]
+    #[Groups(['traveler:read'])]
+    private ?bool $principal = null;
 
     #[ORM\ManyToOne(inversedBy: 'travelers')]
     #[ORM\JoinColumn(nullable: false)]
@@ -220,6 +228,31 @@ class Traveler
                 $fidelityProgram->setTravelerId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrincipal(): bool
+    {
+        return $this->principal;
+    }
+
+    public function setPrincipal($principal): self
+    {
+        $this->principal = $principal;
+
+        return $this;
+    }
+
+    public function getPhoneCountry(): int
+    {
+        return $this->phoneCountry;
+    }
+
+
+    public function setPhoneCountry($phoneCountry): self
+    {
+        $this->phoneCountry = $phoneCountry;
 
         return $this;
     }

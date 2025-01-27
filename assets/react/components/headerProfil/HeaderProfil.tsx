@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../styles/HeaderProfilResponsive.css"; // Import du fichier CSS pour le responsive
+import { useUserContext } from "../../context/UserContext";
+import { getMethod } from "../../services/axiosInstance";
 
-interface HeaderProfilProps {
-  currentUser: {
-    firstname: string;
-    email: string;
-    airport: string;
-    OtherAirport?: string;
-  };
+type User = {
+  firstname?: string;
+  local_airport?: string;
+  avatar?: string;
 }
 
-const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
+const HeaderProfil = () => {
   // Couleur du cercle
   const [circleColor, setCircleColor] = useState("#3B82F6"); // Bleu par défaut
   const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
@@ -26,13 +25,33 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
     setCircleColor(color);
     setIsColorPickerVisible(false); // Cacher la palette après sélection
   };
+  const [user, setUser] = useState<User>({
+    firstname: "",
+    local_airport: "",
+    avatar: ""
+  });
+  const { currentUser } = useUserContext();
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    try {
+      const response = await getMethod("/showUserProfile");
+      console.log(response);
+      setUser(response);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données utilisateur :", error);
+    }
+  };
 
   return (
     <div className="header-container flex justify-between items-center text-white p-6 w-full max-w-6xl">
       {/* Informations utilisateur */}
       <div className="user-info flex justify-between items-center text-white p-6 w-full max-w-6xl">
         <div className="space-y-4 flex flex-col">
-          <h1 className="header-text text-2xl font-bold">Bonjour {currentUser.firstname}</h1>
+          <h1 className="header-text text-2xl font-bold">Bonjour {user.firstname}</h1>
           <div className="grid grid-cols-none lg:grid-cols-2 gap-6 user-grid">
             <div>
               <p className="font-semibold">Adresse e-mail :</p>
@@ -40,7 +59,7 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
             </div>
             <div>
               <p className="font-semibold">Aéroport local :</p>
-              <p className="mt-1 underline">{currentUser.airport}</p>
+              <p className="mt-1 underline">{user.local_airport}</p>
             </div>
           </div>
         </div>
@@ -48,7 +67,7 @@ const HeaderProfil = ({ currentUser }: HeaderProfilProps) => {
           className="profile-circle relative flex items-center justify-center min-w-32 min-h-32 rounded-full text-white text-3xl font-bold"
           style={{ backgroundColor: circleColor }}
         >
-          {currentUser.firstname.charAt(0)}
+          {user.firstname?.charAt(0)}
         </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
