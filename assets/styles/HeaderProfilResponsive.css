@@ -38,8 +38,8 @@
   .color-picker-button {
     width: 33px;
     height: 33px;
-    top: 205px !important;
-    left: 200px !important;
+    top: 95px !important;
+    left: 90px !important;
   }
 
   /* Ajuster la palette de couleurs */
@@ -89,7 +89,7 @@
   .color-picker-button {
     width: 33px;
     height: 33px;
-    top: 205px !important;
+    top: 95px !important;
     left: 90px !important;
   }
 

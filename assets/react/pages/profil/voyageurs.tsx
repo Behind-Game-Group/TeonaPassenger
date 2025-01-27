@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import HeaderProfil from "../../components/headerProfil/HeaderProfil";
 import { useUserContext } from "../../context/UserContext";
 import { getMethod, postMethod } from "../../services/axiosInstance";
+import '../../../styles/preferences.css';
+import '../../../styles/voyageurs.css';
 
 interface Traveler {
   id: number;
@@ -362,7 +364,7 @@ const Voyageur = () => {
       <HeaderProfil />
 
       {/* liens profil */}
-      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl max-lg:w-[600px]">
+      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl liens">
         <Link to="/profil" className="hover:underline">
           Tableau de bord
         </Link>
@@ -384,7 +386,7 @@ const Voyageur = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6 max-lg:w-[600px]">
+      <div className="mt-10 w-full bg-white p-4 max-w-[1700px] rounded-md space-y-6 max-lg:w-[600px] settings-section">
         <h2 className="font-bold text-[20px]">Voyageur·euses</h2>
         {/* Detail de connexion en dur(a revoir faire un form) */}
         <div className="bg-white rounded-lg border p-6">
@@ -557,7 +559,7 @@ const Voyageur = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-center items-center pr-10">
+                  <div className="flex justify-center items-center pr-10 modif-button">
                     <p className="text-customOrange cursor-pointer" onClick={() => setAjout(!ajout)}>Modifier le ou la <br/> voyageur·euse</p>  
                   </div>
                 </div>

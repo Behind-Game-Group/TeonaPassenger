@@ -1,0 +1,18 @@
+@media (max-width: 640px) {
+  .settings-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 300px !important;
+    margin-right: 78px;
+  }
+
+  .link-calendar p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .modify-email p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

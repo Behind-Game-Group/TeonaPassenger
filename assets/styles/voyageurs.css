@@ -1,0 +1,14 @@
+@media (max-width: 640px) {
+    .settings-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 400px !important;
+    margin-right: 78px;
+  }
+
+  .modif-button p {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
+}
