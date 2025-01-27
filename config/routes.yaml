@@ -199,6 +199,16 @@ app_delete_airport:
   controller: App\Controller\AirportController::deleteAirport
   methods: [POST, DELETE]
 
+app_add_local_airport:
+  path: /addLocalAirport
+  controller: App\Controller\AirportController::addLocalAirport
+  methods: [POST, PUT]
+
+app_delete_local_airport:
+  path: /deleteLocalAirport
+  controller: App\Controller\AirportController::deleteLocalAirport
+  methods: [POST, DELETE]
+
 app_show_fidelity_programs:
   path: /showFidelityPrograms
   controller: App\Controller\FidelityProgramController::showFidelityPrograms

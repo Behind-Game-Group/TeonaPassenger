@@ -113,4 +113,74 @@ class AirportController extends AbstractController
 
         return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
     }
+
+    #[Route('/addLocalAirport', name: 'app_show_local_airport')]
+    public function addLocalAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+            $airport = $data['airport'] ?? null;
+            if (!$airport) {
+                return new JsonResponse(['error' => 'Airport is required'], JsonResponse::HTTP_BAD_REQUEST);
+            }
+
+            $localAirport = $airportRepository->findOneBy(['name' => $airport, 'userProfile_id' => $userProfile->getId()]);
+            if ($localAirport) {
+                $em->remove($localAirport);
+                $em->flush();
+            }
+
+            if ($userProfile->getLocalAirport() !== $airport) {
+                $userProfile->setLocalAirport($airport);
+                $em->persist($userProfile);
+                $em->flush();
+                return new JsonResponse(['message' => 'Airport added successfully'], Response::HTTP_OK);
+            }
+
+            return new JsonResponse(['error' => 'Airport already exists'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    #[Route('/deleteLocalAirport', name: 'app_delete_local_airport')]
+    public function deleteLocalAirport(EntityManagerInterface $em, Request $request, AirportRepository $airportRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // Vérification de la présence du token CSRF dans la requête
+        if (empty($data['csrfToken'])) {
+            return new JsonResponse(['error' => 'CSRF token is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validation du token CSRF
+        $csrfToken = new CsrfToken('default', $data['csrfToken']);
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(['error' => 'Invalid CSRF token'], Response::HTTP_FORBIDDEN);
+        }
+
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $userProfile = $user->getUserProfile();
+            $userProfile->setLocalAirport(null);
+            $em->persist($userProfile);
+            $em->flush();
+            return new JsonResponse(['message' => 'Airport deleted successfully'], Response::HTTP_OK);
+        }
+        return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+    }
 }
