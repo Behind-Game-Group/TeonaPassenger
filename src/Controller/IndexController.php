@@ -35,15 +35,6 @@ class IndexController extends AbstractController
         ]);
     }
 
-    // Ajout de la route
-    #[Route('/userprofil', name: 'app_userprofil')]
-    public function userprofil(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
-    }
-
     #[Route('/profil/parametres', name: 'app_parametres')]
     public function parametres(): Response
     {
@@ -76,14 +67,6 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/favorite', name: 'app_favorite')]
-    public function favorite(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
-    }
-
     #[Route('/vols/page', name: 'app_profil')]
     public function vols(): Response
     {
@@ -92,16 +75,8 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/sharedtrips', name: 'app_shared_trips', methods: ['GET'])]
-    public function sharedTrips(): Response
-    {
-        return $this->render('index/index.html.twig', [
-            'sitename' => 'Teona Passenger',
-        ]);
-    }
-
-    #[Route('/trips', name: 'app_trips', methods: ['GET'])]
-    public function Trips(): Response
+    #[Route('/trip', name: 'app_trip', methods: ['GET'])]
+    public function Trip(): Response
     {
         return $this->render('index/index.html.twig', [
             'sitename' => 'Teona Passenger',
