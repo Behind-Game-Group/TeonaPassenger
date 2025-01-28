@@ -1,0 +1,74 @@
+@media (max-width: 640px) {
+    .create-trip {
+        width: 75% !important;
+        margin-top: 90px !important;
+        padding-top: 0px !important;
+        font-size: x-small;
+    }
+
+    .date {
+        flex-direction: column !important;
+        font-size: 0.9rem;
+    }
+
+    .trip-list h2{
+        position: relative;
+        top: -18px;
+        left: -140px;
+        min-width: 100px;
+    }
+
+    .no-list {
+        margin-top: 10px;
+        position: relative;
+        top: -25px;
+        left: 85px;
+        min-width: 90px;
+    }
+
+    .button-create {
+        margin-right: 10px;
+        position: relative;
+        right: 319px;
+        min-width: 139px;
+    }
+
+    .section-trip h1{
+        position: relative;
+        right: 45px;
+    }
+
+    .list {
+        min-width: 350px !important;
+        position: relative;
+        right: 185px;
+    }
+}
+
+@media (max-width: 440px) {
+
+    .list {
+        min-width: 270px !important;
+        position: relative;
+        right: 185px;
+    }
+
+    .lists {
+        height: 143px;
+    }
+
+    .violet-list {
+        width: 10% !important;
+    }
+
+    .text-date {
+        min-width: 190px;
+    }
+
+    .buttons {
+        position: relative;
+        top: 40px;
+        right: 151px;
+    }
+
+}

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useUserContext } from '../../context/UserContext';
 import { deleteMethod, getMethod, postMethod, putMethod } from '../../services/axiosInstance';
+import '../../../styles/trip.css';
+
 
 type Trip = {
     id: number;
@@ -203,24 +205,24 @@ export default function trip() {
     return (
         <div className='relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10'>
             <div className='flex flex-col items-center justify-center w-full max-w-[1000px]'>
-                <div className='flex flex-row justify-between items-center w-full my-10'>
+                <div className='flex flex-row justify-between items-center w-full my-10 section-trip'>
                     <h1 className='text-5xl font-bold text-white'>Trips</h1>
-                    <button onClick={() => setplus(!plus)} className='bg-white text-black p-2 rounded-md'>Créer un Voyage</button>
+                    <button onClick={() => setplus(!plus)} className='bg-white text-black p-2 rounded-md button-create'>Créer un Voyage</button>
                 </div>
-                <div className='w-full'>
+                <div className='w-full trip-list'>
                     <h2 className='text-white my-3'>Liste des Trips</h2>
-                    <div className='flex flex-col gap-4 w-full'>
+                    <div className='flex flex-col gap-4 w-full list'>
                         {trips.length > 0 ? (
                             trips.map((trip) => (
-                                <div key={trip.id} className='flex flex-row w-full'>
-                                    <div className='bg-[#562D80] w-[20%]'></div>
+                                <div key={trip.id} className='flex flex-row w-full lists'>
+                                    <div className='bg-[#562D80] w-[20%] violet-list'></div>
                                     <div className='flex flex-row gap-2 bg-white p-4 w-[80%] justify-between'>
                                         <div className='flex flex-col gap-1'>
                                             <p className='font-bold text-[15px]'>{trip.name}</p>
                                             <p className='text-[15px]'>{trip.destination}</p>
-                                            <p>{trip.departureDate} - {trip.arrivalDate}</p>
+                                            <p className='text-date'>{trip.departureDate} - {trip.arrivalDate}</p>
                                         </div>
-                                        <div className='flex flex-row gap-1'>
+                                        <div className='flex flex-row gap-1 buttons'>
                                             <button onClick={() => handleEditTrip(trip)} className=' text-blue-500'>Modifier</button>
                                             <button onClick={() => handleDeleteTrip(trip.id)} className=' text-blue-500'>Supprimer</button>
                                         </div>
@@ -228,13 +230,13 @@ export default function trip() {
                                 </div>
                             ))
                         ) : (
-                            <p className='text-white'>Aucun trip trouvé.</p>
+                            <p className='text-white no-list'>Aucun trip trouvé.</p>
                         )}
                     </div>
                 </div>
                 {plus && (
-                    <div className='flex flex-col items-center justify-around fixed top-0 left-0 right-0 bottom-0 bg-customOrangeOpacity z-10'>
-                        <div className='bg-white w-full max-w-[480px] p-5'>
+                    <div className='flex flex-col items-center justify-around fixed top-0 left-0 right-0 bottom-0 bg-customOrangeOpacity z-10 '>
+                        <div className='bg-white w-full max-w-[480px] mt-[90px] p-5 rounded create-trip'>
                             <div className='flex flex-row justify-between items-center'>
                                 <h1 className='text-[20px] font-bold my-4'>{tripToEdit ? 'Éditer un voyage' : 'Créer un voyage'}</h1>
                                 <button onClick={() => {setplus(!plus), resetForm()}}>X</button>
@@ -260,7 +262,7 @@ export default function trip() {
                                         className='rounded-md p-2 w-full max-w-full border-gray-500 border text-black'
                                     />
                                 </div>
-                                <div className='flex flex-row gap-3'>
+                                <div className='flex flex-row gap-3 date'>
                                     <div className='flex flex-col'>
                                         <label htmlFor="departureDate" className='text-black text-[15px]'>Date de début</label>
                                         <input

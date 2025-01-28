@@ -26,9 +26,6 @@ class TripsController extends AbstractController
         ]);
     }
 
-
-
-
     #[Route('/trip/add', name: 'app_add_trip', methods: ['POST'])]
     public function addTrip(Request $request, TripRepository $tripRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
