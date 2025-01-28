@@ -1,5 +1,5 @@
 @media (max-width: 640px) {
-    .settings-section {
+  .settings-section {
     padding-left: 1rem;
     padding-right: 1rem;
     width: 400px !important;
@@ -10,5 +10,30 @@
     position: relative;
     top: 180px;
     left: 2px;
+  }
+
+  .voyageur-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 400px !important;
+    margin-left: -40px !important;
+  }
+
+  .date-section {
+    align-items: normal !important;
+    margin-left: -46px;
+    width: 216px;
+  }
+
+  .num-section {
+    margin-left: -8px;
+  }
+
+  .modif-button p {
+    position: relative;
+    top: 152px;
+    left: -170px;
+    font-size: smaller;
+    width: 100px;
   }
 }
