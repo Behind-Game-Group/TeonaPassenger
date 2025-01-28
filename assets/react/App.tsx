@@ -5,7 +5,7 @@ import Home from './pages/home/Home';
 import VolsPage from './pages/vols/page';
 import UserProvider from './context/UserContext';
 import Profil from './pages/profil/Profil';
-import Trip from './pages/trips/trip';
+import Trip from './pages/trips/Trip';
 import Parametres from './pages/profil/parametres';
 import Preferences from './pages/profil/preferences';
 import Voyageur from './pages/profil/voyageurs';

@@ -18,6 +18,23 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TripsController extends AbstractController
 {
+
+    #[Route('/trips', name: 'app_trips', methods: ['POST'])]
+    public function index(): Response
+    {
+        // Logique pour récupérer les voyages ou toute autre donnée
+        // Par exemple, récupérer une liste de voyages depuis la base de données
+        // $trips = $this->getDoctrine()->getRepository(Trip::class)->findAll();
+
+        // Retourner une vue avec les données (si nécessaire)
+        return $this->render('index/index.html.twig', [
+            // 'trips' => $trips
+        ]);
+    }
+
+
+
+
     #[Route('/trip/add', name: 'app_add_trip', methods: ['POST'])]
     public function addTrip(Request $request, TripRepository $tripRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
