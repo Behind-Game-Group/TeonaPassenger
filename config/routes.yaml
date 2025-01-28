@@ -36,18 +36,9 @@ app_vols:
   path: "/vols/page"
   controller: 'App\Controller\IndexController::vols'
 
-app_favorite:
-  path: "/favorite"
-  controller: 'App\Controller\IndexController::favorite'
-
-app_shared_trips:
-  path: "/sharedtrips"
-  controller: 'App\Controller\IndexController::sharedTrips'
-  methods: GET
-
-app_trips:
-  path: "/trips"
-  controller: 'App\Controller\IndexController::Trips'
+app_trip:
+  path: "/trip"
+  controller: 'App\Controller\IndexController::Trip'
   methods: GET
 
 app_expeditors:
