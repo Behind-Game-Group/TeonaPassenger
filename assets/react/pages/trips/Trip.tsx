@@ -241,7 +241,7 @@ export default function trip() {
                                 <h1 className='text-[20px] font-bold my-4'>{tripToEdit ? 'Éditer un voyage' : 'Créer un voyage'}</h1>
                                 <button onClick={() => {setplus(!plus), resetForm()}}>X</button>
                             </div>
-                            <section className='flex flex-col gap-4'>
+                            <section className='flex flex-col gap-4 section-create-trip'>
                                 <div className='flex flex-col'>
                                     <label htmlFor="destination" className='text-black text-[15px]'>Destination</label>
                                     <input

@@ -58,7 +58,7 @@ export default function ProfilButton() {
             >
               <ul className="flex flex-col text-sm text-gray-800">
                 <li className="px-4 py-2 hover:bg-gray-100 text-center">
-                  <Link to="/trip" onClick={() => setMenuOpen(false)}>
+                  <Link to="/trips" onClick={() => setMenuOpen(false)}>
                     Trip
                   </Link>
                 </li>
