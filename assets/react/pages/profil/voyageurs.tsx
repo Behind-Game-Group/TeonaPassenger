@@ -643,7 +643,7 @@ const Voyageur = () => {
               </>
             ) : (
               <>
-                <div className="flex flex-row justify-between mb-5 max-w-6xl">
+                <div className="flex flex-row justify-between mb-5 max-w-6xl infos-section">
                   {/* Informations de base */}
                   <div className="flex flex-col items-start">
                     <p className="font-semibold text-[15px] text-center">
@@ -673,7 +673,7 @@ const Voyageur = () => {
 
                 <div className="flex flex-row justify-between my-5">
                   {/* Section principale */}
-                  <div className="flex flex-col w-full max-w-lg space-y-6">
+                  <div className="flex flex-col w-full max-w-lg space-y-6 infos-section">
                     {/* Date de naissance et sexe */}
                     <div className="flex flex-row justify-between ">
                       <div className="flex flex-col items-start date-section">
@@ -1134,7 +1134,7 @@ const Voyageur = () => {
 
                     return (
                       <>
-                        <div className="flex flex-row space-x-60 my-2">
+                        <div className="flex flex-row space-x-60 my-2 companion-section">
                           <div className="flex flex-col w-full max-w-[400px]">
                             <p className="font-semibold">
                               {traveler.lastname} {traveler.firstname}

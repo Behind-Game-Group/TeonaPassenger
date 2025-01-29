@@ -152,7 +152,7 @@
         {/* Modal */}
         {selectedSearch && (
           <div className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96 modal-search">
               <h2 className="text-lg font-bold mb-4">Détails de la recherche</h2>
               <p>
                 <strong>Itinéraire :</strong> {selectedSearch.route}

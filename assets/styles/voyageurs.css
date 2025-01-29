@@ -36,4 +36,44 @@
     font-size: smaller;
     width: 100px;
   }
+
+  .companion-section {
+    flex-direction: column !important;
+    align-items: end !important;
+  }
+}
+
+@media (max-width: 440px) {
+
+  .liens {
+    margin-right: 117px !important;
+    padding-inline: 168px;
+    padding-block: 10px;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    -moz-column-gap: 8rem;
+    column-gap: 7rem;
+    text-align: center !important;
+    justify-content: center !important;
+    justify-items: center;
+    align-items: center !important;
+    background-color: peru;
+    border-radius: 15px;
+  }
+  
+  .settings-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 340px !important;
+    margin-right: 113px;
+}
+
+.infos-section {
+  flex-direction: column !important;
+}
+
+.companion-section {
+  flex-direction: column !important;
+  align-items: end !important;
+}
 }
