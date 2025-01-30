@@ -31,8 +31,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row items-center justify-center space-y-4 xl:space-y-0 xl:space-x-4 p-2 bg-customBlue shadow-md rounded-lg w-full max-w-6xl mt-6">
-      <div className="relative">
+    <div className="flex flex-col xl:flex-row items-center justify-center space-y-4 xl:space-y-0 xl:space-x-4 p-2 bg-customBlue shadow-md rounded-lg w-full max-w-full mt-6">
+      <div className="relative w-full sm:w-auto">
         {/* Aéroport départ */}
         <FaPlane
           size={20}
@@ -43,7 +43,7 @@ const SearchBar = () => {
           placeholder="De..."
           value={departureAirport}
           onChange={(e) => setDepartureAirport(e.target.value)}
-          className="w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -58,7 +58,7 @@ const SearchBar = () => {
         />
       </div>
 
-      <div className="relative">
+      <div className="relative w-full sm:w-auto">
         {/* Aéroport arrivée */}
         <FaPlane
           size={20}
@@ -69,11 +69,11 @@ const SearchBar = () => {
           placeholder="A..."
           value={arrivalAirport}
           onChange={(e) => setArrivalAirport(e.target.value)}
-          className="w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-[215px] h-[42px] pl-12 bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
-      <div className="w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
+      <div className="w-full sm:w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
         {/* Date aller */}
         <DatePicker
           selected={departureDate}
@@ -85,7 +85,7 @@ const SearchBar = () => {
         />
       </div>
 
-      <div className="w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
+      <div className="w-full sm:w-[215px] h-[42px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.25)] rounded-[25px] flex justify-center items-center">
         {/* Date retour */}
         <DatePicker
           selected={returnDate}
@@ -97,7 +97,7 @@ const SearchBar = () => {
         />
       </div>
 
-      <button className="w-[162px] h-[46px] border-[1px] border-white rounded-[27px] flex flex-row justify-end items-center p-[8px] gap-[14px] hover:brightness-95">
+      <button className="w-full sm:w-[162px] h-[46px] border-[1px] border-white rounded-[27px] flex flex-row justify-end items-center p-[8px] gap-[14px] hover:brightness-95">
         {/* Bouton de recherche */}
         <span className="w-[71px] h-[20px] text-white text-[15px] leading-[20px] font-roboto font-normal">
           Rechercher
@@ -109,6 +109,7 @@ const SearchBar = () => {
         />
       </button>
     </div>
+
   );
 };
 

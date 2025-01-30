@@ -15,7 +15,7 @@ function Layout({ children }: { children: ReactNode }) {
   const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false); // État pour la largeur de la barre latérale
   const { currentUser, updateUser, authenticatorView } = useUserContext();
-  const {user, isLoading } = useAuth0();
+  const { user, isLoading } = useAuth0();
   const [loginView, setLoginView] = useState<boolean>(false);
   const [registerView, setRegisterView] = useState<boolean>(false);
 
@@ -34,34 +34,34 @@ function Layout({ children }: { children: ReactNode }) {
       // Si l'utilisateur n'est pas connecté, rediriger vers Auth0
       if (user) {
         // Si on arrive ici, c'est que l'utilisateur est déjà connecté avec Auth0
-      const url = '/auth0/callback';
-      const data = { 
-          email: user.email, 
-          given_name: user.given_name, 
-          family_name: user.family_name, 
-          nickname: user.nickname, 
-          picture: user.picture, 
+        const url = '/auth0/callback';
+        const data = {
+          email: user.email,
+          given_name: user.given_name,
+          family_name: user.family_name,
+          nickname: user.nickname,
+          picture: user.picture,
           sub: user.sub,
           updated_at: user.updated_at,
           email_verified: user.email_verified
-      };
+        };
 
-      const response = await postMethod(url, data);
-      console.log('Réponse du serveur après la requête POST :', response);
+        const response = await postMethod(url, data);
+        console.log('Réponse du serveur après la requête POST :', response);
 
-      if (response) {
-        updateUser({ 
-            firstName: user.given_name, 
-            lastName: user.family_name, 
-            email: user.email 
-        });
-        console.log("Votre compte a bien été créé !");
-        window.location.reload();
+        if (response) {
+          updateUser({
+            firstName: user.given_name,
+            lastName: user.family_name,
+            email: user.email
+          });
+          console.log("Votre compte a bien été créé !");
+          window.location.reload();
+        }
       }
+    } catch (error) {
+      console.error('Erreur lors de la requête POST :', error);
     }
-      } catch (error) {
-          console.error('Erreur lors de la requête POST :', error);
-      }
   };
 
   // Fermeture de la barre latérale si l'utilisateur clique à l'extérieur
@@ -83,11 +83,11 @@ function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-        // Vérifier si on revient d'une authentification Auth0
-        if (user && !isLoading) {
-            postAuth0Info();
-        }
-    }, [user, isLoading]);
+    // Vérifier si on revient d'une authentification Auth0
+    if (user && !isLoading) {
+      postAuth0Info();
+    }
+  }, [user, isLoading]);
 
   console.log(authenticatorView);
 
@@ -96,9 +96,8 @@ function Layout({ children }: { children: ReactNode }) {
       {/* Bare latéral */}
       <aside
         ref={sidebarRef}
-        className={`fixed top-[124px] left-0 ${
-          isSidebarExpanded ? "w-64 z-10" : "w-10"
-        } h-full bg-customOrange text-white border-r border-white transition-all z-50`}
+        className={`fixed top-[124px] left-0 ${isSidebarExpanded ? "w-64 z-10" : "w-10"
+          } h-full bg-customOrange text-white border-r border-white transition-all z-50 hidden sm:block`}
       >
         <nav>
           <ul className="">
@@ -182,68 +181,65 @@ function Layout({ children }: { children: ReactNode }) {
       <Header isSidebarExpanded={isSidebarExpanded} toggleExpandSidebar={toggleExpandSidebar} />
       {/* Main Content */}
       <main
-        className={`flex-1 p-5 ${
-          isSidebarVisible ? "ml-64" : "ml-0"
-        } transition-all duration-300 z-10`}
+        className={`flex-1 p-5 ${isSidebarVisible ? "ml-64" : "ml-0"
+          } transition-all duration-300 z-10`}
       >
         {authenticatorView && <div className="fixed w-[100%] h-[100%] place-content-center z-50 rounded-lg bg-transparent text-white gap-2 flex flex-col items-center justify-around top-[5rem] hover:brightness-95"><Authenticator /></div>}
         <section
-          className={`mt-32 ${
-            isSidebarVisible ? "ml-64" : "mr-36"
-          } transition-all duration-300`}
+          className={`mt-32 ${isSidebarVisible ? "ml-64" : "mr-36"
+            } transition-all duration-300`}
         >
-          
+
           {children}
         </section>
       </main>
 
       {/* Footer */}
       <footer
-        className={`text-white text-sm p-8 border-t-2 border-white ${
-          isSidebarExpanded ? "ml-64" : "ml-[45px]"
-        } transition-all duration-300`}
+        className={`text-white text-sm p-8 border-t-2 border-white ${isSidebarExpanded ? "ml-64" : "ml-[45px]"
+          } transition-all duration-300`}
       >
         <div className="flex justify-between gap-8">
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Entreprise</h3>
             <a href="#">
-            <p>A propos</p>
+              <p>A propos</p>
             </a>
             <a href="#">
-            <p>Offres d'emploi</p>
+              <p>Offres d'emploi</p>
             </a>
             <a href="#">
-            <p>Mobil Discover</p>
+              <p>Mobil Discover</p>
             </a>
             <a href="#">
-            <p>Notre fonctionnement</p>
+              <p>Notre fonctionnement</p>
             </a>
             <a href="#">
-            <p>Codes de réductions THEONA</p>
+              <p>Codes de réductions THEONA</p>
             </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Contact</h3>
             <a href="">
-            <p>Aide/FAQ</p>
+              <p>Aide/FAQ</p>
             </a>
             <a href="">
-            <p>Presse</p>
+              <p>Presse</p>
             </a>
             <a href="">
-            <p>Affiliation</p>
+              <p>Affiliation</p>
             </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
             <h3 className="border-b-2 border-white pb-2">Plus</h3>
             <a href="">
-            <p>Frais de compagnies</p>
+              <p>Frais de compagnies</p>
             </a>
             <a href="">
-            <p>Compagnies aériennes</p>
+              <p>Compagnies aériennes</p>
             </a>
             <a href="">
-            <p>Trains et bus</p>
+              <p>Trains et bus</p>
             </a>
           </div>
           <div className="flex flex-col space-y-4 w-1/4">
