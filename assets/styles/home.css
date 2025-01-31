@@ -2,65 +2,146 @@
 
 /* For screens smaller than 768px */
 @media (max-width: 768px) {
-    .search-bar-container {
-      padding: 1rem;
-    }
-  
-    .carousel-section {
-      grid-template-columns: 1fr;
-    }
-  
-    .offer-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    .image-map-container {
-      width: 100%;
-      margin-top: 2rem;
-    }
-  
-    .direct-route-section {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .popular-tools-links {
-      flex-direction: column;
-      align-items: center;
-    }
 
-    .newsletter-section {
-        width: 400px !important;
-    }
+  /* .carousel-section {
+    grid-template-columns: 1fr;
+  } */
 
-    .newsletter-input-container {
-        width: 300px !important;
-    }
+  .offer-grid {
+    grid-template-columns: 1fr;
   }
-  
+
+  .image-map-container {
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .direct-route-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .popular-tools-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .newsletter-section {
+    width: 400px !important;
+  }
+
+  .newsletter-input-container {
+    width: 300px !important;
+  }
+
+  .auth-section {
+    width: 75% !important;
+    position: relative !important;
+    top: -6%;
+  }
+
+  .auth-title {
+    font-size: 1.2rem !important;
+  }
+
+  .auth-text {
+    font-size: 1rem !important;
+    text-align: center !important;
+  }
+
+  .auth-text2 {
+    font-size: 1rem !important;
+    text-align: center !important;
+    margin-top: -15px;
+  }
+
+  .auth-buttons {
+    font-size: 1rem !important;
+  }
+
+}
+
   /* For screens smaller than 460px */
-  @media (max-width: 460px) {
-    .search-bar-container {
-      padding: 0.5rem;
-    }
-  
-    .carousel-section {
+  @media (max-width: 480px) {
+
+
+    /* .carousel-section {
       flex-direction: column;
+      grid-template-columns: repeat(2, minmax(0, 2fr));
+    } */
+
+    .trending-group {
+      grid-template-columns: repeat(3, minmax(0, 3fr)) !important;
+        gap: 121px !important;
+        position: relative;
+        right: 100px;
     }
-  
+
+    .relative-group {
+      min-width: 100px !important;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 271px;
+    }
+
     .offer-item {
       padding: 2rem;
       width: 100%;
     }
-  
+
+    .trending-title {
+      text-align: center;
+      position: relative;
+      right: 45px;
+    }
+
+    .popular-tools-section {
+      position: relative;
+      right: 50px;
+      width: 250px !important;
+      text-align: center;
+    }
+
+    .popular-tools-links {
+      position: relative;
+      right: 2px;
+    }
+
     .newsletter-button {
       padding: 0.5rem;
       width: 100%;
     }
 
     .trending-cities-section {
-        flex-direction: column;
-        grid: auto / 1fr;
+      flex-direction: column;
+      grid: auto / 1fr;
+    }
+
+    .auth-section {
+      width: 83% !important;
+      position: relative !important;
+      top: -6%;
+    }
+  
+    .auth-title {
+      font-size: 18px !important;
+      margin-top: -12px;
+      text-align: center !important;
+    }
+  
+    .auth-text {
+      font-size: 12px !important;
+      text-align: center !important;
+      margin-top: -14px;
+    }
+  
+    .auth-text2 {
+      font-size: 11px !important;
+      text-align: center !important;
+      margin-top: -25px;
+    }
+  
+    .auth-buttons {
+      font-size: 1rem !important;
     }
   }
-  

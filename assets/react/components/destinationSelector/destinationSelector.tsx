@@ -48,7 +48,7 @@ const DestinationSelector: React.FC = () => {
 
   return (
     <div className="relative top-10 lg:right-[318px] isolate z-20">
-      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-[16px_14px] gap-y-4 w-full">
+      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-[16px_14px] gap-y-4 w-full ml-4 lg:ml-0 mb-2 lg:mb-0">
         <h2 className="w-[505px] h-[44px] text-white font-lucida font-medium text-[32px] leading-[40px] text-center lg:text-left">
           Où voulez-vous partir ?
         </h2>

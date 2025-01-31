@@ -16,6 +16,7 @@ import FAQSection from "../../components/FAQSection/FAQSection";
 import Carousel from "../../components/Carrousel/Carrousel";
 import DestinationSelector from "../../components/destinationSelector/destinationSelector";
 import '../../../styles/home.css';
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const HomePage = () => {
   const [isSidebarExpanded] = useState(true);
@@ -35,20 +36,29 @@ const HomePage = () => {
     });
   }, []);
 
+  const { width, height } = useWindowDimensions();
+
+  const phoneSize = width < 390;
+
+  const lgScreen = width > 1300;
+
+  // console.log( "Width :", width, "Height :", height);
+  
+
   return (
     <div
-      className={`relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ${
-        isSidebarExpanded ? "ml-64 lg:ml-64 md:ml-20 sm:ml-10 z-10" : "mr-36"
-      }`}
+      className={`relative flex flex-col top-[-1.8rem] items-center bg-customOrange min-h-screen ${isSidebarExpanded ? "lg:ml-64 md:ml-20 sm:ml-10 z-10" : "mr-36"
+        } ${phoneSize ? "pl-4" : "pl-4"}`}
     >
-      <DestinationSelector />
 
-      <div className="search-bar-container">
+      <DestinationSelector />
+  
+      <div className="search-bar-container w-full lg:w-auto">
         <SearchBar />
       </div>
 
-      <div className="carousel-section hidden lg:grid-cols-2 xl:flex xl:justify-center xl:mt-10">
-        <div className="flex gap-[4.5rem]">
+      <div className="carousel-section lg:grid-cols-2 xl:justify-center xl:mt-10 mt-10 flex">
+        <div className={`flex gap-[4.5rem] flex-col ${lgScreen ? "lg:flex-row" : ""}`}>
           <Link to={`/resultat/${encodeURIComponent("Batoumi")}`} className="destination-link">
             <div className="destination-card w-[310px] h-[100px] bg-[#009DD7] rounded-[15px] flex dynamic-destination">
               <img
@@ -91,10 +101,10 @@ const HomePage = () => {
       </div>
 
       <div className="offer-section w-full max-w-6xl mt-10 px-4 content-center">
-        <h2 className="offer-title text-2xl text-white font-bold text-center mb-6">
+        <h2 className="offer-title text-2xl text-white font-bold text-center mb-6 ml-10">
           Ce que Teona vous propose
         </h2>
-        <div className="offer-grid grid grid-cols-2 mr-[61px] ml-[-61px] gap-x-[8.5rem] gap-y-[2.5rem] sm:grid-cols-2 md:grid-cols-4 sm:gap-6 sm:mx-auto">
+        <div className="offer-grid grid grid-cols-2 mr-[61px] lg:ml-[-61px] gap-x-[8.5rem] gap-y-[2.5rem] sm:grid-cols-2 md:grid-cols-4 sm:gap-6 sm:mx-auto ml-10">
           <Link to="/resultat" className="offer-item-link">
             <div className="offer-item flex flex-col items-center p-4 bg-white shadow-md rounded-lg w-[120px] sm:w-auto">
               <FaPlane size={40} className="offer-icon text-blue-500 mb-4" />
@@ -127,7 +137,7 @@ const HomePage = () => {
         />
       </div>
 
-      <div className="explore-world-section w-full max-w-6xl mt-10 pl-4 text-white">
+      <div className="explore-world-section w-full max-w-6xl mt-10 pl-4 text-white ml-8 lg:ml-0">
         <h2 className="explore-title text-3xl font-bold">Explorer le monde</h2>
         <p className="explore-text text-lg">
           Trouver des vols, des hébergements, des véhicules, des ferries, des

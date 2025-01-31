@@ -27,13 +27,13 @@ const TrendingCities = () => {
 
   return (
     <section className="w-full max-w-6xl mt-10 px-4 ${isSidebarVisible ? 'ml-64' : 'ml-10'} py-6">
-      <h2 className="text-3xl font-bold text-white text-center">
+      <h2 className="text-3xl font-bold text-white text-center trending-title">
         Villes tendance
       </h2>
-      <p className="text-center text-white mb-8">Les destinations les plus recherchées sur notre site</p>
-      <div className="grid grid-cols-2 w- md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 max-w-6xl mx-auto">
+      <p className="text-center text-white mb-8 trending-title">Les destinations les plus recherchées sur notre site</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 max-w-6xl mx-auto trending-group">
         {cities.map((city, index) => (
-          <div key={index} className="relative group">
+          <div key={index} className="relative group relative-group">
             <a href="#">
             <img
               src={city.image}

@@ -97,33 +97,33 @@ export default function Authenticator() {
     }
 
     return (
-        <div className="relative w-[60%] p-4 h-[70%] z-[100] place-content-centerrounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95">
+        <div className="relative w-[60%] p-4 h-[70%] z-[100] place-content-centerrounded-lg bg-white text-white gap-2 flex flex-col items-center justify-around hover:brightness-95 auth-section">
             <div className='flex flex-col items-center justify-around'>
-                <h2 className='text-black text-2xl'>Bienvenue sur TEONA PASSENGER.</h2>
-                <h2 className='text-black text-2xl'>C'est parti pour un tour</h2>
+                <h2 className='text-black text-2xl auth-title'>Bienvenue sur TEONA PASSENGER.</h2>
+                <h2 className='text-black text-2xl auth-title'>C'est parti pour un tour</h2>
             </div>
             <>
-                <h3 className='text-black text-xl w-[80%]'>Connectez-vous ou créez un compte pour enregistrer des recherches, créer des Alertes de prix, voir les Offres privées et plus encore.</h3>
+                <h3 className='text-black text-xl w-[80%] auth-text'>Connectez-vous ou créez un compte pour enregistrer des recherches, créer des Alertes de prix, voir les Offres privées et plus encore.</h3>
             </>
-            <div className='flex flex-row items-center justify-around w-full h-10'>
-                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl' onClick={LoginGoogle}><FcGoogle />Google</button>
-                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><FaApple />Apple</button>
+            <div className='flex flex-row items-center justify-around w-full h-10 '>
+                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl auth-buttons' onClick={LoginGoogle}><FcGoogle />Google</button>
+                <button className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl auth-buttons'><FaApple />Apple</button>
                 {!isLoading && !user && (<button onClick={() =>
                     // setWebAuthInView(!webAuthInView)
                     loginWithRedirect()
-                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiAuth0 />Auth0</button>)}
+                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl auth-buttons'><SiAuth0 />Auth0</button>)}
                 {!isLoading && user && (<button onClick={() =>
                     // setWebAuthInView(!webAuthInView)
                     logout()
-                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl'><SiAuth0 />Déconnexion</button>)}
+                } className='flex flex-row rounded-md p-2 border-gray-500 border items-center gap-2 text-black text-2xl auth-buttons'><SiAuth0 />Déconnexion</button>)}
             </div>
             <div className='flex flex-row p-2 items-center gap-2 justify-around w-[80%] h-auto'>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
-                <span className='text-black text-xl text-center'>ou</span>
+                <span className='text-black text-xl text-center auth-text'>ou</span>
                 <div className='w-[50%] h-[2px] bg-gray-500' />
             </div>
                 <>
-                    <span className='text-black text-xl text-center'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></span>
+                    <span className='text-black text-xl text-center auth-text2'>{register ? 'Inscrivez-' : 'Connectez-'}vous avec votre adresse mail et votre mot de passe ou <button className='text-customBlue text-xl' onClick={() => setRegister(!register)}>{register ? 'connectez' : 'inscrivez'} vous ici</button></span>
                     <form onSubmit={(e) => { e.preventDefault(); userEmail && password && postData(); }} 
                         className='flex flex-col p-2 items-center gap-3 justify-around w-[80%] h-auto'>
                         {error && <span className='text-red-500 text-xl'>{error}</span>}

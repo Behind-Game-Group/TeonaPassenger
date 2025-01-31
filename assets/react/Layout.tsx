@@ -9,6 +9,7 @@ import Authenticator from "./components/authenticator/Authenticator";
 import { useUserContext } from "./context/UserContext";
 import { getMethod, postMethod } from "./services/axiosInstance";
 import { useAuth0 } from "@auth0/auth0-react";
+import useWindowDimensions from "./hooks/useWindowDimensions";
 
 function Layout({ children }: { children: ReactNode }) {
   // Gestion de l'état de la barre latérale
@@ -91,13 +92,20 @@ function Layout({ children }: { children: ReactNode }) {
 
   console.log(authenticatorView);
 
+
+  const { width, height } = useWindowDimensions();
+
+  const iconSize = width < 768 ? 16 : width < 1280 ? 20 : 24;
+
+
+
   return (
     <div className="flex flex-col max-h-full bg-customOrange mx-auto">
       {/* Bare latéral */}
       <aside
         ref={sidebarRef}
-        className={`fixed top-[124px] left-0 ${isSidebarExpanded ? "w-64 z-10" : "w-10"
-          } h-full bg-customOrange text-white border-r border-white transition-all z-50 hidden sm:block`}
+        className={`fixed top-[124px] left-0 ${isSidebarExpanded ? "w-32 sm:w-64 z-10" : "w-10"
+          } h-full bg-customOrange text-white border-r border-white transition-all z-50`}
       >
         <nav>
           <ul className="">
@@ -106,7 +114,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="/vols/page"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 transition-colors border-t border-b border-white"
               >
-                <FaPlane size={20} />
+                <FaPlane size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Vols</span>}
               </Link>
             </li>
@@ -115,7 +123,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="/hebergements"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FaBed size={20} />
+                <FaBed size={iconSize} />
                 {isSidebarExpanded && (
                   <span className="ml-2">Hébergements</span>
                 )}
@@ -126,7 +134,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <AiOutlineCar size={20} />
+                <AiOutlineCar size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Voitures</span>}
               </Link>
             </li>
@@ -135,7 +143,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FiSun size={20} />
+                <FiSun size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Vol+Hôtel</span>}
               </Link>
             </li>
@@ -144,7 +152,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FaShip size={20} />
+                <FaShip size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Black Sea</span>}
               </Link>
             </li>
@@ -153,7 +161,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FiTruck size={20} />
+                <FiTruck size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Bus</span>}
               </Link>
             </li>
@@ -162,7 +170,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FaShip size={20} />
+                <FaShip size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Ferry</span>}
               </Link>
             </li>
@@ -171,7 +179,7 @@ function Layout({ children }: { children: ReactNode }) {
                 to="#"
                 className="flex items-center hover:bg-white hover:text-orange-400 p-2 border-b border-white"
               >
-                <FiTag size={20} />
+                <FiTag size={iconSize} />
                 {isSidebarExpanded && <span className="ml-2">Carnet</span>}
               </Link>
             </li>
@@ -181,12 +189,12 @@ function Layout({ children }: { children: ReactNode }) {
       <Header isSidebarExpanded={isSidebarExpanded} toggleExpandSidebar={toggleExpandSidebar} />
       {/* Main Content */}
       <main
-        className={`flex-1 p-5 ${isSidebarVisible ? "ml-64" : "ml-0"
+        className={`flex-1 p-5 ${isSidebarVisible ? "xl:ml-64" : "ml-0"
           } transition-all duration-300 z-10`}
       >
         {authenticatorView && <div className="fixed w-[100%] h-[100%] place-content-center z-50 rounded-lg bg-transparent text-white gap-2 flex flex-col items-center justify-around top-[5rem] hover:brightness-95"><Authenticator /></div>}
         <section
-          className={`mt-32 ${isSidebarVisible ? "ml-64" : "mr-36"
+          className={`mt-32 ${isSidebarVisible ? "xl:ml-64" : "xl:mr-36"
             } transition-all duration-300`}
         >
 
