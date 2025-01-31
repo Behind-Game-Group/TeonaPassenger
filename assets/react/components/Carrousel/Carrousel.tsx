@@ -57,7 +57,7 @@ const Carousel = () => {
                 <img
                   src={card.image}
                   alt={card.title}
-                  className="h-[200px] lg:h-[300px] w-full object-cover"
+                  className="h-[200px] lg:h-[300px] w-full object-cover image-carousel"
                 />
               </div>
             </div>

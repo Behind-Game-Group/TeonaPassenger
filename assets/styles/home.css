@@ -70,8 +70,13 @@ body {
   }
 
   .carousel {
-    visibility: hidden;
-    display: none;
+    position: relative;
+    left: 56px;
+    width: 64%;
+  }
+
+  .image-carousel {
+    height: 102px !important;
   }
 
   .search-bar-container {
