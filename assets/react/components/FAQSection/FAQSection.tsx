@@ -36,7 +36,7 @@ const FAQSection: React.FC = () => {
   };
 
   return (
-    <section className="py-10 text-white">
+    <section className="py-10 text-white faq-section">
       <h2 className="text-3xl font-bold text-center mb-6">
         Comment trouver des vols pas chers sur notre site ?
       </h2>

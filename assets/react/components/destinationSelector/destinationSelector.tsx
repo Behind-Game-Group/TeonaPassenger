@@ -47,7 +47,7 @@ const DestinationSelector: React.FC = () => {
   };
 
   return (
-    <div className="relative top-10 xl:right-[318px] isolate z-20">
+    <div className="relative top-10 xl:right-[318px] isolate z-20 destination-selector">
       <div className="absolute top-0 left-[-60px] flex flex-wrap items-end content-start gap-[16px_14px] w-[853px] h-[103px]">
         <h2 className="w-[505px] h-[44px] text-white font-lucida font-medium text-[32px] leading-[40px] text-center">
           Où voulez-vous partir ?
@@ -66,7 +66,7 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("tripType")}
           />
           {activeDropdown === "tripType" && (
-            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-72 flex flex-col gap-2 z-50">
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-72 flex flex-col gap-2 z-50 modal-destination-selector2">
               <p>Quelle type de voyage souhaitez-vous ?</p>
               {["Aller-retour", "Aller simple", "Multidestination"].map((type) => (
                 <button
@@ -97,7 +97,7 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("passengers")}
           />
           {activeDropdown === "passengers" && (
-            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50">
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50 modal-destination-selector">
               <p>Combien de personnes ?</p>
               <div className="flex justify-between items-center mb-2">
                 <span>Adultes</span>
@@ -151,7 +151,7 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("classType")}
           />
           {activeDropdown === "classType" && (
-            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-64 gap-2 flex flex-col  z-50">
+            <div className="absolute top-24 left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-64 gap-2 flex flex-col  z-50 modal-destination-selector2">
               <p>En quelle classe souhaitez-vous voyager ?</p>
               {["Économique", "Affaire", "Premium"].map((type) => (
                 <button
@@ -181,7 +181,7 @@ const DestinationSelector: React.FC = () => {
             onClick={() => toggleDropdown("baggage")}
           />
           {activeDropdown === "baggage" && (
-            <div className="absolute top-24 left-0 sm:left-[-185px] md:left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50">
+            <div className="absolute top-24 left-0 sm:left-[-185px] md:left-0 bg-white text-black p-4 rounded-lg shadow-2xl w-80 z-50 modal-destination-selector">
               <div className="flex justify-between items-center">
                 <p>Combien de bagages ?</p>
                 <button

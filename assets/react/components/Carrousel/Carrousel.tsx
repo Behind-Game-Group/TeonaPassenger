@@ -28,7 +28,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative mt-6 overflow-hidden">
+    <div className="relative mt-6 overflow-hidden carousel">
       {/* Bouton gauche */}
       <button
         onClick={goToPrevious}
