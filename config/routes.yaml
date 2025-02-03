@@ -237,10 +237,10 @@ app_check_email:
   controller: 'App\Controller\ResetPasswordController::checkEmail'
   methods: [GET, POST]
 
-app_reset_password:
-  path: "/reset/{token}"
-  controller: 'App\Controller\ResetPasswordController::reset'
-  methods: [GET, POST]
+# app_reset_password:
+#   path: "/reset/{token}"
+#   controller: 'App\Controller\ResetPasswordController::reset'
+#   methods: [GET, POST]
 
 contact:
   path: "/contact"
