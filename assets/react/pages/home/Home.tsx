@@ -90,7 +90,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="offer-section w-full max-w-6xl mt-10 px-4 content-center">
+      <div className="offer-section w-full max-w-6xl mt-10 px-4 content-center teona-offer-section">
         <h2 className="offer-title text-2xl text-white font-bold text-center mb-6">
           Ce que Teona vous propose
         </h2>
@@ -127,7 +127,7 @@ const HomePage = () => {
         />
       </div>
 
-      <div className="explore-world-section w-full max-w-6xl mt-10 pl-4 text-white">
+      <div className="explore-world-section w-full max-w-6xl mt-10 pl-4 text-white explore-section">
         <h2 className="explore-title text-3xl font-bold">Explorer le monde</h2>
         <p className="explore-text text-lg">
           Trouver des vols, des hébergements, des véhicules, des ferries, des
@@ -135,7 +135,7 @@ const HomePage = () => {
         </p>
       </div>
 
-      <div className="newsletter-section w-full max-w-6xl mt-4 pl-4  text-white border border-white rounded-lg">
+      <div className="newsletter-section w-full max-w-6xl mt-4 pl-4  text-white border border-white rounded-lg newsletter-section">
         <h2 className="newsletter-title text-center text-2xl">Recevez notre newsletter</h2>
         <p className="newsletter-text text-center">
           Restez au courant de notre activité et de nos dernières mises à jour !
@@ -155,7 +155,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="direct-route-section w-full max-w-6xl flex justify-between items-center mt-10 px-4 ">
+      <div className="direct-route-section w-full max-w-6xl flex justify-between items-center mt-10 px-4 droit-but">
         <div className="direct-route-info text-white">
           <h2 className="direct-route-title text-3xl font-bold">Droit au but</h2>
           <p className="direct-route-text text-lg">

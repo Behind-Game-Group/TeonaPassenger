@@ -9,6 +9,8 @@ import { deleteMethod, getMethod, postMethod } from "../../services/axiosInstanc
 import SharedTrips from "../../components/sharedtrip/sharedtrip";
 import Expeditors from "../../components/expeditor/expeditor";
 import DeleteUser from "../../components/deleteUser/deleteUser";
+import '../../../styles/parametres.css';
+import '../../../styles/preferences.css';
 
 interface UserProfile {
   id: number;
@@ -157,7 +159,7 @@ const Parametres = () => {
       <HeaderProfil />
 
       {/* liens profil */}
-      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl">
+      <div className="flex justify-evenly items-center mt-6 text-white text-sm font-semibold w-full max-w-6xl liens">
         <Link to="/profil" className="hover:underline">
           Tableau de bord
         </Link>
@@ -179,7 +181,7 @@ const Parametres = () => {
       </div>
 
       {/* Settings Section */}
-      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-[1700px] space-y-6">
+      <div className="mt-10 w-full bg-white p-4 rounded-md max-w-[1700px] space-y-6 settings-section">
         <h2 className="font-bold text-[20px]">Parametres généraux</h2>
         {/* Detail de connexion en dur(a revoir faire un form) */}
         <div className="bg-white rounded-lg border p-6">
@@ -269,7 +271,7 @@ const Parametres = () => {
                   </div>
                   <div className="flex flex-col space-y-2">
                     <p className="text-[15px]">Adresse e-mail</p>
-                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px]">
+                    <div className="flex flex-row justify-between border-2 border-black p-1 w-full max-w-[400px] max-xl:max-w-full text-[15px] modify-email">
                       <p>{currentUser.email}</p>
                       <button className="text-customOrange hover:underline" onClick={() => setEdit(!edit)}>Modifier</button>
                     </div>
@@ -295,8 +297,8 @@ const Parametres = () => {
                 </a>
               </div>
             </div>
-            <div className="w-[873px] h-[600px] max-xl:hidden">
-              <img className="w-full h-full" src="/img/user.png" alt="user" />
+            <div className="w-[873px] h-[600px] max-xl:hidden mt-16">
+              <img className="w-full h-[64%]" src="/img/user.png" alt="user" />
             </div>
           </div>
         </div>
@@ -350,7 +352,7 @@ const Parametres = () => {
           <div className="flex flex-col">
             <h2 className="text-[20px]">Flux de calendrier Trips</h2>
             <p className="mt-2 text-gray-600">Cette adresse de flux présente tous vos voyages.</p>
-            <div className="my-2 bg-gray-200">
+            <div className="my-2 bg-gray-200 link-calendar">
               <p className="text-gray-900 p-1">https://www.theonagroup.fr/trips/ical/uf/lFzw9Mkm0LE/VSU39KV1/calendar.ics</p>
             </div>
             <a href="" className="text-customOrange">Réinitialiser ce lien</a>

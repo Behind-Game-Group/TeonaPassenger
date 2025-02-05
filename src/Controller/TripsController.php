@@ -18,6 +18,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class TripsController extends AbstractController
 {
+
+    #[Route('/trips', name: 'app_trips', methods: ['POST'])]
+    public function index(): Response
+    {
+        return $this->render('index/index.html.twig', [
+        ]);
+    }
+
     #[Route('/trip/add', name: 'app_add_trip', methods: ['POST'])]
     public function addTrip(Request $request, TripRepository $tripRepository, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {

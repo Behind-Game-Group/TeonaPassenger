@@ -31,15 +31,15 @@
   /* Réduire l'espace autour des éléments */
   .header-container {
     padding: 2rem 1rem;
-    margin-left: -155px !important;
+    margin-left: -225px !important;
   }
 
   /* Ajuster la position du bouton pour le choix de la couleur */
   .color-picker-button {
     width: 33px;
     height: 33px;
-    top: 205px !important;
-    left: 200px !important;
+    top: 95px !important;
+    left: 90px !important;
   }
 
   /* Ajuster la palette de couleurs */
@@ -89,14 +89,14 @@
   .color-picker-button {
     width: 33px;
     height: 33px;
-    top: 205px !important;
+    top: 95px !important;
     left: 90px !important;
   }
 
   /* Ajuster la palette de couleurs */
   .color-picker {
     top: 15rem !important;
-    left: -50px !important;
+    left: -65px !important;
     width: 12rem;
   }
 }

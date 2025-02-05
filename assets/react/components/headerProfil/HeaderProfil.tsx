@@ -68,13 +68,13 @@ const HeaderProfil = () => {
           style={{ backgroundColor: circleColor }}
         >
           {user.firstname?.charAt(0)}
-        </div>
         <button
           onClick={() => setIsColorPickerVisible(!isColorPickerVisible)}
-          className="color-picker-button absolute top-[8.7rem] right-[50px] rounded-full p-2 bg-customOrange shadow-md text-gray-800 hover:brightness-90"
+          className="color-picker-button absolute top-[5.7rem] right-[4px] rounded-full p-2 bg-customOrange shadow-md text-gray-800 hover:brightness-90"
         >
           <img src="/img/Pencil.png" alt="Pencil" className="w-4" />
         </button>
+        </div>
         {/* Palette de couleurs */}
         {isColorPickerVisible && (
           <div className="color-picker absolute top-[11rem] right-[30px] bg-customOrange p-2 rounded shadow-lg">

@@ -274,3 +274,8 @@ app_add_trip:
   path: "/trip/add"
   controller: 'App\Controller\TripsController::addTrip'
   methods: POST
+
+trips:
+  path: /trips
+  controller: App\Controller\TripsController::index
+

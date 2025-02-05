@@ -199,7 +199,7 @@ function Layout({ children }: { children: ReactNode }) {
 
       {/* Footer */}
       <footer
-        className={`text-white text-sm p-8 border-t-2 border-white ${
+        className={`text-white text-[10px] p-8 border-t-2 border-white ${
           isSidebarExpanded ? "ml-64" : "ml-[45px]"
         } transition-all duration-300`}
       >
