@@ -33,8 +33,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[Groups(['user:unread'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
+
+    #[Groups(['user:read'])]
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[Groups(['user:read'])]
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToOne(mappedBy: 'user_id', cascade: ['persist', 'remove'])]
+    private ?UserProfile $userProfile = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?GoogleConnection $googleConnection = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Auth0Connection $auth0Connection = null;
 
     public function getId(): ?int
     {
@@ -46,13 +63,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
-
     /**
      * A visual identifier that represents this user.
      *
@@ -109,5 +125,88 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
+
+    public function setUserProfile(UserProfile $userProfile): static
+    {
+        // set the owning side of the relation if necessary
+        if ($userProfile->getUserId() !== $this) {
+            $userProfile->setUserId($this);
+        }
+
+        $this->userProfile = $userProfile;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getGoogleConnection(): ?GoogleConnection
+    {
+        return $this->googleConnection;
+    }
+
+    public function setGoogleConnection(?GoogleConnection $googleConnection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($googleConnection === null && $this->googleConnection !== null) {
+            $this->googleConnection->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($googleConnection !== null && $googleConnection->getUser() !== $this) {
+            $googleConnection->setUser($this);
+        }
+
+        $this->googleConnection = $googleConnection;
+
+        return $this;
+    }
+
+    public function getAuth0Connection(): ?Auth0Connection
+    {
+        return $this->auth0Connection;
+    }
+
+    public function setAuth0Connection(?Auth0Connection $auth0Connection): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($auth0Connection === null && $this->auth0Connection !== null) {
+            $this->auth0Connection->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($auth0Connection !== null && $auth0Connection->getUser() !== $this) {
+            $auth0Connection->setUser($this);
+        }
+
+        $this->auth0Connection = $auth0Connection;
+
+        return $this;
     }
 }

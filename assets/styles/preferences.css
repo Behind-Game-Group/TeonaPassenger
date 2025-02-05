@@ -1,0 +1,120 @@
+/* preferences-container */
+.preferences-container {
+  padding: 1rem;
+}
+
+/* Réduire la largeur des sections */
+.preferences-settings {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.airport-section,
+.airline-section,
+.hotel-section,
+.destination-section {
+  margin-bottom: 20px;
+}
+
+/* Styles spécifiques aux écrans petits (moins de 640px) */
+@media (max-width: 640px) {
+  .preferences-container {
+    margin-left: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .preferences-settings {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 400px !important;
+    margin-right: 78px;
+  }
+
+  .preferences-settings .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preferences-settings .button {
+    width: 100%;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .font-bold {
+    font-weight: bold;
+  }
+
+  .liens {
+    margin-right: 80px;
+    padding-inline: 200px;
+    padding-block: 10px;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 8rem;
+    text-align: center !important;
+    justify-content: center !important;
+    justify-items: center;
+    align-items: center !important;
+    background-color: peru;
+    border-radius: 15px;
+  }
+
+  /* tableau de bord */
+
+  .preferences-settings-tableau {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 370px !important;
+    margin-right: 78px;
+  }
+
+  .preferences-settings-tableau .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preferences-settings-tableau .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 440px) {
+  .preferences-settings-tableau {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    width: 365px !important;
+    margin-right: 130px;
+  }
+
+  .preferences-settings {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 325px !important;
+    margin-right: 126px;
+  }
+
+  .modal-search {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 325px !important;
+    margin-right: -40px;
+  }
+
+  .liens {
+    margin-right: 128px !important;
+    padding-inline: 168px;
+    padding-block: 10px;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    -moz-column-gap: 8rem;
+    column-gap: 7rem;
+    text-align: center !important;
+    justify-content: center !important;
+    justify-items: center;
+    align-items: center !important;
+    background-color: peru;
+    border-radius: 15px;
+  }
+}

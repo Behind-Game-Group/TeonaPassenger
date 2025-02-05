@@ -1,0 +1,102 @@
+/* Responsivité pour les écrans de moins de 640px */
+@media (max-width: 640px) {
+  /* Réduire la taille du texte */
+  .header-text {
+    font-size: 1.5rem;
+  }
+
+  /* Ajuster la mise en page des informations utilisateur */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -115px !important;
+  }
+
+  .user-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ajuster la taille du cercle de profil */
+  .profile-circle {
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    margin-top: 10px;
+    position: relative !important;
+    bottom: 150px;
+    left: 191px;
+  }
+
+  /* Réduire l'espace autour des éléments */
+  .header-container {
+    padding: 2rem 1rem;
+    margin-left: -225px !important;
+  }
+
+  /* Ajuster la position du bouton pour le choix de la couleur */
+  .color-picker-button {
+    width: 33px;
+    height: 33px;
+    top: 95px !important;
+    left: 90px !important;
+  }
+
+  /* Ajuster la palette de couleurs */
+  .color-picker {
+    top: 15rem !important;
+    left: 28px !important;
+    width: 12rem;
+  }
+}
+
+@media (max-width: 540px) {
+  /* Réduire la taille du texte */
+  .header-text {
+    font-size: 1.5rem;
+  }
+
+  /* Ajuster la mise en page des informations utilisateur */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -115px !important;
+  }
+
+  .user-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Ajuster la taille du cercle de profil */
+  .profile-circle {
+    width: 6rem;
+    height: 6rem;
+    font-size: 2rem;
+    margin-top: 10px;
+    position: relative !important;
+    bottom: 150px;
+    left: 191px;
+  }
+
+  /* Réduire l'espace autour des éléments */
+  .header-container {
+    padding: 2rem 1rem;
+    margin-left: -335px !important;
+  }
+
+  /* Ajuster la position du bouton pour le choix de la couleur */
+  .color-picker-button {
+    width: 33px;
+    height: 33px;
+    top: 95px !important;
+    left: 90px !important;
+  }
+
+  /* Ajuster la palette de couleurs */
+  .color-picker {
+    top: 15rem !important;
+    left: -65px !important;
+    width: 12rem;
+  }
+}
